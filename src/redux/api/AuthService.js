@@ -18,14 +18,18 @@ import fetch from 'isomorphic-fetch'
 
 export function sendSignInRequest (username, password) {
   return new Promise((resolve, reject) => {
-
     fetch(`${APIConstants.AUTH_ENDPOINT}${APIConstants.AUTH_GET_ACCESS_TOKEN}`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({'username': username, 'password': password, 'client_id': '123', 'client_secret': '456'})
+      body: JSON.stringify({
+        'username': username,
+        'password': password,
+        'client_id': '123',
+        'client_secret': '456',
+      }),
     }).then((responseAuth) => responseAuth.json())
     .then((jsonResponseAuth) => {
       resolve(jsonResponseAuth)
