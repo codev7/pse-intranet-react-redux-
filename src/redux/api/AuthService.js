@@ -16,6 +16,26 @@ export function sendSignInRequest (username, password) {
   })
 }
 
+// export function sendSignInRequest (username, password) {
+//   return new Promise((resolve, reject) => {
+//     const data = new FormData()
+//     data.append('username', username)
+//     data.append('password', password)
+
+//     fetch(`${APIConstants.AUTH_ENDPOINT}${APIConstants.AUTH_GET_ACCESS_TOKEN}`, {
+//       method: 'post',
+//       headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({username: username, password: password})
+//     }).then((responseAuth) => responseAuth.json())
+//     .then((jsonResponseAuth) => {
+//       resolve(jsonResponseAuth)
+//     })
+//   })
+// }
+
 export function getCurrentUser (accessToken, refreshToken) {
   return new Promise((resolve, reject) => {
     fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.GET_CURRENT_USER}?access_token=${accessToken}`)
