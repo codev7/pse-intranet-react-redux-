@@ -14,6 +14,7 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "dev": "better-npm-run dev",
+    "dev-nodemon": "better-npm-run dev-nodemon",
     "dev:nw": "npm run dev -- --nw",
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "better-npm-run test",
@@ -30,6 +31,13 @@
       }
     },
     "dev": {
+      "command": "webpack-dashboard babel-node bin/server",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "dev-nodemon": {
       "command": "webpack-dashboard nodemon --exec babel-node bin/server",
       "env": {
         "NODE_ENV": "development",
@@ -44,7 +52,7 @@
       }
     },
     "start": {
-      "command": "babel-node bin/server",
+      "command": "npm run deploy && babel-node bin/server",
       "env": {
         "DEBUG": "app:*"
       }
@@ -163,7 +171,7 @@
     "style-loader": "^0.13.1",
     "toastr": "^2.1.2",
     "url-loader": "^0.5.7",
-    "webpack-dashboard": "^0.1.6",
+    "webpack-dashboard": "^0.1.8",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2",
     "yargs": "^5.0.0"

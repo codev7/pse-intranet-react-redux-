@@ -21,4 +21,5 @@ const paths = config.utils_paths
     debug('Compiler encountered an error.', e)
     process.exit(1)
   }
+  process.exit()
 })()

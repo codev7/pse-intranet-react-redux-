@@ -14,4 +14,6 @@ export const APIConstants = {
   'API_SERVER_NAME': 'https://api.pseglobal.com/',
   'REVOKE_TOKEN': 'oauth/revoke_token',
   'GET_CURRENT_USER': 'me',
+  'CLIENT_ID': '123',
+  'CLIENT_SECRET': '456'
 }
