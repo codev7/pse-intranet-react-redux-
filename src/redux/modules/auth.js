@@ -1,4 +1,3 @@
-
 import * as AuthService from '../api/AuthService.js'
 import { push } from 'react-router-redux'
 
@@ -56,13 +55,14 @@ export const logoutAndRedirect = () => {
         dispatch(push('/sign-in'))
       },
       (errorMsg) => {
+        console.log(errorMsg)
         dispatch(logout())
         dispatch(push('/sign-in'))
       })
   }
 }
 
-export const loginUser = (email, password, redirect='/') => {
+export const loginUser = (email, password, redirect = '/') => {
   return (dispatch) => {
     dispatch(loginUserRequest())
     AuthService.sendSignInRequest(email, password).then(
@@ -70,15 +70,10 @@ export const loginUser = (email, password, redirect='/') => {
         if (responseAuth.status_code === 200) {
           const accessToken = responseAuth.data.access_token
           const refreshToken = responseAuth.data.refresh_token
-
-          AuthService.getCurrentUser(accessToken, refreshToken).then(
-                      (user) => {
-                        setTimeout(() => {
-                          dispatch(push('/intranet'))
-                        }, 500)
-                        dispatch(loginUserSuccess(accessToken, refreshToken, {}))
-                      }
-                    )
+          setTimeout(() => {
+            dispatch(push('/intranet'))
+          }, 500)
+          dispatch(loginUserSuccess(accessToken, refreshToken, {}))
         } else {
           dispatch(loginUserFailure(responseAuth.error[0].message))
         }
