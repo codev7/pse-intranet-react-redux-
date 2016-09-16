@@ -5,8 +5,8 @@ import '../../styles/core.scss'
 // react-transform *only* works on component classes.
 function CoreLayout ({ children }) {
   return (
-    <div className="page-container">
-      <div className="view-container">
+    <div className='page-container'>
+      <div className='view-container'>
         {children}
       </div>
     </div>
@@ -14,7 +14,7 @@ function CoreLayout ({ children }) {
 }
 
 CoreLayout.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.element
 }
 
 export default CoreLayout

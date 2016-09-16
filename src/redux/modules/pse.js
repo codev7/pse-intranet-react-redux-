@@ -10,13 +10,13 @@ const exampleAction = (dispatch, value) => {
   return (
     dispatch({
       type: EXAMPLE,
-      value: value,
+      value: value
     })
   )
 }
 
 export const actions = {
-  exampleAction,
+  exampleAction
 }
 
 // ------------------------------------
@@ -25,7 +25,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [EXAMPLE]: (state, action) => {
     return ({ ...state })
-  },
+  }
 }
 
 // ------------------------------------

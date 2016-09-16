@@ -11,13 +11,13 @@ import { logoutAndRedirect } from 'redux/modules/auth.js'
 export class HomePageView extends React.Component {
   static propTypes = {
     page: PropTypes.string,
-    logoutAndRedirect: PropTypes.func,
+    logoutAndRedirect: PropTypes.func
   };
 
   constructor () {
     super()
     this.state = {
-      'tab': 'Dashboard tab',
+      'tab': 'Dashboard tab'
     }
   }
 
@@ -100,7 +100,7 @@ export class HomePageView extends React.Component {
         sidebar.find('.hover').removeClass('hover')
         return true
       },
-      submenuSelector: '.has-children',
+      submenuSelector: '.has-children'
     })
 
     function checkMQ () {
@@ -155,19 +155,19 @@ export class HomePageView extends React.Component {
   handleDashboardTabClick (e) {
     // Here must be component
     this.setState({
-      tab: 'Dashboard tab',
+      tab: 'Dashboard tab'
     })
   }
   handleClientsTabClick (e) {
     // Here must be component
     this.setState({
-      tab: 'Clients tab',
+      tab: 'Clients tab'
     })
   }
   handleProjectsTabClick (e) {
     // Here must be component
     this.setState({
-      tab: 'Projects tab',
+      tab: 'Projects tab'
     })
   }
 
@@ -241,5 +241,5 @@ export class HomePageView extends React.Component {
 const mapStateToProps = (state) => ({
 })
 export default connect((mapStateToProps), {
-  logoutAndRedirect,
+  logoutAndRedirect
 })(HomePageView)

@@ -7,9 +7,9 @@ import SignInPageView from 'views/SignInPageView/SignInPageView'
 import HomePageView from 'views/HomePageView/HomePageView'
 
 export default (store) => (
-  <Route path="/" component={CoreLayout}>
-    <IndexRedirect to="/sign-in" />
-    <Route path="/intranet" component={HomePageView} onEnter={requireAuth} />
-    <Route path="/sign-in" component={SignInPageView} onEnter={loggedIn} />
+  <Route path='/' component={CoreLayout}>
+    <IndexRedirect to='/sign-in' />
+    <Route path='/intranet' component={HomePageView} onEnter={requireAuth} />
+    <Route path='/sign-in' component={SignInPageView} onEnter={loggedIn} />
   </Route>
 )

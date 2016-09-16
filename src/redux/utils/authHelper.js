@@ -6,7 +6,7 @@ export function requireAuth (nextState, replace) {
   if (!loggedIn) {
     replace({
       pathname: '/sign-in',
-      state: { nextPathname: nextState.location.pathname },
+      state: { nextPathname: nextState.location.pathname }
     })
   } else {
     const accessToken = localStorage.accessToken
@@ -32,7 +32,7 @@ export function loggedIn (nextState, replace) {
   if (loggedIn) {
     replace({
       pathname: '/intranet',
-      state: { nextPathname: nextState.location.pathname },
+      state: { nextPathname: nextState.location.pathname }
     })
   }
 }

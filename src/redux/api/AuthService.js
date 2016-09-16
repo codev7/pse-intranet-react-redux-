@@ -7,14 +7,14 @@ export function sendSignInRequest (username, password) {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         'username': username,
         'password': password,
         'client_id': APIConstants.CLIENT_ID,
-        'client_secret': APIConstants.CLIENT_SECRET,
-      }),
+        'client_secret': APIConstants.CLIENT_SECRET
+      })
     }).then((responseAuth) => responseAuth.json())
     .then((jsonResponseAuth) => {
       resolve(jsonResponseAuth)
@@ -53,13 +53,13 @@ export function getRefreshToken (refreshToken) {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         'refresh_token': refreshToken,
         'client_id': APIConstants.CLIENT_ID,
-        'client_secret': APIConstants.CLIENT_SECRET,
-      }),
+        'client_secret': APIConstants.CLIENT_SECRET
+      })
     }).then((responseTokens) => responseTokens.json())
     .then((jsonTokens) => {
       if (jsonTokens.error) {
@@ -83,11 +83,11 @@ export function sendRevokeTokenRequest (accessToken, refreshToken) {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'access_token': accessToken,
-      }),
+        'access_token': accessToken
+      })
     }).then((res) => res.json())
     .then((jsonRes) => {
       // if (jsonRes.error) {

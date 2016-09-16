@@ -20,7 +20,7 @@ export const loginUserSuccess = (accessToken, refreshToken, user) => {
     type: LOGIN_USER_SUCCESS,
     accessToken: accessToken,
     refreshToken: refreshToken,
-    user: user,
+    user: user
   }
 }
 
@@ -29,13 +29,13 @@ export const loginUserFailure = (error) => {
   localStorage.removeItem('refreshToken')
   return {
     type: LOGIN_USER_FAILURE,
-    errorText: error,
+    errorText: error
   }
 }
 
 export const loginUserRequest = () => {
   return {
-    type: LOGIN_USER_REQUEST,
+    type: LOGIN_USER_REQUEST
   }
 }
 
@@ -43,7 +43,7 @@ export const logout = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
   return {
-    type: LOGOUT_USER,
+    type: LOGOUT_USER
   }
 }
 
@@ -90,7 +90,7 @@ const initialState = {
   authError: false,
   isAuthenticated: false,
   isAuthenticating: false,
-  statusText: null,
+  statusText: null
 }
 
 const ACTION_HANDLERS = {
@@ -99,7 +99,7 @@ const ACTION_HANDLERS = {
       ...state,
       'isAuthenticating': true,
       'authError': false,
-      'statusText': null,
+      'statusText': null
     })
   },
   [LOGIN_USER_SUCCESS]: (state, action) => {
@@ -111,7 +111,7 @@ const ACTION_HANDLERS = {
       'user': action.user,
       'accessToken': action.accessToken,
       'refreshToken': action.refreshToken,
-      'statusText': 'You have been successfully logged in.',
+      'statusText': 'You have been successfully logged in.'
     })
   },
   [LOGIN_USER_FAILURE]: (state, action) => {
@@ -121,7 +121,7 @@ const ACTION_HANDLERS = {
       'isAuthenticated': false,
       'authError': true,
       'statusText': `Authentication Error: ${action.errorText}`,
-      'errorText': action.errorText,
+      'errorText': action.errorText
     })
   },
   [LOGOUT_USER]: (state, payload) => {
@@ -130,9 +130,9 @@ const ACTION_HANDLERS = {
       'isAuthenticated': false,
       'token': null,
       'userName': null,
-      'statusText': 'You have been successfully logged out.',
+      'statusText': 'You have been successfully logged out.'
     })
-  },
+  }
 }
 
 export default function AuthReducer (state = initialState, action) {

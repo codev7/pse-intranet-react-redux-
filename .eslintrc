@@ -5,7 +5,9 @@
     "standard-react"
   ],
   "plugins" : [
-    "flow-vars"
+    "babel",
+    "react",
+    "promise"
   ],
   "env"     : {
     "browser" : true
@@ -16,14 +18,13 @@
     "__PROD__"     : false,
     "__DEBUG__"    : false,
     "__DEBUG_NEW_WINDOW__" : false,
-    "__BASENAME__" : false
+    "__BASENAME__" : false,
+    "__COVERAGE__" : false
   },
   "rules": {
-    "semi" : [2, "never"],
-    "space-infix-ops": 0,
-    "react/jsx-no-bind": 0,
-    "comma-dangle": ["error", "always-multiline"],
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1
+    "key-spacing"          : 0,
+    "jsx-quotes"           : [2, "prefer-single"],
+    "max-len"              : [2, 120, 2],
+    "object-curly-spacing" : [2, "always"]
   }
 }

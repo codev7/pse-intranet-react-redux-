@@ -5,7 +5,7 @@ import SignInPanel from 'components/SignInPanel/SignInPanel'
 
 export class SignInPageView extends React.Component {
   static propTypes = {
-    page: PropTypes.string,
+    page: PropTypes.string
   };
 
   render () {

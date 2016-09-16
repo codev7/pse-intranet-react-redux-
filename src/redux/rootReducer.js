@@ -6,5 +6,5 @@ import auth from './modules/auth.js'
 export default combineReducers({
   pse,
   auth,
-  router,
+  router
 })

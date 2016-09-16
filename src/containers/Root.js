@@ -7,7 +7,7 @@ export default class Root extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     routes: PropTypes.element.isRequired,
-    store: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
   };
 
   componentDidMount () {

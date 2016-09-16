@@ -6,7 +6,7 @@ export default function ErrorHandler (error) {
     'progressBar': true,
     'showDuration': '300',
     'hideDuration': '1000',
-    'timeOut': '5000',
+    'timeOut': '5000'
   }
   toastr.error(error, 'Error', options)
 }

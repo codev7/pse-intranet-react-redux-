@@ -8,7 +8,7 @@ class SignInPanel extends React.Component {
     loginUser: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool.isRequired,
     authError: PropTypes.bool.isRequired,
-    errorText: PropTypes.string.isRequired,
+    errorText: PropTypes.string.isRequired
   };
 
   _handleSignIn (e) {
@@ -20,22 +20,24 @@ class SignInPanel extends React.Component {
 
   render () {
     return (
-      <div className="auth_wrapper">
-        <form className="sign_in_form" role="form" onSubmit={::this._handleSignIn}>
-          <p className="sign_in_form_title">
-            <i className="ion-social-buffer" />
+      <div className='auth_wrapper'>
+        <form className='sign_in_form' role='form' onSubmit={this._handleSignIn}>
+          <p className='sign_in_form_title'>
+            <i className='ion-social-buffer' />
           PSE
           </p>
-          <input type="text" className="sign_in_form_input"
-            ref="email" placeholder="Email" autoFocus required />
-          <i className="fa fa-user" />
-          <input type="password" className="sign_in_form_input"
-            ref="password" placeholder="Password" required />
-          <i className="fa fa-key" />
-          {this.props.authError && <h5 className="sign_in_form_auth_error"><i className="fa fa-ban" aria-hidden />{this.props.errorText}.</h5>}
-          <button className="sign_in_form_btn" type="submit" >
+          <input type='text' className='sign_in_form_input'
+            ref='email' placeholder='Email' autoFocus required />
+          <i className='fa fa-user' />
+          <input type='password' className='sign_in_form_input'
+            ref='password' placeholder='Password' required />
+          <i className='fa fa-key' />
+          {this.props.authError && <h5 className='sign_in_form_auth_error'>
+            <i className='fa fa-ban' aria-hidden />
+          {this.props.errorText}.</h5>}
+          <button className='sign_in_form_btn' type='submit' >
             Log in
-            {this.props.isAuthenticating && <i className="fa fa-spinner fa-spin fa-fw" />}
+            {this.props.isAuthenticating && <i className='fa fa-spinner fa-spin fa-fw' />}
           </button>
         </form>
       </div>
@@ -46,8 +48,8 @@ class SignInPanel extends React.Component {
 const mapStateToProps = (state) => ({
   isAuthenticating: state.auth.isAuthenticating,
   authError: state.auth.authError,
-  errorText: state.auth.errorText,
+  errorText: state.auth.errorText
 })
 export default connect((mapStateToProps), {
-  loginUser,
+  loginUser
 })(SignInPanel)
