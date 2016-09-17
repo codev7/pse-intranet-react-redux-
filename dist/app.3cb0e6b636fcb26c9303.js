@@ -21401,7 +21401,6 @@ webpackJsonp([0],[
 	  }, {
 	    key: 'handleDashboardTabClick',
 	    value: function handleDashboardTabClick(e) {
-	      // Here must be component
 	      this.setState({
 	        tab: 'Dashboard tab'
 	      });
@@ -21409,7 +21408,6 @@ webpackJsonp([0],[
 	  }, {
 	    key: 'handleClientsTabClick',
 	    value: function handleClientsTabClick(e) {
-	      // Here must be component
 	      this.setState({
 	        tab: 'Clients tab'
 	      });
@@ -21417,9 +21415,22 @@ webpackJsonp([0],[
 	  }, {
 	    key: 'handleProjectsTabClick',
 	    value: function handleProjectsTabClick(e) {
-	      // Here must be component
 	      this.setState({
 	        tab: 'Projects tab'
+	      });
+	    }
+	  }, {
+	    key: 'handleGeotechsTabClick',
+	    value: function handleGeotechsTabClick(e) {
+	      this.setState({
+	        tab: 'Geotechs tab'
+	      });
+	    }
+	  }, {
+	    key: 'handleMyPSETabClick',
+	    value: function handleMyPSETabClick(e) {
+	      this.setState({
+	        tab: 'My PSE tab'
 	      });
 	    }
 	  }, {
@@ -21462,7 +21473,6 @@ webpackJsonp([0],[
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '#0' },
-	                  _react2.default.createElement('img', { src: 'img/cd-avatar.png', alt: 'avatar', className: 'nav-avatar' }),
 	                  'User'
 	                ),
 	                _react2.default.createElement(
@@ -21507,37 +21517,6 @@ webpackJsonp([0],[
 	                  'a',
 	                  { href: '#0', onClick: this.handleClientsTabClick.bind(this) },
 	                  'Clients'
-	                ),
-	                _react2.default.createElement(
-	                  'ul',
-	                  null,
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'All Clients'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'Edit Client'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'Add Client'
-	                    )
-	                  )
 	                )
 	              ),
 	              _react2.default.createElement(
@@ -21547,37 +21526,24 @@ webpackJsonp([0],[
 	                  'a',
 	                  { href: '#0', onClick: this.handleProjectsTabClick.bind(this) },
 	                  'Projects'
-	                ),
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: this.state.tab === 'Geotechs tab' ? 'has-children comments active' : 'has-children comments' },
 	                _react2.default.createElement(
-	                  'ul',
-	                  null,
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'All Projects'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'Edit Project'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#0' },
-	                      'Delete Project'
-	                    )
-	                  )
+	                  'a',
+	                  { href: '#0', onClick: this.handleGeotechsTabClick.bind(this) },
+	                  'Geotechs'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: this.state.tab === 'My PSE tab' ? 'has-children overview  active' : 'has-children users' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#0', onClick: this.handleMyPSETabClick.bind(this) },
+	                  'My PSE'
 	                )
 	              )
 	            )
@@ -32610,4 +32576,4 @@ webpackJsonp([0],[
 
 /***/ }
 ]);
-//# sourceMappingURL=app.ffe88060afea5d7eebac.js.map
+//# sourceMappingURL=app.3cb0e6b636fcb26c9303.js.map

@@ -221,7 +221,7 @@ export class HomePageView extends React.Component {
               <li className={this.state.tab === 'Geotechs tab' ? 'has-children comments active' : 'has-children comments'}>
                 <a href="#0" onClick={::this.handleGeotechsTabClick}>Geotechs</a>
               </li>
-              <li className={this.state.tab === 'MyPSE tab' ? 'has-children users active' : 'has-children users'}>
+              <li className={this.state.tab === 'My PSE tab' ? 'has-children overview  active' : 'has-children users'}>
                 <a href="#0" onClick={::this.handleMyPSETabClick}>My PSE</a>
               </li>
             </ul>
