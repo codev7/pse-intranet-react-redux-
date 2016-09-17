@@ -17813,9 +17813,7 @@ webpackJsonp([0],[
 	      },
 	      body: (0, _stringify2.default)({
 	        'username': username,
-	        'password': password,
-	        'client_id': _APIConstants.APIConstants.CLIENT_ID,
-	        'client_secret': _APIConstants.APIConstants.CLIENT_SECRET
+	        'password': password
 	      })
 	    }).then(function (responseAuth) {
 	      return responseAuth.json();
@@ -19384,7 +19382,8 @@ webpackJsonp([0],[
 	  'AUTH_GET_ACCESS_TOKEN': 'oauth/access_token',
 	  'AUTH_GET_REFRESH_TOKEN': 'oauth/refresh_token',
 	  'REVOKE_TOKEN': 'oauth/revoke_token',
-	  'API_SERVER_NAME': 'https://api.pseglobal.com/',
+	  // 'API_SERVER_NAME': 'https://api.pseglobal.com/',
+	  'API_SERVER_NAME': 'http://127.0.0.1:3000/api/',
 	  'GET_CURRENT_USER': 'me',
 	  'CLIENT_ID': '123',
 	  'CLIENT_SECRET': '456'
@@ -20966,10 +20965,10 @@ webpackJsonp([0],[
 	    }
 	
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = SignInPanel.__proto__ || (0, _getPrototypeOf2.default)(SignInPanel)).call.apply(_ref, [this].concat(args))), _this), _this._handleSignIn = function (e) {
+	      e.preventDefault();
 	      var email = _this.refs.email.value;
 	      var password = _this.refs.password.value;
 	      _this.props.loginUser(email, password);
-	      e.preventDefault();
 	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 	
@@ -32610,4 +32609,4 @@ webpackJsonp([0],[
 
 /***/ }
 ]);
-//# sourceMappingURL=app.ffe88060afea5d7eebac.js.map
+//# sourceMappingURL=app.8be1449ff05ab684480f.js.map

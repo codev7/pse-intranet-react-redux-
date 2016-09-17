@@ -11,9 +11,7 @@ export function sendSignInRequest (username, password) {
       },
       body: JSON.stringify({
         'username': username,
-        'password': password,
-        'client_id': APIConstants.CLIENT_ID,
-        'client_secret': APIConstants.CLIENT_SECRET
+        'password': password
       })
     }).then((responseAuth) => responseAuth.json())
     .then((jsonResponseAuth) => {

@@ -4,9 +4,21 @@ const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
 
+// const path = require('path')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const helmet = require('helmet')
+const api = require('./api')
+
 const app = express()
 const paths = config.utils_paths
 
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(helmet())
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
 // rendering, you'll want to remove this middleware.
@@ -49,5 +61,7 @@ if (config.env === 'development') {
   // server in production.
   app.use(express.static(paths.dist()))
 }
+
+app.use('/api', api)
 
 module.exports = app

@@ -12,10 +12,10 @@ class SignInPanel extends React.Component {
   };
 
   _handleSignIn = (e) => {
+    e.preventDefault()
     const email = this.refs.email.value
     const password = this.refs.password.value
     this.props.loginUser(email, password)
-    e.preventDefault()
   }
 
   render () {
