@@ -153,21 +153,28 @@ export class HomePageView extends React.Component {
   }
 
   handleDashboardTabClick (e) {
-    // Here must be component
     this.setState({
       tab: 'Dashboard tab'
     })
   }
   handleClientsTabClick (e) {
-    // Here must be component
     this.setState({
       tab: 'Clients tab'
     })
   }
   handleProjectsTabClick (e) {
-    // Here must be component
     this.setState({
       tab: 'Projects tab'
+    })
+  }
+  handleGeotechsTabClick (e) {
+    this.setState({
+      tab: 'Geotechs tab'
+    })
+  }
+  handleMyPSETabClick (e) {
+    this.setState({
+      tab: 'My PSE tab'
     })
   }
 
@@ -188,7 +195,6 @@ export class HomePageView extends React.Component {
             <ul className="cd-top-nav">
               <li className="has-children account">
                 <a href="#0">
-                  <img src="img/cd-avatar.png" alt="avatar" className="nav-avatar"/>
                   User
                 </a>
 
@@ -208,24 +214,16 @@ export class HomePageView extends React.Component {
               </li>
               <li className={this.state.tab === 'Clients tab' ? 'has-children users active' : 'has-children users'}>
                 <a href="#0" onClick={::this.handleClientsTabClick}>Clients</a>
-
-                <ul>
-                  <li><a href="#0">All Clients</a></li>
-                  <li><a href="#0">Edit Client</a></li>
-                  <li><a href="#0">Add Client</a></li>
-                </ul>
               </li>
-
               <li className={this.state.tab === 'Projects tab' ? 'has-children comments active' : 'has-children comments'}>
                 <a href="#0" onClick={::this.handleProjectsTabClick}>Projects</a>
-
-                <ul>
-                  <li><a href="#0">All Projects</a></li>
-                  <li><a href="#0">Edit Project</a></li>
-                  <li><a href="#0">Delete Project</a></li>
-                </ul>
               </li>
-
+              <li className={this.state.tab === 'Geotechs tab' ? 'has-children comments active' : 'has-children comments'}>
+                <a href="#0" onClick={::this.handleGeotechsTabClick}>Geotechs</a>
+              </li>
+              <li className={this.state.tab === 'MyPSE tab' ? 'has-children users active' : 'has-children users'}>
+                <a href="#0" onClick={::this.handleMyPSETabClick}>My PSE</a>
+              </li>
             </ul>
           </nav>
 
