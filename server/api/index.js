@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const CONFIG = require('./constants')
+const auth = require('./auth_endpoints')
+const users = require('./users_endpoints')
 
 router.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -7,15 +8,12 @@ router.use(function (req, res, next) {
   next()
 })
 
-router.post('/oauth/access_token', function (req, res, next) {
-  const formData = {
-    'username': req.body.username,
-    'password': req.body.password,
-    'client_id': CONFIG.CLIENT_ID,
-    'client_secret': CONFIG.CLIENT_SECRET
-  }
+// Auth Endpoints
+router.post('/oauth/access_token', auth.getAccessToken)
+router.post('/oauth/refresh_token', auth.getRefreshToken)
+router.post('/oauth/revoke_token', auth.sendRevokeTokenRequest)
 
-  res.send(formData)
-})
+// User Endpoints
+router.post('/me', users.me)
 
 module.exports = router

@@ -13,14 +13,16 @@ export function requireAuth (nextState, replace) {
     const refreshToken = localStorage.refreshToken
     getCurrentUser(accessToken).then(
       (response) => {
-        localStorage.setItem('me', JSON.stringify(response.data))
         if (response.status_code === 403) {
           getRefreshToken(refreshToken).then(
             (responseRefreshToken) => {
               localStorage.setItem('accessToken', responseRefreshToken.data.access_token)
               localStorage.setItem('refreshToken', responseRefreshToken.data.refresh_token)
             }
-          )
+          ).catch((err) => console.log(err))
+          localStorage.removeItem('me')
+        } else if (response.status_code === 200) {
+          localStorage.setItem('me', JSON.stringify(response.data))
         }
       }
     )

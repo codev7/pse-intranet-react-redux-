@@ -1,5 +1,5 @@
 import { APIConstants } from './APIConstants.js'
-import fetch from 'isomorphic-fetch'
+import request from 'superagent-bluebird-promise'
 
 export function sendSignInRequest (username, password) {
   return new Promise((resolve, reject) => {
@@ -22,30 +22,19 @@ export function sendSignInRequest (username, password) {
 
 export function getCurrentUser (accessToken, refreshToken) {
   return new Promise((resolve, reject) => {
-    fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.GET_CURRENT_USER}?access_token=${accessToken}`)
-    .then((responseUser) => responseUser.json())
-    .then((jsonUser) => {
-      resolve(jsonUser)
-      // if (jsonUser.status_code === 403) {
-      //   getRefreshToken(localStorage.refreshToken).then(
-      //     (responseRefreshToken) => {
-      //       fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.GET_CURRENT_USER}?access_token=${accessToken}`)
-      //           .then((responseUser) => responseUser.json())
-      //           .then((jsonUser) => resolve(jsonUser.data))
-      //     },
-      //     (responseError) => {
-      //       reject()
-      //     })
-      // } else {
-      //   resolve(jsonUser.data)
-      // }
-    })
+    request.post(`${APIConstants.API_SERVER_NAME}${APIConstants.GET_CURRENT_USER}`)
+        .send(JSON.stringify({ 'access_token': accessToken }))
+        .set('Content-Type', 'application/json')
+        .then(function (response) {
+          resolve(JSON.parse(response.text))
+        }, function (err) {
+          console.log(err)
+          resolve(JSON.parse(err.res.text))
+        })
   })
 }
 
 export function getRefreshToken (refreshToken) {
-  // const data = new FormData()
-  // data.append('refresh_token', refreshToken)
   return new Promise((resolve, reject) => {
     fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.AUTH_GET_REFRESH_TOKEN}`, {
       method: 'post',
@@ -54,9 +43,7 @@ export function getRefreshToken (refreshToken) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'refresh_token': refreshToken,
-        'client_id': APIConstants.CLIENT_ID,
-        'client_secret': APIConstants.CLIENT_SECRET
+        'refresh_token': refreshToken
       })
     }).then((responseTokens) => responseTokens.json())
     .then((jsonTokens) => {
@@ -65,6 +52,7 @@ export function getRefreshToken (refreshToken) {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
         window.location.href = '/sign-in'
+        reject(jsonTokens.error)
       } else {
         console.log('Token Refreshed!')
         resolve(jsonTokens)
@@ -74,8 +62,6 @@ export function getRefreshToken (refreshToken) {
 }
 
 export function sendRevokeTokenRequest (accessToken, refreshToken) {
-  // const data = new FormData()
-  // data.append('access_token', accessToken)
   return new Promise((resolve, reject) => {
     fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.REVOKE_TOKEN}`, {
       method: 'post',
