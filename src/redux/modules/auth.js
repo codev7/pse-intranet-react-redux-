@@ -42,6 +42,7 @@ export const loginUserRequest = () => {
 export const logout = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
+  localStorage.removeItem('me')
   return {
     type: LOGOUT_USER
   }

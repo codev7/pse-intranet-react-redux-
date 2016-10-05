@@ -9,7 +9,7 @@ debug('Creating default configuration.')
 // Default Configuration
 // ========================================================
 const config = {
-  env : process.env.NODE_ENV || 'deployment',
+  env : process.env.NODE_ENV || 'development',
 
   // ----------------------------------
   // Project Structure
@@ -81,7 +81,8 @@ config.globals = {
   '__DEV__'      : config.env === 'development',
   '__PROD__'     : config.env === 'production',
   '__TEST__'     : config.env === 'test',
-  '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
+  // '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
+  '__DEBUG__'    : false,
   '__DEBUG_NEW_WINDOW__' : !!argv.nw,
   '__COVERAGE__' : !argv.watch && config.env === 'test',
   '__BASENAME__' : JSON.stringify(process.env.BASENAME || '')

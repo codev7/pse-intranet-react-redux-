@@ -1,0 +1,26 @@
+.clients-page{
+  background: #f1f4f5;
+  .add-new-client-btn{
+    text-align: right;
+    .add-new-client-text{
+      font-size: 21px;
+    }
+  }
+  .page-title{
+    text-align: center;
+  }
+  .add-new-client-btn{
+    position: absolute;
+    right: 30px;
+    top: 0;
+  }
+  .contacts-loading{
+
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .add-new-client-text{
+    display: none;
+  }
+}

@@ -20,7 +20,6 @@ export function requireAuth (nextState, replace) {
               localStorage.setItem('refreshToken', responseRefreshToken.data.refresh_token)
             }
           ).catch((err) => console.log(err))
-          localStorage.removeItem('me')
         } else if (response.status_code === 200) {
           localStorage.setItem('me', JSON.stringify(response.data))
         }
