@@ -33,9 +33,9 @@
     "padded-blocks": 0,
     "keyword-spacing": 1,
     "jsx-quotes": 1,
-    "jsx-indent-props": 1,
-    "react/jsx-indent-props": 1,
+    "jsx-indent-props": 0,
+    "react/jsx-indent-props": 0,
     "eqeqeq": 0,
-    "no-extra-semi": 1
+    "no-extra-semi": 0
   }
 }
