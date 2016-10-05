@@ -121,14 +121,14 @@ class ClientsList extends React.Component {
                 </tr>
               </thead>
               <tbody>
-              {
-                this.state.client_list.map((item, index) => (
-                  <DataRow key={index}
-                    id={item.id}
-                    name={item.name}
-                    status={item.status} />
-                ))
-              }
+                {
+                  this.state.client_list.map((item, index) => (
+                    <DataRow key={index}
+                      id={item.id}
+                      name={item.name}
+                      status={item.status} />
+                  ))
+                }
               </tbody>
 
               {/*<tfoot>

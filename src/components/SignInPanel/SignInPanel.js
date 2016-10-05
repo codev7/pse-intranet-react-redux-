@@ -32,9 +32,9 @@ class SignInPanel extends React.Component {
           <input type='password' className='sign_in_form_input'
             ref='password' placeholder='Password' required />
           <i className='fa fa-key' />
-          {this.props.authError && <h5 className='sign_in_form_auth_error'>
+            {this.props.authError && <h5 className='sign_in_form_auth_error'>
             <i className='fa fa-ban' aria-hidden />
-          {this.props.errorText}.</h5>}
+            {this.props.errorText}.</h5>}
           <button className='sign_in_form_btn' type='submit' >
             Log in
             {this.props.isAuthenticating && <i className='fa fa-spinner fa-spin fa-fw' />}
