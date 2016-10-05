@@ -107,7 +107,7 @@ function checkScrollbarPosition () {
     var sidebarHeight = sidebar.outerHeight(),
       windowHeight = $(window).height(),
       mainContentHeight = mainContent.outerHeight(),
-      scrollTop = $(window).scrollTop();
+      scrollTop = $(window).scrollTop()
 
     if ((scrollTop + windowHeight > sidebarHeight) && (mainContentHeight - sidebarHeight !== 0)) {
       sidebar.addClass('is-fixed').css('bottom', 0)

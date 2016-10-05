@@ -35,6 +35,7 @@
     "jsx-quotes": 1,
     "jsx-indent-props": 1,
     "react/jsx-indent-props": 1,
-    "eqeqeq": 0
+    "eqeqeq": 0,
+    "no-extra-semi": 1
   }
 }
