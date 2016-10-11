@@ -1,5 +1,10 @@
 .clients-page{
   background: #f1f4f5;
+
+  #page-data{
+    position: relative;
+  }
+
   .add-new-client-btn{
     text-align: right;
     .add-new-client-text{
@@ -15,7 +20,16 @@
     top: 0;
   }
   .contacts-loading{
-
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    text-align: center;
+    i{
+      color: #18bc9c;
+    }
+  }
+  .table-blur-effect{
+    opacity: 0.5;
   }
 }
 
@@ -23,4 +37,9 @@
   .add-new-client-text{
     display: none;
   }
+}
+
+.modal-container{
+  height: 800px;
+  position: absolute;
 }

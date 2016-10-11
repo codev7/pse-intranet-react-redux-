@@ -1,13 +1,47 @@
 import React, { PropTypes } from 'react'
 import request from 'superagent-bluebird-promise'
-import DataPagination from '../pagination/pagination'
+
+import DataPagination from '../Pagination/pagination'
 import { APIConstants } from '../../redux/api/APIConstants'
+import AddNewClientForm from '../../components/ModalForm/addNewClientForm'
 
 class ClientsTab extends React.Component {
 
   static propTypes = {
 
   };
+
+  constructor() {
+    super()
+
+    this.state = {
+      'addNewModal': false,
+      'newOrEdit': 'new',
+      'formData': {}
+    }
+
+    this.addNewClient = this.addNewClient.bind(this)
+    this.editClient = this.editClient.bind(this)
+  }
+
+  addNewClient(e) {
+    e.preventDefault()
+
+    this.setState({
+      addNewModal: true,
+      newOrEdit: 'new'
+    })
+  }
+
+  editClient(data) {
+
+    this.setState({
+      addNewModal: true,
+      newOrEdit: 'edit',
+      formData: data
+    })
+
+  }
 
   render () {
     return (
@@ -18,7 +52,7 @@ class ClientsTab extends React.Component {
               <h3 className='title'>Clients</h3>
             </div>
             <div className='add-new-client-btn'>
-              <a href=''><h3><span>+</span><span className='add-new-client-text'>Add New</span></h3></a>
+              <a href='#' onClick={this.addNewClient}><h3><span>+</span><span className='add-new-client-text'>Add New</span></h3></a>
             </div>
           </div>
           <div className='row'>
@@ -40,7 +74,8 @@ class ClientsTab extends React.Component {
             </div>
           </div>
 
-          <ClientsList />
+          <ClientsList editClient={this.editClient} />
+          <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} />
 
         </div>
       </div>
@@ -50,6 +85,10 @@ class ClientsTab extends React.Component {
 }
 
 class ClientsList extends React.Component {
+
+  static propTypes = {
+    editClient: PropTypes.func
+  };
 
   constructor () {
     super()
@@ -62,22 +101,45 @@ class ClientsList extends React.Component {
       'page': 1
     }
 
-    this.getClients = this.getClients.bind(this)
     this.onPaging = this.onPaging.bind(this)
+    this.clientInfo = this.clientInfo.bind(this)
 
-    this.getClients(1)
+    const that = this
+
+    this.getClientsList(1, function(data) {
+      that.setState({
+        client_list: data.data,
+        loading: 0,
+        page: 1,
+        ...data.paginator
+      })
+    })
+  }
+
+  onPaging(newPage) {
+
+    newPage = newPage || 1
+    const that = this
+
+    that.setState({
+      loading: 1
+    })
+
+    this.getClientsList(newPage, function(data) {
+      that.setState({
+        client_list: data.data,
+        loading: 0,
+        page: newPage,
+        ...data.paginator
+      })
+    })
 
   }
 
-  getClients(pageId = 1) {
-    const that = this
+  getClientsList(pageId, callback) {
     const accessToken = localStorage.accessToken
 
-    // that.setState({
-    //   loading: 1
-    // })
-
-    request.post(`${APIConstants.API_SERVER_NAME}/clients_list`)
+    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
       .send(JSON.stringify({ 'access_token': accessToken, 'page_id': pageId }))
       .set('Content-Type', 'application/json')
       .then(function (response) {
@@ -86,32 +148,33 @@ class ClientsList extends React.Component {
 
         console.log(data)
 
-        that.setState({
-          client_list: data.data,
-          loading: 0,
-          ...data.paginator
-        })
+        callback(data)
 
       }, function (err) {
         console.log(err)
       })
-
   }
 
-  onPaging(newPage) {
-    this.getClients(newPage)
+  clientInfo(id){
+    const clientList = this.state.client_list
+    const currentClient = clientList.find(function(client){
+      return client.id == id
+    })
+    this.props.editClient(currentClient)
   }
 
   render () {
 
     let count = this.state.last_page ? this.state.last_page : 1
 
+    const classes = 'table data table-hover' + (this.state.loading ? ' table-blur-effect' : '')
+
     return (
       <div id='page-data' className='panel panel-default'>
         <div className='panel-body'>
           <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
           <div className='table-responsive'>
-            <table className='table data table-hover'>
+            <table className={classes}>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -126,22 +189,16 @@ class ClientsList extends React.Component {
                     <DataRow key={index}
                       id={item.id}
                       name={item.name}
-                      status={item.status} />
+                      status={item.status}
+                      editClient={this.clientInfo} />
                   ))
                 }
               </tbody>
-
-              {/*<tfoot>
-               <tr>
-               <td colSpan='6'>
-               <DataPagination count={pageCount} active={this.state.page} pagingFunc={this.onPaging} />
-               </td>
-               </tr>
-               </tfoot>*/}
             </table>
-            { this.state.loading === 1 ? <div className='contacts-loading' ><i className='ion-loading-a' /></div> : null}
           </div>
+          <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
         </div>
+        { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
       </div>
     )
   }
@@ -152,7 +209,19 @@ class DataRow extends React.Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired
+    status: PropTypes.string.isRequired,
+    editClient: PropTypes.func
+  };
+
+  constructor() {
+    super()
+
+    this.editClient = this.editClient.bind(this)
+  }
+
+  editClient(e, id){
+    e.preventDefault()
+    this.props.editClient(id)
   }
 
   render () {
@@ -161,7 +230,7 @@ class DataRow extends React.Component {
         <td>{this.props.id}</td>
         <td>{this.props.name}</td>
         <td>{this.props.status}</td>
-        <td><a href=''><i className='glyphicon glyphicon-edit' /></a></td>
+        <td><a href='#' onClick={(e) => this.editClient(e, this.props.id)}><i className='glyphicon glyphicon-edit' /></a></td>
       </tr>
     )
   }
