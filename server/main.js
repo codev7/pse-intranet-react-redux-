@@ -63,9 +63,9 @@ if (config.env === 'development') {
 }
 
 app.get('*', function(req, res, next){
-  if(req.headers['x-forwarded-proto'] != 'https') {
-    res.redirect('https://localhost' + req.url)
-  }else {
+  if (req.headers['x-forwarded-proto'] != 'https') {
+    res.redirect('https://intranet-dev.pseglobal.com/' + req.url)
+  } else {
     next()
     /* Continue to other routes if we're not redirecting */
   }
