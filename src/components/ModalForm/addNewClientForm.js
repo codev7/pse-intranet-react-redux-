@@ -39,8 +39,6 @@ class AddNewClientForm extends React.Component {
 
         const data = JSON.parse(response.text)
 
-        console.log(data)
-
         callback(data)
 
       }, function (err) {

@@ -145,9 +145,6 @@ class ClientsList extends React.Component {
       .then(function (response) {
 
         const data = JSON.parse(response.text)
-
-        console.log(data)
-
         callback(data)
 
       }, function (err) {
