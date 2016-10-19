@@ -24,7 +24,7 @@ class PSETab extends React.Component {
                       <img src='http://placehold.it/380x500' alt='' className='img-rounded img-responsive' />
                     </div>
                     <div className='col-sm-6 col-md-10 profile-content'>
-                      <h4>{jsonData.name_first_preferred} {jsonData.name_middle} {jsonData.name_middle}</h4>
+                      <h4>{jsonData.name_first_preferred} {jsonData.name_middle} {jsonData.name_last}</h4>
                       <h5>{jsonData.acronym}</h5>
                       <h5>Username: {jsonData.username}</h5>
                       <h5>Last login: {jsonData.last_login}</h5>
