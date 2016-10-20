@@ -27,7 +27,7 @@ app.use(require('connect-history-api-fallback')())
 // ------------------------------------
 // Apply Webpack HMR Middleware
 // ------------------------------------
-if (config.env === 'development') {
+if (config.env === 'localhost') {
   const compiler = webpack(webpackConfig)
 
   debug('Enable webpack dev and HMR middleware')
@@ -63,6 +63,10 @@ if (config.env === 'development') {
 }
 
 app.get('*', function(req, res, next){
+  if (req.secure) {
+    return next()
+  }
+
   if (req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_FORCE_SSL) {
     res.redirect('https://' + req.hostname + req.url)
   } else {
