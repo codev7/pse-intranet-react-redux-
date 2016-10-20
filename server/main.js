@@ -27,6 +27,8 @@ app.use(require('connect-history-api-fallback')())
 // ------------------------------------
 // Apply Webpack HMR Middleware
 // ------------------------------------
+
+console.log(config.env)
 if (config.env === 'localhost') {
   const compiler = webpack(webpackConfig)
 
@@ -62,7 +64,7 @@ if (config.env === 'localhost') {
   app.use(express.static(paths.dist()))
 }
 
-app.get('*', function(req, res, next){
+/*app.get('*', function(req, res, next){
   if (req.secure) {
     return next()
   }
@@ -71,9 +73,9 @@ app.get('*', function(req, res, next){
     res.redirect('https://' + req.hostname + req.url)
   } else {
     next()
-    /* Continue to other routes if we're not redirecting */
+    /!* Continue to other routes if we're not redirecting *!/
   }
-})
+})*/
 
 app.use('/api', api)
 

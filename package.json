@@ -42,7 +42,7 @@
       }
     },
     "deploy:dev": {
-      "command": "npm run deploy",
+      "command": "better-npm-run deploy && node bin/server",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
