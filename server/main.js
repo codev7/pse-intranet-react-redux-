@@ -3,7 +3,7 @@ const debug = require('debug')('app:server')
 const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
-
+const sslRedirect = require('heroku-ssl-redirect')
 // const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -14,6 +14,7 @@ const api = require('./api')
 const app = express()
 const paths = config.utils_paths
 
+app.use(sslRedirect(['development', 'production']))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -64,18 +65,14 @@ if (config.env === 'localhost') {
   app.use(express.static(paths.dist()))
 }
 
-/*app.get('*', function(req, res, next){
-  if (req.secure) {
-    return next()
-  }
-
+app.get('*', function(req, res, next){
   if (req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_FORCE_SSL) {
     res.redirect('https://' + req.hostname + req.url)
   } else {
     next()
-    /!* Continue to other routes if we're not redirecting *!/
+    /* Continue to other routes if we're not redirecting */
   }
-})*/
+})
 
 app.use('/api', api)
 

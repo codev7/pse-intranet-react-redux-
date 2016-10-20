@@ -6,6 +6,7 @@ const app = require('../server/main')
 const debug = require('debug')('app:bin:server')
 const port = config.server_port
 
+/*
 if (config.env == 'localhost'){
   http.createServer(app).listen(port, function() {
     debug(`Server is now running at http://localhost:${port}.`)
@@ -19,3 +20,7 @@ if (config.env == 'localhost'){
       debug(`Secure Server is now running at https://${config.server_host}:${port}.`)
     })
 }
+*/
+
+app.listen(port)
+debug(`Server is now running at http://localhost:${port}.`)
