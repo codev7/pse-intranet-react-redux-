@@ -65,15 +65,6 @@ if (config.env === 'localhost') {
   app.use(express.static(paths.dist()))
 }
 
-app.get('*', function(req, res, next){
-  if (req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_FORCE_SSL) {
-    res.redirect('https://' + req.hostname + req.url)
-  } else {
-    next()
-    /* Continue to other routes if we're not redirecting */
-  }
-})
-
 app.use('/api', api)
 
 module.exports = app
