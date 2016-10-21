@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Router } from 'react-router'
 
 export default class Root extends React.Component {
@@ -9,12 +8,6 @@ export default class Root extends React.Component {
     routes: PropTypes.element.isRequired,
     store: PropTypes.object.isRequired
   };
-
-  componentDidMount () {
-    // Needed for onTouchTap
-    // http://stackoverflow.com/a/34015469/988941
-    injectTapEventPlugin()
-  }
 
   get content () {
     return (
@@ -44,7 +37,7 @@ export default class Root extends React.Component {
       <Provider store={this.props.store}>
         <div style={{ height: '100%' }}>
           {this.content}
-          {this.devTools}
+          {/*{this.devTools}*/}
         </div>
       </Provider>
     )

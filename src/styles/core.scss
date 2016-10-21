@@ -590,7 +590,7 @@ Sidebar
     transform: translateX(-50%);
     top: 2.4em;
   }
-  .cd-side-nav .active > a {
+  .cd-side-nav a.active {
     /* current page */
     box-shadow: inset 3px 0 0 #1784c7;
     background-color: #33383e;

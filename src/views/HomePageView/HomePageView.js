@@ -1,15 +1,10 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { } from '../../redux/modules/pse'
+import { Link, IndexLink } from 'react-router'
 
 import { logoutAndRedirect } from 'redux/modules/auth'
-
 import HomeHeader from 'components/Header/headerComponent'
-import PSETab from 'components/Tabcontents/pseTab'
-import ClientsTab from 'components/Tabcontents/clientsTab'
-import DashboardTab from 'components/Tabcontents/dashboardTab'
-import ProjectsTab from 'components/Tabcontents/projectsTab'
-import GeotechsTab from 'components/Tabcontents/geotechsTab'
 
 import $ from 'jquery'
 window.jQuery = $
@@ -19,14 +14,14 @@ import menuAim from 'jquery-menu-aim'
 export class HomePageView extends React.Component {
   static propTypes = {
     page: PropTypes.string,
-    logoutAndRedirect: PropTypes.func
+    logoutAndRedirect: PropTypes.func,
+    children: PropTypes.element
   };
 
   constructor () {
     super()
     this.state = {
-      'tab': 'Dashboard tab',
-      'content': <DashboardTab />
+      'tab': 'Dashboard tab'
     }
   }
 
@@ -66,7 +61,7 @@ export class HomePageView extends React.Component {
     })
 
 // click on item and show submenu
-    $('.has-children > a').on('click', function (event) {
+    /*$('.has-children > a').on('click', function (event) {
       const mq = checkMQ()
       const selectedItem = $(this)
       if (mq === 'mobile' || mq === 'tablet') {
@@ -79,10 +74,10 @@ export class HomePageView extends React.Component {
           selectedItem.parent('li').addClass('selected')
         }
       }
-    })
+    })*/
 
 // Click on account and show submenu - desktop version only
-    accountInfo.children('a').on('click', function (event) {
+    /*accountInfo.children('a').on('click', function (event) {
       const mq = checkMQ()
       if (mq === 'desktop') {
         event.preventDefault()
@@ -96,7 +91,7 @@ export class HomePageView extends React.Component {
         sidebar.find('.has-children.selected').removeClass('selected')
         accountInfo.removeClass('selected')
       }
-    })
+    })*/
 
     function checkMQ () {
       // check if mobile or desktop device
@@ -120,7 +115,7 @@ export class HomePageView extends React.Component {
         searchForm.insertAfter(header.find('.cd-logo'))
         topNavigation.appendTo(header.find('.cd-nav'))
       }
-      checkSelected(mq)
+      // checkSelected(mq)
       resizing = false
     }
 
@@ -129,10 +124,10 @@ export class HomePageView extends React.Component {
       searchForm.detach()
     }
 
-    function checkSelected (mq) {
+    /*function checkSelected (mq) {
       // on desktop, remove selected class from items selected on mobile/tablet version
       if (mq === 'desktop') $('.has-children.selected').removeClass('selected')
-    }
+    }*/
 
     function checkScrollbarPosition () {
       var mq = checkMQ()
@@ -159,32 +154,27 @@ export class HomePageView extends React.Component {
 
   handleDashboardTabClick (e) {
     this.setState({
-      tab: 'Dashboard tab',
-      content: <DashboardTab />
+      tab: 'Dashboard tab'
     })
   }
   handleClientsTabClick (e) {
     this.setState({
-      tab: 'Clients tab',
-      content: <ClientsTab />
+      tab: 'Clients tab'
     })
   }
   handleProjectsTabClick (e) {
     this.setState({
-      tab: 'Projects tab',
-      content: <ProjectsTab />
+      tab: 'Projects tab'
     })
   }
   handleGeotechsTabClick (e) {
     this.setState({
-      tab: 'Geotechs tab',
-      content: <GeotechsTab />
+      tab: 'Geotechs tab'
     })
   }
   handleMyPSETabClick (e) {
     this.setState({
-      tab: 'My PSE tab',
-      content: <PSETab />
+      tab: 'My PSE tab'
     })
   }
 
@@ -195,26 +185,26 @@ export class HomePageView extends React.Component {
         <main className='cd-main-content'>
           <nav className='cd-side-nav'>
             <ul>
-              <li className={this.state.tab === 'Dashboard tab' ? 'has-children overview active' : 'has-children overview'}>
-                <a href='#0' onClick={::this.handleDashboardTabClick}>Dashboard</a>
+              <li className='has-children overview'>
+                <IndexLink to='/intranet/dashboard' activeClassName='active'>Dashboard</IndexLink>
               </li>
-              <li className={this.state.tab === 'Clients tab' ? 'has-children users active' : 'has-children users'}>
-                <a href='#0' onClick={::this.handleClientsTabClick}>Clients</a>
+              <li className='has-children users'>
+                <IndexLink to='/intranet/clients' activeClassName='active'>Clients</IndexLink>
               </li>
-              <li className={this.state.tab === 'Projects tab' ? 'has-children comments active' : 'has-children comments'}>
-                <a href='#0' onClick={::this.handleProjectsTabClick}>Projects</a>
+              <li className='has-children comments'>
+                <IndexLink to='/intranet/projects' activeClassName='active'>Projects</IndexLink>
               </li>
-              <li className={this.state.tab === 'Geotechs tab' ? 'has-children comments active' : 'has-children comments'}>
-                <a href='#0' onClick={::this.handleGeotechsTabClick}>Geotechs</a>
+              <li className='has-children comments'>
+                <IndexLink to='/intranet/geotechs' activeClassName='active'>Geotechs</IndexLink>
               </li>
-              <li className={this.state.tab === 'My PSE tab' ? 'has-children overview  active' : 'has-children users'}>
-                <a href='#0' onClick={::this.handleMyPSETabClick}>My PSE</a>
+              <li className='has-children users'>
+                <IndexLink to='/intranet/pse' activeClassName='active'>My PSE</IndexLink>
               </li>
             </ul>
           </nav>
 
           <div className='content-wrapper'>
-            {this.state.content}
+            {this.props.children}
           </div>
         </main>
       </div>
