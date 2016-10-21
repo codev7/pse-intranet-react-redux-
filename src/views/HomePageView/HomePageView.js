@@ -60,38 +60,15 @@ export class HomePageView extends React.Component {
       $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
     })
 
-// click on item and show submenu
-    /*$('.has-children > a').on('click', function (event) {
-      const mq = checkMQ()
-      const selectedItem = $(this)
-      if (mq === 'mobile' || mq === 'tablet') {
-        event.preventDefault()
-        if (selectedItem.parent('li').hasClass('selected')) {
-          selectedItem.parent('li').removeClass('selected')
-        } else {
-          sidebar.find('.has-children.selected').removeClass('selected')
-          accountInfo.removeClass('selected')
-          selectedItem.parent('li').addClass('selected')
-        }
-      }
-    })*/
-
 // Click on account and show submenu - desktop version only
-    /*accountInfo.children('a').on('click', function (event) {
+    accountInfo.children('a').on('click', function (event) {
       const mq = checkMQ()
-      if (mq === 'desktop') {
+      console.log(mq)
+      if ((mq === 'desktop') || (mq === 'tablet')) {
         event.preventDefault()
         accountInfo.toggleClass('selected')
-        sidebar.find('.has-children.selected').removeClass('selected')
       }
     })
-
-    $(document).on('click', function (event) {
-      if (!$(event.target).is('.has-children a')) {
-        sidebar.find('.has-children.selected').removeClass('selected')
-        accountInfo.removeClass('selected')
-      }
-    })*/
 
     function checkMQ () {
       // check if mobile or desktop device
@@ -100,7 +77,6 @@ export class HomePageView extends React.Component {
       } else {
         return
       }
-
     }
 
     function moveNavigation () {
@@ -124,11 +100,6 @@ export class HomePageView extends React.Component {
       searchForm.detach()
     }
 
-    /*function checkSelected (mq) {
-      // on desktop, remove selected class from items selected on mobile/tablet version
-      if (mq === 'desktop') $('.has-children.selected').removeClass('selected')
-    }*/
-
     function checkScrollbarPosition () {
       var mq = checkMQ()
 
@@ -150,32 +121,6 @@ export class HomePageView extends React.Component {
 
   handleLogOut () {
     this.props.logoutAndRedirect()
-  }
-
-  handleDashboardTabClick (e) {
-    this.setState({
-      tab: 'Dashboard tab'
-    })
-  }
-  handleClientsTabClick (e) {
-    this.setState({
-      tab: 'Clients tab'
-    })
-  }
-  handleProjectsTabClick (e) {
-    this.setState({
-      tab: 'Projects tab'
-    })
-  }
-  handleGeotechsTabClick (e) {
-    this.setState({
-      tab: 'Geotechs tab'
-    })
-  }
-  handleMyPSETabClick (e) {
-    this.setState({
-      tab: 'My PSE tab'
-    })
   }
 
   render () {
