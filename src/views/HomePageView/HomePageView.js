@@ -143,7 +143,7 @@ export class HomePageView extends React.Component {
                 <IndexLink to='/intranet/geotechs' activeClassName='active'>Geotechs</IndexLink>
               </li>
               <li className='has-children users'>
-                <IndexLink to='/intranet/pse' activeClassName='active'>My PSE</IndexLink>
+                <IndexLink to='/intranet/mypse' activeClassName='active'>My PSE</IndexLink>
               </li>
             </ul>
           </nav>

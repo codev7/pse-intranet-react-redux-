@@ -6,7 +6,7 @@ import CoreLayout from 'layouts/CoreLayout/CoreLayout'
 import SignInPageView from 'views/SignInPageView/SignInPageView'
 import HomePageView from 'views/HomePageView/HomePageView'
 
-import PSETab from 'components/Tabcontents/pseTab'
+import MyPSETab from 'components/Tabcontents/mypseTab'
 import ClientsTab from 'components/Tabcontents/clientsTab'
 import DashboardTab from 'components/Tabcontents/dashboardTab'
 import ProjectsTab from 'components/Tabcontents/projectsTab'
@@ -21,7 +21,7 @@ export default (store) => (
       <Route path='clients' component={ClientsTab} />
       <Route path='projects' component={ProjectsTab} />
       <Route path='geotechs' component={GeotechsTab} />
-      <Route path='pse' component={PSETab} />
+      <Route path='mypse' component={MyPSETab} />
     </Route>
     <Route path='sign-in' component={SignInPageView} onEnter={loggedIn} />
   </Route>
