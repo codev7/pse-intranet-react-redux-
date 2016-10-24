@@ -173,7 +173,7 @@ Header
 .cd-nav-trigger {
   /* navigation trigger - visible on mobile devices only */
   float: right;
-  position: relative;
+  position: static;
   display: block;
   width: 34px;
   height: 44px;
