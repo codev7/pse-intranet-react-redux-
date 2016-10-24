@@ -176,7 +176,6 @@ class ClientsList extends React.Component {
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>Status</th>
                   <th />
                 </tr>
               </thead>
@@ -186,7 +185,6 @@ class ClientsList extends React.Component {
                     <DataRow key={index}
                       id={item.id}
                       name={item.name}
-                      status={item.status}
                       editClient={this.clientInfo} />
                   ))
                 }
@@ -206,7 +204,6 @@ class DataRow extends React.Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
     editClient: PropTypes.func
   };
 
@@ -226,7 +223,6 @@ class DataRow extends React.Component {
       <tr>
         <td>{this.props.id}</td>
         <td>{this.props.name}</td>
-        <td>{this.props.status}</td>
         <td><a href='#' onClick={(e) => this.editClient(e, this.props.id)}><i className='glyphicon glyphicon-edit' /></a></td>
       </tr>
     )
