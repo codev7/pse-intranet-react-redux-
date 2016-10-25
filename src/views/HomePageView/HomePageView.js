@@ -54,20 +54,14 @@ export class HomePageView extends React.Component {
       }
     })
 
-// mobile only - open sidebar when user clicks the hamburger menu
     sidebarTrigger.on('click', function (event) {
       event.preventDefault()
       $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
     })
 
-// Click on account and show submenu - desktop version only
     accountInfo.children('a').on('click', function (event) {
-      const mq = checkMQ()
-      console.log(mq)
-      if ((mq === 'desktop') || (mq === 'tablet')) {
-        event.preventDefault()
-        accountInfo.toggleClass('selected')
-      }
+      event.preventDefault()
+      accountInfo.toggleClass('selected')
     })
 
     function checkMQ () {
