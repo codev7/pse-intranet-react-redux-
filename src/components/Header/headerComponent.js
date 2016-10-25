@@ -23,9 +23,9 @@ class HomeHeader extends React.Component {
     return (
       <div>
         <header className='cd-main-header'>
-          <a href='#0' className='cd-logo'>PSE</a>
+          <a href='https://pseglobal.com/' className='cd-logo'>PSE</a>
           <div className='cd-search is-hidden'>
-            <form action='#0'>
+            <form action='#'>
               <input type='search' name='search' placeholder='Search...' />
             </form>
           </div>
