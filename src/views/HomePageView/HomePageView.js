@@ -131,19 +131,19 @@ export class HomePageView extends React.Component {
           <nav className='cd-side-nav'>
             <ul>
               <li className='tab-link overview'>
-                <IndexLink to='/intranet/dashboard' activeClassName='active'>Dashboard</IndexLink>
+                <IndexLink to='dashboard' activeClassName='active'>Dashboard</IndexLink>
               </li>
               <li className='tab-link clients'>
-                <IndexLink to='/intranet/clients' activeClassName='active'>Clients</IndexLink>
+                <IndexLink to='clients' activeClassName='active'>Clients</IndexLink>
               </li>
               <li className='tab-link comments'>
-                <IndexLink to='/intranet/projects' activeClassName='active'>Projects</IndexLink>
+                <IndexLink to='projects' activeClassName='active'>Projects</IndexLink>
               </li>
               <li className='tab-link comments'>
-                <IndexLink to='/intranet/geotechs' activeClassName='active'>Geotechs</IndexLink>
+                <IndexLink to='geotechs' activeClassName='active'>Geotechs</IndexLink>
               </li>
               <li className='tab-link users'>
-                <IndexLink to='/intranet/mypse' activeClassName='active'>My PSE</IndexLink>
+                <IndexLink to='mypse' activeClassName='active'>My PSE</IndexLink>
               </li>
             </ul>
           </nav>

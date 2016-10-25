@@ -32,7 +32,7 @@ export function loggedIn (nextState, replace) {
   const loggedIn = !!localStorage.accessToken
   if (loggedIn) {
     replace({
-      pathname: '/intranet',
+      pathname: '/dashboard',
       state: { nextPathname: nextState.location.pathname }
     })
   }

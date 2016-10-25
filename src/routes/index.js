@@ -15,8 +15,8 @@ import GeotechsTab from 'components/Tabcontents/geotechsTab'
 export default (store) => (
   <Route path='/' component={CoreLayout}>
     <IndexRedirect to='sign-in' />
-    <Route path='/intranet' component={HomePageView} onEnter={requireAuth} >
-      <IndexRoute component={DashboardTab} />
+    <Route path='/' component={HomePageView} onEnter={requireAuth} >
+      <IndexRedirect to='dashboard' />
       <Route path='dashboard' component={DashboardTab} />
       <Route path='clients' component={ClientsTab} />
       <Route path='projects' component={ProjectsTab} />

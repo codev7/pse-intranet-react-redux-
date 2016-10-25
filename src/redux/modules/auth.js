@@ -72,7 +72,7 @@ export const loginUser = (email, password, redirect = '/') => {
           const accessToken = responseAuth.data.access_token
           const refreshToken = responseAuth.data.refresh_token
           setTimeout(() => {
-            dispatch(push('/intranet'))
+            dispatch(push('/dashboard'))
           }, 500)
           dispatch(loginUserSuccess(accessToken, refreshToken, {}))
         } else {
