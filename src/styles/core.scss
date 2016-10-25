@@ -263,7 +263,7 @@ Header
   margin: 1.2em 5% 0.6em;
 }
 .cd-search.is-hidden {
-  opacity: 0;
+  display: none;
 }
 .cd-search::before {
   /* lens icon */
@@ -306,7 +306,7 @@ Header
   }
   .cd-search.is-hidden {
     /* reset style */
-    opacity: 1;
+    display: block;
   }
   .cd-search::before {
     background-position: 0 -16px;
@@ -683,7 +683,7 @@ Sidebar
   background-color: #1c1f22;
 }
 
-.has-children.account > a::after {
+.has-children > a::after {
   /* arrow icon */
   position: absolute;
   content: '';

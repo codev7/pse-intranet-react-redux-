@@ -38,7 +38,6 @@ class HomeHeader extends React.Component {
                 <a href='#0'>
                   User
                 </a>
-
                 <ul>
                   <li onClick={this.handleLogOut}><a href='#0'>Logout</a></li>
                 </ul>

@@ -59,6 +59,12 @@ export class HomePageView extends React.Component {
       $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
     })
 
+    $('.cd-side-nav li.tab-link a').on('click', function(){
+      if (checkMQ() == 'mobile') {
+        $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
+      }
+    })
+
     accountInfo.children('a').on('click', function (event) {
       event.preventDefault()
       accountInfo.toggleClass('selected')
@@ -124,19 +130,19 @@ export class HomePageView extends React.Component {
         <main className='cd-main-content'>
           <nav className='cd-side-nav'>
             <ul>
-              <li className='has-children overview'>
+              <li className='tab-link overview'>
                 <IndexLink to='/intranet/dashboard' activeClassName='active'>Dashboard</IndexLink>
               </li>
-              <li className='has-children users'>
+              <li className='tab-link clients'>
                 <IndexLink to='/intranet/clients' activeClassName='active'>Clients</IndexLink>
               </li>
-              <li className='has-children comments'>
+              <li className='tab-link comments'>
                 <IndexLink to='/intranet/projects' activeClassName='active'>Projects</IndexLink>
               </li>
-              <li className='has-children comments'>
+              <li className='tab-link comments'>
                 <IndexLink to='/intranet/geotechs' activeClassName='active'>Geotechs</IndexLink>
               </li>
-              <li className='has-children users'>
+              <li className='tab-link users'>
                 <IndexLink to='/intranet/mypse' activeClassName='active'>My PSE</IndexLink>
               </li>
             </ul>
