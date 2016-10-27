@@ -39,20 +39,20 @@ export class HomePageView extends React.Component {
     let scrolling = false
 
     moveNavigation()
-    checkScrollbarPosition()
-    $(window).on('resize', function () {
-      if (!resizing) {
-        (!window.requestAnimationFrame) ? setTimeout(moveNavigation, 300) : window.requestAnimationFrame(moveNavigation)
-        resizing = true
-      }
-    })
+    // checkScrollbarPosition()
+    // $(window).on('resize', function () {
+    //   if (!resizing) {
+    //     (!window.requestAnimationFrame) ? setTimeout(moveNavigation, 300) : window.requestAnimationFrame(moveNavigation)
+    //     resizing = true
+    //   }
+    // })
 
-    $(window).on('scroll', function () {
-      if (!scrolling) {
-        (!window.requestAnimationFrame) ? setTimeout(checkScrollbarPosition, 300) : window.requestAnimationFrame(checkScrollbarPosition)
-        scrolling = true
-      }
-    })
+    // $(window).on('scroll', function () {
+    //   if (!scrolling) {
+    //     (!window.requestAnimationFrame) ? setTimeout(checkScrollbarPosition, 300) : window.requestAnimationFrame(checkScrollbarPosition)
+    //     scrolling = true
+    //   }
+    // })
 
     sidebarTrigger.on('click', function (event) {
       event.preventDefault()
@@ -69,15 +69,6 @@ export class HomePageView extends React.Component {
       event.preventDefault()
       accountInfo.toggleClass('selected')
     })
-
-    function checkMQ () {
-      // check if mobile or desktop device
-      if (window) {
-        return window.getComputedStyle(document.querySelector('.cd-main-content'), '::before').getPropertyValue('content').replace(/'/g, '').replace(/"/g, '')
-      } else {
-        return
-      }
-    }
 
     function moveNavigation () {
       const mq = checkMQ()
@@ -99,9 +90,10 @@ export class HomePageView extends React.Component {
       topNavigation.detach()
       searchForm.detach()
     }
-
+/*
     function checkScrollbarPosition () {
       var mq = checkMQ()
+      console.log(mq)
 
       if (mq !== 'mobile') {
         var sidebarHeight = sidebar.outerHeight(),
@@ -115,6 +107,15 @@ export class HomePageView extends React.Component {
 
       }
       scrolling = false
+    }*/
+
+    function checkMQ () {
+      // check if mobile or desktop device
+      if (window) {
+        return window.getComputedStyle(document.querySelector('.cd-main-content'), '::before').getPropertyValue('content').replace(/'/g, '').replace(/"/g, '')
+      } else {
+        return
+      }
     }
 
   }
