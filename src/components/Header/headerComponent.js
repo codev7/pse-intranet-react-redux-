@@ -36,7 +36,7 @@ class HomeHeader extends React.Component {
             <ul className='cd-top-nav'>
               <li className='has-children account'>
                 <a href='#0'>
-                  User
+                  Options
                 </a>
                 <ul>
                   <li onClick={this.handleLogOut}><a href='#0'>Logout</a></li>
