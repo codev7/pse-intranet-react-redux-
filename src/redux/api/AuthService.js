@@ -61,7 +61,8 @@ export function getRefreshToken (refreshToken) {
   })
 }
 
-export function sendRevokeTokenRequest (accessToken, refreshToken) {
+export function sendRevokeTokenRequest (accessToken) {
+
   return new Promise((resolve, reject) => {
     fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.REVOKE_TOKEN}`, {
       method: 'post',
@@ -74,27 +75,6 @@ export function sendRevokeTokenRequest (accessToken, refreshToken) {
       })
     }).then((res) => res.json())
     .then((jsonRes) => {
-      // if (jsonRes.error) {
-      //   getRefreshToken(refreshToken).then(
-      //     (responseRefreshToken) => {
-      //       fetch(`${APIConstants.API_SERVER_NAME}${APIConstants.REVOKE_TOKEN}`, {
-      //         method: 'post',
-      //         headers: {
-      //           'Accept': 'application/json',
-      //           'Content-Type': 'application/json',
-      //         },
-      //         body: JSON.stringify({
-      //           'access_token': accessToken,
-      //         }),
-      //       }).then((_res) => resolve())
-      //     },
-      //     (responseError) => {
-      //       reject()
-      //     })
-      // } else {
-      //   resolve()
-      // }
-
       resolve(jsonRes)
     })
   })

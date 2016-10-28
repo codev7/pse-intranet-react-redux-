@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { } from '../../redux/modules/pse'
 import { Link, IndexLink } from 'react-router'
 
-import { logoutAndRedirect } from 'redux/modules/auth'
-import HomeHeader from 'components/Header/headerComponent'
+import { logoutAndRedirect } from '../../redux/modules/auth'
+import HomeHeader from '../../components/Header/headerComponent'
 
 import $ from 'jquery'
 window.jQuery = $
@@ -13,7 +13,6 @@ import menuAim from 'jquery-menu-aim'
 
 export class HomePageView extends React.Component {
   static propTypes = {
-    page: PropTypes.string,
     logoutAndRedirect: PropTypes.func,
     children: PropTypes.element
   };
@@ -23,6 +22,8 @@ export class HomePageView extends React.Component {
     this.state = {
       'tab': 'Dashboard tab'
     }
+
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
 
   componentDidMount () {
@@ -38,7 +39,6 @@ export class HomePageView extends React.Component {
     let resizing = false
     let scrolling = false
 
-    moveNavigation()
     // checkScrollbarPosition()
     // $(window).on('resize', function () {
     //   if (!resizing) {
@@ -70,26 +70,10 @@ export class HomePageView extends React.Component {
       accountInfo.toggleClass('selected')
     })
 
-    function moveNavigation () {
-      const mq = checkMQ()
-
-      if (mq === 'mobile' && topNavigation.parents('.cd-side-nav').length === 0) {
-        detachElements()
-        topNavigation.appendTo(sidebar)
-        searchForm.removeClass('is-hidden').prependTo(sidebar)
-      } else if ((mq === 'tablet' || mq === 'desktop') && topNavigation.parents('.cd-side-nav').length > 0) {
-        detachElements()
-        searchForm.insertAfter(header.find('.cd-logo'))
-        topNavigation.appendTo(header.find('.cd-nav'))
-      }
-      // checkSelected(mq)
-      resizing = false
-    }
-
-    function detachElements () {
-      topNavigation.detach()
-      searchForm.detach()
-    }
+    // function detachElements () {
+    //   topNavigation.detach()
+    //   searchForm.detach()
+    // }
 /*
     function checkScrollbarPosition () {
       var mq = checkMQ()
@@ -127,7 +111,7 @@ export class HomePageView extends React.Component {
   render () {
     return (
       <div>
-        <HomeHeader logout={::this.handleLogOut} />
+        <HomeHeader logout={this.handleLogOut} />
         <main className='cd-main-content'>
           <nav className='cd-side-nav'>
             <ul>
@@ -145,6 +129,14 @@ export class HomePageView extends React.Component {
               </li>
               <li className='tab-link users'>
                 <IndexLink to='mypse' activeClassName='active'>My PSE</IndexLink>
+              </li>
+              <li className='has-children account visible-xs'>
+                <a href='#0'>
+                  Options
+                </a>
+                <ul>
+                  <li><a href='#0' onClick={this.handleLogOut}>Logout</a></li>
+                </ul>
               </li>
             </ul>
           </nav>

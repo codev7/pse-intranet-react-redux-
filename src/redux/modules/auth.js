@@ -1,4 +1,4 @@
-import * as AuthService from '../api/AuthService.js'
+import { sendRevokeTokenRequest, sendSignInRequest } from '../api/AuthService.js'
 import { push } from 'react-router-redux'
 
 // ------------------------------------
@@ -49,9 +49,10 @@ export const logout = () => {
 }
 
 export const logoutAndRedirect = () => {
-  return (dispatch, getState) => {
-    AuthService.sendRevokeTokenRequest(localStorage.accessToken, localStorage.refreshToken).then(
+  return (dispatch) => {
+    sendRevokeTokenRequest(localStorage.accessToken).then(
       () => {
+        console.log('logout invoked12121')
         dispatch(logout())
         dispatch(push('/sign-in'))
       },
@@ -66,7 +67,7 @@ export const logoutAndRedirect = () => {
 export const loginUser = (email, password, redirect = '/') => {
   return (dispatch) => {
     dispatch(loginUserRequest())
-    AuthService.sendSignInRequest(email, password).then(
+    sendSignInRequest(email, password).then(
       (responseAuth) => {
         if (responseAuth.status_code === 200) {
           const accessToken = responseAuth.data.access_token
