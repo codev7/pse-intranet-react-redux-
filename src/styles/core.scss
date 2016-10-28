@@ -84,6 +84,8 @@ Main Page Content
   .content-wrapper{
     width: 100%;
     position: relative;
+    overflow-y: auto;
+    height: 100%;
   }
 }
 .cd-main-content .content-wrapper h1 {
@@ -101,9 +103,10 @@ Main Page Content
 @media only screen and (min-width: 768px) {
   .cd-main-content {
     padding-top: 55px;
+    padding-left: 110px;
   }
   .cd-main-content .content-wrapper {
-    padding-left: 110px;
+
   }
   .cd-main-content .content-wrapper h1 {
     padding: 4em 0;
@@ -118,8 +121,11 @@ Main Page Content
   }
 }
 @media only screen and (min-width: 1170px) {
-  .cd-main-content .content-wrapper {
+  .cd-main-content {
     padding-left: 200px;
+  }
+  .cd-main-content .content-wrapper {
+
   }
   .cd-main-content::before {
     content: 'desktop';
@@ -552,12 +558,10 @@ Sidebar
 }
 @media only screen and (min-width: 768px) {
   .cd-side-nav {
-    position: relative;
-    float: left;
-    top: auto;
+    position: absolute;
+    padding-top: 55px;
+    height: 100%;
     width: 110px;
-    min-height: 100%;
-    padding-top: 0px;
     /* reset style */
     visibility: visible;
     opacity: 1;
@@ -623,9 +627,6 @@ Sidebar
 @media only screen and (min-width: 1170px) {
   .cd-side-nav {
     width: 200px;
-  }
-  .cd-side-nav > ul {
-    padding: 0.6em 0;
   }
   .cd-side-nav > ul > li:not(.action-btn):hover > a {
     background-color: #33383e;
