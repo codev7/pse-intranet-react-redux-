@@ -21,7 +21,7 @@ class SignInPanel extends React.Component {
   render () {
     return (
       <div className='auth_wrapper'>
-        <form className='sign_in_form' role='form' onSubmit={this._handleSignIn}>
+        <form className='sign_in_form' role='form' onSubmit={::this._handleSignIn}>
           <p className='sign_in_form_title'>
             <i className='ion-social-buffer' />
           PSE
