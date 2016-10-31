@@ -1,7 +1,7 @@
 import { getCurrentUser, getRefreshToken } from '../api/AuthService.js'
 
 export function requireAuth (nextState, replace) {
-  const loggedIn = !!localStorage.accessToken && !!localStorage.refreshToken
+  const loggedIn = !!localStorage.accessToken
 
   if (!loggedIn) {
     replace({

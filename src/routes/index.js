@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, IndexRedirect, IndexRoute } from 'react-router'
-import { requireAuth, loggedIn } from 'redux/utils/authHelper.js'
+import { requireAuth, loggedIn } from '../redux/utils/authHelper.js'
 
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
 import SignInPageView from 'views/SignInPageView/SignInPageView'
