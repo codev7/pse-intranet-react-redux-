@@ -1,18 +1,28 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import $ from 'jquery'
 
 class HomeHeader extends React.Component {
   static propTypes = {
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    toggleOptionFunc: PropTypes.func
   };
 
   constructor() {
     super()
     this.handleLogOut = this.handleLogOut.bind(this)
+    this.triggerMobileMenu = this.triggerMobileMenu.bind(this)
   }
 
   handleLogOut () {
     this.props.logout()
+  }
+
+  triggerMobileMenu (e) {
+    e.preventDefault()
+    const sidebar = $('.cd-side-nav')
+    const sidebarTrigger = $('.cd-nav-trigger')
+    $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
   }
 
   componentDidMount () {
@@ -30,12 +40,12 @@ class HomeHeader extends React.Component {
             </form>
           </div>
 
-          <a href='#0' className='cd-nav-trigger'><span /></a>
+          <a href='#0' className='cd-nav-trigger' onClick={this.triggerMobileMenu}><span /></a>
 
           <nav className='cd-nav'>
             <ul className='cd-top-nav'>
               <li className='has-children account'>
-                <a href='#0'>
+                <a href='#0' onClick={this.props.toggleOptionFunc}>
                   Options
                 </a>
                 <ul>
