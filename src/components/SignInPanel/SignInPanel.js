@@ -11,16 +11,16 @@ class SignInPanel extends React.Component {
     errorText: PropTypes.string.isRequired
   };
 
+  constructor () {
+    super()
+    this.handleSignIn = this.handleSignIn.bind(this)
+  }
+
   handleSignIn = (e) => {
     e.preventDefault()
     const email = this.refs.email.value
     const password = this.refs.password.value
     this.props.loginUser(email, password)
-  }
-
-  constructor () {
-    super()
-    this.handleSignIn = this.handleSignIn.bind(this)
   }
 
   render () {

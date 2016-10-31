@@ -85,7 +85,6 @@ Main Page Content
     width: 100%;
     position: relative;
     overflow-y: auto;
-    height: 100%;
   }
 }
 .cd-main-content .content-wrapper h1 {
@@ -106,7 +105,7 @@ Main Page Content
     padding-left: 110px;
   }
   .cd-main-content .content-wrapper {
-
+    height: 100%;
   }
   .cd-main-content .content-wrapper h1 {
     padding: 4em 0;

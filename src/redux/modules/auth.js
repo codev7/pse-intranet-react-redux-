@@ -67,16 +67,19 @@ export const logoutAndRedirect = () => {
 export const loginUser = (email, password) => {
   return (dispatch) => {
     dispatch(loginUserRequest())
+
     sendSignInRequest(email, password).then(
       (responseAuth) => {
+
         if (responseAuth.status_code === 200) {
+
           const accessToken = responseAuth.data.access_token
           const refreshToken = responseAuth.data.refresh_token
-          setTimeout(() => {
-            dispatch(push('/dashboard'))
-            browserHistory.push('/dashboard')
-          }, 500)
+
           dispatch(loginUserSuccess(accessToken, refreshToken, {}))
+
+          dispatch(push('/dashboard'))
+
         } else {
           dispatch(loginUserFailure(responseAuth.error[0].message))
         }

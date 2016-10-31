@@ -43,3 +43,8 @@
   height: 800px;
   position: absolute;
 }
+@media only screen and (max-width: 375px) {
+  .pagination > li > a, .pagination > li > span {
+    padding: 10px 10px;
+  }
+}
