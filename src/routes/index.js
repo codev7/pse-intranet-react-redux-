@@ -1,6 +1,6 @@
 import React from 'react'
-import { Route, IndexRedirect, IndexRoute } from 'react-router'
-import { requireAuth, loggedIn } from '../redux/utils/authHelper.js'
+import { Route, IndexRedirect } from 'react-router'
+import { requireAuth, loggedIn, requireAuthOnChange } from '../redux/utils/authHelper.js'
 
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
 import SignInPageView from 'views/SignInPageView/SignInPageView'
@@ -15,8 +15,7 @@ import GeotechsTab from 'components/Tabcontents/geotechsTab'
 export default (store) => (
   <Route path='/' component={CoreLayout}>
     <IndexRedirect to='sign-in' />
-    <Route path='/' component={HomePageView} onEnter={requireAuth} onChange={requireAuth} >
-      <IndexRedirect to='dashboard' />
+    <Route path='/' component={HomePageView} onEnter={requireAuth} onChange={requireAuthOnChange}>
       <Route path='dashboard' component={DashboardTab} />
       <Route path='clients' component={ClientsTab} />
       <Route path='projects' component={ProjectsTab} />
