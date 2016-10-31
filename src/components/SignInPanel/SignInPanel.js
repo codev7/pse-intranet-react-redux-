@@ -11,17 +11,22 @@ class SignInPanel extends React.Component {
     errorText: PropTypes.string.isRequired
   };
 
-  _handleSignIn = (e) => {
+  handleSignIn = (e) => {
     e.preventDefault()
     const email = this.refs.email.value
     const password = this.refs.password.value
     this.props.loginUser(email, password)
   }
 
+  constructor () {
+    super()
+    this.handleSignIn = this.handleSignIn.bind(this)
+  }
+
   render () {
     return (
       <div className='auth_wrapper'>
-        <form className='sign_in_form' role='form' onSubmit={::this._handleSignIn}>
+        <form className='sign_in_form' role='form'>
           <p className='sign_in_form_title'>
             <i className='ion-social-buffer' />
           PSE
@@ -35,7 +40,7 @@ class SignInPanel extends React.Component {
             {this.props.authError && <h5 className='sign_in_form_auth_error'>
             <i className='fa fa-ban' aria-hidden />
             {this.props.errorText}.</h5>}
-          <button className='sign_in_form_btn' type='submit' >
+          <button className='sign_in_form_btn' onClick={this.handleSignIn}>
             Log in
             {this.props.isAuthenticating && <i className='fa fa-spinner fa-spin fa-fw' />}
           </button>

@@ -25,10 +25,6 @@ class HomeHeader extends React.Component {
     $([sidebar, sidebarTrigger]).toggleClass('nav-is-visible')
   }
 
-  componentDidMount () {
-    // require('jquery-script.js')
-  }
-
   render () {
     return (
       <div>
