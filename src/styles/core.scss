@@ -445,6 +445,7 @@ Sidebar
   transition: opacity 0.2s;
 }
 .cd-side-nav.nav-is-visible {
+  position: fixed;
   opacity: 1;
   visibility: visible;
   overflow: visible;
