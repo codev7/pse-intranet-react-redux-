@@ -137,7 +137,7 @@ Header
 
 -------------------------------- */
 .cd-main-header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 45px;
@@ -155,7 +155,7 @@ Header
 }
 @media only screen and (min-width: 768px) {
   .cd-main-header {
-    position: fixed;
+    position: absolute;
     height: 55px;
   }
 }
