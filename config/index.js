@@ -78,8 +78,8 @@ config.globals = {
     'NODE_ENV' : JSON.stringify(config.env)
   },
   'NODE_ENV'     : config.env,
-  '__DEV__'      : config.env === 'development' || config.env === 'localhost',
-  '__PROD__'     : config.env === 'production',
+  '__DEV__'      : config.env === 'localhost',
+  '__PROD__'     : config.env === 'development' || config.env === 'production',
   '__TEST__'     : config.env === 'test',
   // '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
   '__DEBUG__'    : false,
