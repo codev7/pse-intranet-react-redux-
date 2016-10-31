@@ -51,7 +51,7 @@ export function getRefreshToken (refreshToken) {
         console.log('Refresh Token Failed!')
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        window.location.href = '/sign-in'
+
         reject(jsonTokens.error)
       } else {
         console.log('Token Refreshed!')
