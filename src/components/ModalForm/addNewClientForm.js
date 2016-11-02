@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { APIConstants } from '../../redux/api/APIConstants'
+import { APIConstants } from '../Api/APIConstants'
 import request from 'superagent-bluebird-promise'
 
 class AddNewClientForm extends React.Component {

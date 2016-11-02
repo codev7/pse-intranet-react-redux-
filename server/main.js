@@ -65,6 +65,6 @@ if (config.env === 'localhost') {
   app.use(express.static(paths.dist()))
 }
 
-app.use('/api', api)
+app.use('/Api', api)
 
 module.exports = app

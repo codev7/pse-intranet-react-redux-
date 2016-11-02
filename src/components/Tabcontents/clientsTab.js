@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import request from 'superagent-bluebird-promise'
 
 import DataPagination from '../Pagination/pagination'
-import { APIConstants } from '../../redux/api/APIConstants'
+import { APIConstants } from '../Api/APIConstants'
 import AddNewClientForm from '../../components/ModalForm/addNewClientForm'
 
 class ClientsTab extends React.Component {

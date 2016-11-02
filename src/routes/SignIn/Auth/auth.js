@@ -1,4 +1,4 @@
-import { sendRevokeTokenRequest, sendSignInRequest } from '../api/AuthService.js'
+import { sendRevokeTokenRequest, sendSignInRequest } from '../../../components/AuthHelper/AuthService'
 import { push } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 

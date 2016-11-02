@@ -1,4 +1,4 @@
-import { APIConstants } from './APIConstants.js'
+import { APIConstants } from '../Api/APIConstants.js'
 import request from 'superagent-bluebird-promise'
 
 export function sendSignInRequest (username, password) {
@@ -29,7 +29,6 @@ export function getCurrentUser (accessToken, refreshToken) {
           console.log(err)
           resolve(JSON.parse(err.res.text))
         })
-
   })
 }
 

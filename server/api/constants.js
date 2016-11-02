@@ -1,5 +1,5 @@
 const CONFIG = {
-  API_SERVER_NAME: process.env.API_SERVER_NAME || 'https://api-dev.pseglobal.com/',
+  API_SERVER_NAME: process.env.API_SERVER_NAME || 'https://Api-dev.pseglobal.com/',
   CLIENT_ID: process.env.CLIENT_ID || 'aW50cmFuZXQgcHJvZHVjdGlvbiBwc2Ugc2',
   CLIENT_SECRET: process.env.CLIENT_SECRET || 'QEAgcHJvZHVjdGlvbiAzMyBpbnRyYW5ldC',
   AUTH_GET_ACCESS_TOKEN: 'oauth/access_token',

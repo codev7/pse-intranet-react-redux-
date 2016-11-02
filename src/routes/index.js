@@ -1,16 +1,16 @@
 import React from 'react'
 import { Route, IndexRedirect } from 'react-router'
-import { requireAuth, loggedIn, requireAuthOnChange } from '../redux/utils/authHelper.js'
+import { requireAuth, loggedIn, requireAuthOnChange } from '../components/AuthHelper/authHelper'
 
-import CoreLayout from 'layouts/CoreLayout/CoreLayout'
-import SignInPageView from 'views/SignInPageView/SignInPageView'
-import HomePageView from 'views/HomePageView/HomePageView'
+import CoreLayout from '../layouts/CoreLayout/CoreLayout'
+import SignInPageView from './SignIn/SignInPageView'
+import HomePageView from './Home/HomePageView'
 
-import MyPSETab from 'components/Tabcontents/mypseTab'
-import ClientsTab from 'components/Tabcontents/clientsTab'
-import DashboardTab from 'components/Tabcontents/dashboardTab'
-import ProjectsTab from 'components/Tabcontents/projectsTab'
-import GeotechsTab from 'components/Tabcontents/geotechsTab'
+import MyPSETab from '../components/Tabcontents/mypseTab'
+import ClientsTab from '../components/Tabcontents/clientsTab'
+import DashboardTab from '../components/Tabcontents/dashboardTab'
+import ProjectsTab from '../components/Tabcontents/projectsTab'
+import GeotechsTab from '../components/Tabcontents/geotechsTab'
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>

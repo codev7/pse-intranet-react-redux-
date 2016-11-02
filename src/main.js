@@ -1,50 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { useRouterHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import makeRoutes from './routes'
-import Root from './containers/Root'
-import configureStore from './redux/configureStore'
-import injectTapEventPlugin from 'react-tap-event-plugin'
+import createStore from './store/createStore'
+import AppContainer from './containers/AppContainer'
 
-// Configure history for react-router
-const browserHistory = useRouterHistory(createBrowserHistory)({
-  basename: __BASENAME__
-})
+// Store Instantiation
 
-// Create redux store and sync with react-router-redux. We have installed the
-// react-router-redux reducer under the key "router" in src/routes/index.js,
-// so we need to provide a custom `selectLocationState` to inform
-// react-router-redux of its location.
-const initialState = window.__INITIAL_STATE__
-const store = configureStore(initialState, browserHistory)
+const initialState = window.___INITIAL_STATE__
+const store = createStore(initialState)
 
-window.dev = { store }
-
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: (state) => state.router
-})
-
-// Now that we have the Redux store, we can create our routes. We provide
-// the store to the route definitions so that routes have access to it for
-// hooks such as `onEnter`.
-const routes = makeRoutes(store)
+// Render Setup
 
 const MOUNT_NODE = document.getElementById('root')
 
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin()
-
 let render = () => {
+  const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <Root history={history} routes={routes} store={store} />,
+    <AppContainer store={store} routes={routes} />,
     MOUNT_NODE
   )
 }
 
+// Developer Tools Setup
 if (__DEV__) {
   if (window.devToolsExtension) {
     window.devToolsExtension.open()
@@ -72,15 +49,13 @@ if (__DEV__) {
     }
 
     // Setup hot module replacement
-    module.hot.accept('./routes/index', () => {
-      setTimeout(() => {
+    module.hot.accept('./routes/index', () =>
+      setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
         render()
       })
-    })
+    )
   }
 }
 
-// Now that redux and react-router have been configured, we can render the
-// React application to the DOM
 render()

@@ -1,4 +1,4 @@
-import { getCurrentUser, getRefreshToken } from '../api/AuthService.js'
+import { getCurrentUser, getRefreshToken } from './AuthService'
 
 export function requireAuth (nextState, replace) {
   const loggedIn = !!localStorage.accessToken
