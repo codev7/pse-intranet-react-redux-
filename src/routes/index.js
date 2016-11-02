@@ -1,13 +1,13 @@
 import React from 'react'
 import { Route, IndexRedirect } from 'react-router'
-import { requireAuth, loggedIn, requireAuthOnChange } from '../components/AuthHelper/authHelper'
+import { requireAuth, loggedIn, requireAuthOnChange } from '../components/AuthHelper/AuthHelper'
 
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import SignInPageView from './SignIn/SignInPageView'
 import HomePageView from './Home/HomePageView'
 
 import MyPSETab from './Home/Tabs/mypseTab'
-import ClientsTab from './Home/Tabs/clientsTab'
+import ClientsTab from './Clients'
 import DashboardTab from './Home/Tabs/dashboardTab'
 import ProjectsTab from './Home/Tabs/projectsTab'
 import GeotechsTab from './Home/Tabs/geotechsTab'
