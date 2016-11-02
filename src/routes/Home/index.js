@@ -1,5 +1,5 @@
 import Home from './HomePageView'
-import Dashboard from '../../components/Tabcontents/dashboardTab'
+import Dashboard from './Tabcontents/dashboardTab'
 
 export const createRoutes = (store) => ({
   path        : 'home',

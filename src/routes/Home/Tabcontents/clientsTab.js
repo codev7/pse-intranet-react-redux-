@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import request from 'superagent-bluebird-promise'
 
-import DataPagination from '../Pagination/pagination'
-import { APIConstants } from '../Api/APIConstants'
-import AddNewClientForm from '../../components/ModalForm/addNewClientForm'
+import DataPagination from '../../../components/Pagination/pagination'
+import { APIConstants } from '../../../components/Api/APIConstants'
+import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
 
 class ClientsTab extends React.Component {
 

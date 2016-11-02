@@ -6,11 +6,11 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import SignInPageView from './SignIn/SignInPageView'
 import HomePageView from './Home/HomePageView'
 
-import MyPSETab from '../components/Tabcontents/mypseTab'
-import ClientsTab from '../components/Tabcontents/clientsTab'
-import DashboardTab from '../components/Tabcontents/dashboardTab'
-import ProjectsTab from '../components/Tabcontents/projectsTab'
-import GeotechsTab from '../components/Tabcontents/geotechsTab'
+import MyPSETab from './Home/Tabcontents/mypseTab'
+import ClientsTab from './Home/Tabcontents/clientsTab'
+import DashboardTab from './Home/Tabcontents/dashboardTab'
+import ProjectsTab from './Home/Tabcontents/projectsTab'
+import GeotechsTab from './Home/Tabcontents/geotechsTab'
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>
