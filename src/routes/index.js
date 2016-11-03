@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, IndexRedirect } from 'react-router'
+import { Route, IndexRedirect, IndexRoute } from 'react-router'
 import { requireAuth, loggedIn, requireAuthOnChange } from '../components/AuthHelper/AuthHelper'
 
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
@@ -16,6 +16,7 @@ export default (store) => (
   <Route path='/' component={CoreLayout}>
     <IndexRedirect to='sign-in' />
     <Route path='/' component={HomePageView} onEnter={requireAuth} onChange={requireAuthOnChange}>
+      <IndexRoute component={DashboardTab} />
       <Route path='dashboard' component={DashboardTab} />
       <Route path='clients' component={ClientsTab} />
       <Route path='projects' component={ProjectsTab} />

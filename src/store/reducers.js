@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 import locationReducer from './location'
+import authReducer from '../routes/SignIn/Auth/auth'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
-    ...asyncReducers
+    auth: authReducer,
+    ...asyncReducers,
+    routing: routerReducer
   })
 }
 

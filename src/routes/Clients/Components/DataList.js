@@ -85,8 +85,6 @@ class ClientsList extends React.Component {
 
     let count = this.state.last_page ? this.state.last_page : 1
 
-    const classes = 'table data table-hover' + (this.state.loading ? ' table-blur-effect' : '')
-
     return (
       <div id='page-data' className='panel panel-default'>
         <div className='panel-heading'>Client Name</div>

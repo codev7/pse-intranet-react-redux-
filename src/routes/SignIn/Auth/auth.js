@@ -76,9 +76,11 @@ export const loginUser = (email, password) => {
           const accessToken = responseAuth.data.access_token
           const refreshToken = responseAuth.data.refresh_token
 
-          dispatch(loginUserSuccess(accessToken, refreshToken, {}))
+          setTimeout(() => {
+            dispatch(push('/dashboard'))
+          }, 50)
 
-          dispatch(push('/dashboard'))
+          dispatch(loginUserSuccess(accessToken, refreshToken, {}))
 
         } else {
           dispatch(loginUserFailure(responseAuth.error[0].message))

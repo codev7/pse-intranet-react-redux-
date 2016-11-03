@@ -3,12 +3,14 @@ import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
+import { routerMiddleware } from 'react-router-redux'
 
 export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
   const middleware = [thunk]
+  const reduxMiddleware = routerMiddleware(browserHistory)
 
   // ======================================================
   // Store Enhancers
@@ -29,7 +31,8 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      ...enhancers
+      ...enhancers,
+      applyMiddleware(reduxMiddleware)
     )
   )
   store.asyncReducers = {}
