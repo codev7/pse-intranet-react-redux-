@@ -89,30 +89,20 @@ class ClientsList extends React.Component {
 
     return (
       <div id='page-data' className='panel panel-default'>
-        <div className='panel-body'>
-          <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
-          <div className='table-responsive'>
-            <table className={classes}>
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th />
-              </tr>
-              </thead>
-              <tbody>
-              {
-                this.state.client_list.map((item, index) => (
-                  <DataRow key={index}
-                           id={item.id}
-                           name={item.name}
-                           editClient={this.clientInfo} />
-                ))
-              }
-              </tbody>
-            </table>
+        <div className='panel-heading'>Client Name</div>
+        <div className='panel-body client-name-list'>
+          <div className='list-group'>
+            {
+              this.state.client_list.map((item, index) => (
+                <a href='#' key={index} className='list-group-item'>{item.name}</a>
+              ))
+            }
+
           </div>
-          <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+          <div className='pagination-container'>
+            <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+          </div>
+
         </div>
         { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
       </div>

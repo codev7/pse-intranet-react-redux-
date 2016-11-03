@@ -1,5 +1,12 @@
 .clients-page{
   background: #f1f4f5;
+  padding-top: 15px;
+  &>.panel-default{
+    border: 1px solid #DDDDDD;
+  }
+  .panel-body{
+    padding: 0;
+  }
 
   #page-data{
     position: relative;
@@ -12,12 +19,10 @@
     }
   }
   .page-title{
-    text-align: center;
+    text-align: left;
   }
   .add-new-client-btn{
-    position: absolute;
-    right: 30px;
-    top: 0;
+
   }
   .contacts-loading{
     position: absolute;
@@ -31,20 +36,81 @@
   .table-blur-effect{
     opacity: 0.5;
   }
+  .left-column{
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #DDDDDD;
+    input, select{
+      text-rendering: auto;
+      color: initial;
+      letter-spacing: normal;
+      word-spacing: normal;
+      text-transform: none;
+      text-indent: 0;
+      text-shadow: none;
+      display: inline-block;
+      text-align: start;
+      font: 11px BlinkMacSystemFont;
+
+      border: 1px solid #d0d0d0;
+      background-color: #fcfcfc;
+      border-radius: 15px;
+      padding: 6px 15px 6px 30px;
+      margin: 3px;
+      width: 100%;
+      height: 27px;
+    }
+    button{
+      font: 11px BlinkMacSystemFont;
+    }
+    .search.rounded{
+      background: url(../static/img/search.png) no-repeat 8px 6px;
+    }
+
+    .top-search-form{
+      padding: 30px 15px 15px 15px;
+      border-bottom: 1px solid #DDDDDD;
+    }
+    .search-btn-container{
+      margin-top: 25px;
+    }
+
+  }
+  .right-column{
+    padding: 0;
+    margin: 0;
+  }
+  .top-right-section{
+    width: 100%;
+    border-bottom: 1px solid #DDDDDD;
+    padding: 15px;
+    margin: 0;
+  }
+  .clients-list-container{
+    padding: 15px;
+  }
+
+
+  .client-name-list{
+    padding: 0;
+  }
+  .pagination-container{
+    text-align: center;
+    .pagination > li > a, .pagination > li > span {
+      padding: 10px 10px;
+    }
+  }
 }
 
 @media only screen and (max-width: 768px) {
-  .add-new-client-text{
-    display: none;
+  .clients-page {
+    .add-new-client-text {
+      display: none;
+    }
   }
 }
 
 .modal-container{
   height: 800px;
   position: absolute;
-}
-@media only screen and (max-width: 375px) {
-  .pagination > li > a, .pagination > li > span {
-    padding: 10px 10px;
-  }
 }
