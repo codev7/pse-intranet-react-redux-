@@ -101,7 +101,7 @@ class ClientsTab extends React.Component {
 
                 </div>
 
-                <div className="clients-list-container">
+                <div className='clients-list-container'>
                   <h3 className='text-center'>Results</h3>
                   <ClientsList editClient={this.editClient} />
                 </div>

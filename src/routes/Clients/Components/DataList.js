@@ -99,12 +99,12 @@ class ClientsList extends React.Component {
             }
 
           </div>
-          <div className='pagination-container'>
-            <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
-          </div>
 
         </div>
         { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
+        <div className='pagination-container'>
+          <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+        </div>
       </div>
     )
   }
