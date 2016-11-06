@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import request from 'superagent-bluebird-promise'
 
-import DataPagination from '../../../components/Pagination/pagination'
-import { APIConstants } from '../../../components/Api/APIConstants'
-import DataRow from './DataRow'
+// import DataPagination from '../../../components/Pagination/pagination'
+import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
+// import DataRow from './DataRow'
 
 class ClientsList extends React.Component {
 
@@ -18,23 +18,28 @@ class ClientsList extends React.Component {
       'total_items': 0,
       'items': 25,
       'client_list': [],
-      'loading': 1,
-      'page': 1
+      'loading': 0,
+      'page': 1,
+      'addNewModal': false,
+      'newOrEdit': 'new',
+      'formData': {}
     }
 
     this.onPaging = this.onPaging.bind(this)
     this.clientInfo = this.clientInfo.bind(this)
+    this.addNewClient = this.addNewClient.bind(this)
+    this.editClient = this.editClient.bind(this)
 
-    const that = this
+    // const that = this
 
-    this.getClientsList(1, function(data) {
+/*    this.getClientsList(1, function(data) {
       that.setState({
         client_list: data.data,
         loading: 0,
         page: 1,
         ...data.paginator
       })
-    })
+    })*/
   }
 
   onPaging(newPage) {
@@ -57,20 +62,21 @@ class ClientsList extends React.Component {
 
   }
 
-  getClientsList(pageId, callback) {
-    const accessToken = localStorage.accessToken
+  addNewClient(e) {
+    e.preventDefault()
+    this.setState({
+      addNewModal: true,
+      newOrEdit: 'new'
+    })
 
-    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
-      .send(JSON.stringify({ 'access_token': accessToken, 'page_id': pageId }))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
+  }
 
-        const data = JSON.parse(response.text)
-        callback(data)
-
-      }, function (err) {
-        console.log(err)
-      })
+  editClient(data) {
+    this.setState({
+      addNewModal: true,
+      newOrEdit: 'edit',
+      formData: data
+    })
   }
 
   clientInfo(id){
@@ -86,23 +92,27 @@ class ClientsList extends React.Component {
     let count = this.state.last_page ? this.state.last_page : 1
 
     return (
-      <div id='page-data' className='panel panel-default'>
-        <div className='panel-heading'>Client Name</div>
-        <div className='panel-body client-name-list'>
-          <div className='list-group'>
-            {
-              this.state.client_list.map((item, index) => (
-                <a href='#' key={index} className='list-group-item'>{item.name}</a>
-              ))
-            }
+      <div className='clients-list-container'>
+        <h3 className='text-center'>Results</h3>
+        <div id='page-data' className='panel panel-default'>
+          <div className='panel-heading'>Client Name</div>
+          <div className='panel-body client-name-list'>
+            <div className='list-group'>
+              {
+                this.state.client_list.map((item, index) => (
+                  <a href='#' key={index} className='list-group-item'>{item.name}</a>
+                ))
+              }
+
+            </div>
 
           </div>
-
+          { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
+          {/*<div className='pagination-container'>
+           <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+           </div>*/}
         </div>
-        { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
-        <div className='pagination-container'>
-          <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
-        </div>
+        <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} />
       </div>
     )
   }

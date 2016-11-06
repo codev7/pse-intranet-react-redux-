@@ -1,14 +1,13 @@
 const CONFIG = require('./constants')
 const request = require('superagent-bluebird-promise')
+const queryString = require('query-string')
 
 const clients = {
   getClientsList: function (req, res) {
     if (req.body.access_token) {
-      const accessToken = req.body.access_token
-      const pageId = req.body.page_id
+      const params = queryString.stringify(req.body)
 
-      request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?access_token=${accessToken}&page=${pageId}`)
-        .set('Content-Type', 'application/json')
+      request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?${params}`)
         .then(function (response) {
           res.send(JSON.parse(response.text))
         }, function (err) {

@@ -1,12 +1,23 @@
 .clients-page{
   background: #f1f4f5;
   padding-top: 15px;
-  &>.panel-default{
-    border: 1px solid #DDDDDD;
+  height: 100%;
+  position: relative;
+  &>.container-fluid {
+    height: 100%;
+    padding-bottom: 15px;
+    &>.panel-default {
+      height: 100%;
+      border: 1px solid #DDDDDD;
+      margin: 0 auto;
+      &>.panel-body{
+        height: 100%;
+        position: relative;
+        padding: 0;
+      }
+    }
   }
-  .panel-body{
-    padding: 0;
-  }
+
 
   #page-data{
     position: relative;
@@ -40,6 +51,8 @@
     margin: 0;
     padding: 0;
     border-right: 1px solid #DDDDDD;
+    height: 100%;
+    position: relative;
     input, select{
       text-rendering: auto;
       color: initial;
@@ -79,6 +92,8 @@
   .right-column{
     padding: 0;
     margin: 0;
+    height: 100%;
+    position: relative;
   }
   .top-right-section{
     width: 100%;

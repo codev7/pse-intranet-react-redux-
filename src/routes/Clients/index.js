@@ -1,110 +1,65 @@
 import React, { PropTypes } from 'react'
-
-import AddNewClientForm from '../../components/ModalForm/addNewClientForm'
+import request from 'superagent-bluebird-promise'
 import ClientsList from './Components/DataList'
+import SearchForm from './Components/SearchForm'
+import { APIConstants } from '../../components/Api/APIConstants'
 
 class ClientsTab extends React.Component {
 
   constructor() {
     super()
-
     this.state = {
-      'addNewModal': false,
-      'newOrEdit': 'new',
-      'formData': {}
+
     }
 
-    this.addNewClient = this.addNewClient.bind(this)
-    this.editClient = this.editClient.bind(this)
+    this.submitSearch = this.submitSearch.bind(this)
+    this.getClientsList = this.getClientsList.bind(this)
   }
 
-  addNewClient(e) {
-    e.preventDefault()
+  getClientsList(parameters) {
+    const accessToken = localStorage.accessToken
 
-    this.setState({
-      addNewModal: true,
-      newOrEdit: 'new'
-    })
+    if (!parameters.page){
+      parameters['page'] = 1
+    }
+
+    console.log(Object.assign({}, parameters, {'access_token': accessToken}))
+
+    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
+      .send(JSON.stringify(Object.assign({}, parameters, {'access_token': accessToken})))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+
+        const data = JSON.parse(response.text)
+        console.log(data)
+
+      }, function (err) {
+        console.log(err)
+      })
   }
 
-  editClient(data) {
-
-    this.setState({
-      addNewModal: true,
-      newOrEdit: 'edit',
-      formData: data
+  submitSearch(parameters){
+    console.log(parameters)
+    let params = {}
+    parameters.map(function(parameter){
+      if (parameter.value != '') {
+        params[parameter.key] = parameter.value
+      }
     })
-
+    this.getClientsList(params)
   }
 
   render () {
     return (
-      <div id='page-data'>
-        <div className='wraper container-fluid clients-page'>
+      <div className='clients-page'>
+        <div className='container-fluid'>
           <div className='panel panel-default'>
             <div className='panel-body'>
 
               <div className='col-md-3 left-column'>
-                <div className='top-search-form'>
 
-                  <div className='row'>
-                    <div className='col-sm-7'>
-                      <input type='text' className='search rounded' placeholder='Search...' />
-                    </div>
-                    <div className='col-sm-5'>
-                      <select className='form-control' value='name'>
-                        <option value='name'>name</option>
-                        <option value='email'>email</option>
-                        <option value='phone'>phone</option>
-                        <option value='address'>address</option>
-                        <option value='city'>city</option>
-                        <option value='state'>state</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className='col-sm-7'>
-                      <input type='text' className='search rounded' placeholder='Search...' />
-                    </div>
-                    <div className='col-sm-5'>
-                      <select className='form-control' value='address'>
-                        <option value='name'>name</option>
-                        <option value='email'>email</option>
-                        <option value='phone'>phone</option>
-                        <option value='address'>address</option>
-                        <option value='city'>city</option>
-                        <option value='state'>state</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className='col-sm-7'>
-                      <input type='text' className='search rounded' placeholder='Search...' />
-                    </div>
-                    <div className='col-sm-5'>
-                      <select className='form-control' defaultValue='city'>
-                        <option value='name'>name</option>
-                        <option value='email'>email</option>
-                        <option value='phone'>phone</option>
-                        <option value='address'>address</option>
-                        <option value='city'>city</option>
-                        <option value='state'>state</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className='text-center search-btn-container'>
-                    <button type='button' className='btn btn-info btn-sm'>Search</button>
-                  </div>
-
-                </div>
-
-                <div className='clients-list-container'>
-                  <h3 className='text-center'>Results</h3>
-                  <ClientsList editClient={this.editClient} />
-                </div>
+                <SearchForm searchParameters={this.state.searchParameters} searchSubmitFunc={this.submitSearch} />
+                <ClientsList />
 
               </div>
 
@@ -123,7 +78,6 @@ class ClientsTab extends React.Component {
 
             </div>
           </div>
-          <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} />
 
         </div>
       </div>
