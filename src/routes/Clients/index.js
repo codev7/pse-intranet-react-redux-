@@ -1,52 +1,20 @@
 import React, { PropTypes } from 'react'
-import request from 'superagent-bluebird-promise'
 import ClientsList from './Components/DataList'
 import SearchForm from './Components/SearchForm'
-import { APIConstants } from '../../components/Api/APIConstants'
 
 class ClientsTab extends React.Component {
 
   constructor() {
     super()
     this.state = {
-
+      clients_list: []
     }
 
     this.submitSearch = this.submitSearch.bind(this)
-    this.getClientsList = this.getClientsList.bind(this)
-  }
-
-  getClientsList(parameters) {
-    const accessToken = localStorage.accessToken
-
-    if (!parameters.page){
-      parameters['page'] = 1
-    }
-
-    console.log(Object.assign({}, parameters, {'access_token': accessToken}))
-
-    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
-      .send(JSON.stringify(Object.assign({}, parameters, {'access_token': accessToken})))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
-
-        const data = JSON.parse(response.text)
-        console.log(data)
-
-      }, function (err) {
-        console.log(err)
-      })
   }
 
   submitSearch(parameters){
-    console.log(parameters)
-    let params = {}
-    parameters.map(function(parameter){
-      if (parameter.value != '') {
-        params[parameter.key] = parameter.value
-      }
-    })
-    this.getClientsList(params)
+    this.refs.clients_list.getClientsList(parameters)
   }
 
   render () {
@@ -58,8 +26,8 @@ class ClientsTab extends React.Component {
 
               <div className='col-md-3 left-column'>
 
-                <SearchForm searchParameters={this.state.searchParameters} searchSubmitFunc={this.submitSearch} />
-                <ClientsList />
+                <SearchForm searchSubmitFunc={this.submitSearch} />
+                <ClientsList ref='clients_list' />
 
               </div>
 

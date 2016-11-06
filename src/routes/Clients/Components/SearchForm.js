@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
-class ClientsList extends React.Component {
+class SearchForm extends React.Component {
 
   static propTypes = {
-    searchSubmitFunc: PropTypes.func
+    searchSubmitFunc: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -99,4 +99,4 @@ class ClientsList extends React.Component {
   }
 }
 
-export default ClientsList
+export default SearchForm

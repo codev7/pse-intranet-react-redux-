@@ -1,25 +1,26 @@
 import React, { PropTypes } from 'react'
 import request from 'superagent-bluebird-promise'
 
-// import DataPagination from '../../../components/Pagination/pagination'
+import { APIConstants } from '../../../components/Api/APIConstants'
+import DataPagination from '../../../components/Pagination/pagination'
 import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
 // import DataRow from './DataRow'
 
 class ClientsList extends React.Component {
 
   static propTypes = {
-    editClient: PropTypes.func
   };
 
   constructor () {
     super()
     this.state = {
-      'current_page': 1,
+      'page': 1,
+      'last_page': 1,
       'total_items': 0,
       'items': 25,
-      'client_list': [],
+      'clients_list': [],
       'loading': 0,
-      'page': 1,
+      'prev_search': '',
       'addNewModal': false,
       'newOrEdit': 'new',
       'formData': {}
@@ -29,36 +30,52 @@ class ClientsList extends React.Component {
     this.clientInfo = this.clientInfo.bind(this)
     this.addNewClient = this.addNewClient.bind(this)
     this.editClient = this.editClient.bind(this)
+    this.getClientsList = this.getClientsList.bind(this)
 
-    // const that = this
+  }
 
-/*    this.getClientsList(1, function(data) {
-      that.setState({
-        client_list: data.data,
-        loading: 0,
-        page: 1,
-        ...data.paginator
+  getClientsList(parameters) {
+    const accessToken = localStorage.accessToken, that = this
+
+    that.setState({
+      'loading': 1
+    })
+
+    if (!parameters.page){
+      parameters['page'] = 1
+    }
+
+    console.log(Object.assign({}, parameters, {'access_token': accessToken}))
+
+    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
+      .send(JSON.stringify(Object.assign({}, parameters, {'access_token': accessToken, 'minimal': 1})))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+
+        const data = JSON.parse(response.text)
+        console.log(data)
+        that.setState({
+          'clients_list': data.data,
+          'loading': 0,
+          'total_items': data.paginator.total_items,
+          'page': data.paginator.current_page,
+          'last_page': data.paginator.last_page,
+          'prev_search': parameters
+        })
+
+      }, function (err) {
+        console.log(err)
       })
-    })*/
   }
 
   onPaging(newPage) {
 
-    newPage = newPage || 1
-    const that = this
+    const currentPage = newPage || 1
 
-    that.setState({
-      loading: 1
-    })
+    let prevParameters = this.state.prev_search
+    prevParameters['page'] = currentPage
 
-    this.getClientsList(newPage, function(data) {
-      that.setState({
-        client_list: data.data,
-        loading: 0,
-        page: newPage,
-        ...data.paginator
-      })
-    })
+    this.getClientsList(prevParameters)
 
   }
 
@@ -80,16 +97,22 @@ class ClientsList extends React.Component {
   }
 
   clientInfo(id){
-    const clientList = this.state.client_list
+    const clientList = this.state.clients_list
     const currentClient = clientList.find(function(client){
       return client.id == id
     })
-    this.props.editClient(currentClient)
   }
 
   render () {
 
-    let count = this.state.last_page ? this.state.last_page : 1
+    const count = this.state.last_page ? this.state.last_page : 1,
+      list = this.state.clients_list.map((item, index) => (
+        <a href='#' key={index} className='list-group-item'>{item.name}</a>
+      )),
+      pagination = this.state.total_items > this.state.items ? <div className='pagination-container'>
+        <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+      </div> : null,
+      loading = this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
 
     return (
       <div className='clients-list-container'>
@@ -98,20 +121,12 @@ class ClientsList extends React.Component {
           <div className='panel-heading'>Client Name</div>
           <div className='panel-body client-name-list'>
             <div className='list-group'>
-              {
-                this.state.client_list.map((item, index) => (
-                  <a href='#' key={index} className='list-group-item'>{item.name}</a>
-                ))
-              }
-
+              {list}
             </div>
-
           </div>
-          { this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null }
-          {/*<div className='pagination-container'>
-           <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
-           </div>*/}
+          { loading }
         </div>
+        { pagination }
         <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} />
       </div>
     )

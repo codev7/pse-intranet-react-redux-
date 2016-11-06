@@ -1,8 +1,10 @@
 .clients-page{
   background: #f1f4f5;
   padding-top: 15px;
-  height: 100%;
   position: relative;
+  @media only screen and (min-width: 900px) {
+    height: 100%;
+  }
   &>.container-fluid {
     height: 100%;
     padding-bottom: 15px;
@@ -37,8 +39,9 @@
   }
   .contacts-loading{
     position: absolute;
-    top: 30%;
     left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
     i{
       color: #18bc9c;
@@ -103,6 +106,17 @@
   }
   .clients-list-container{
     padding: 15px;
+    overflow-y: auto;
+    position: relative;
+    @media only screen and (min-width: 768px) {
+      height: calc(100% - 200px);
+    }
+    @media only screen and (max-width: 768px) {
+      height: 500px;
+    }
+    &>h3{
+      margin-top: 5px;
+    }
   }
 
 
