@@ -3,12 +3,12 @@ import request from 'superagent-bluebird-promise'
 
 import { APIConstants } from '../../../components/Api/APIConstants'
 import DataPagination from '../../../components/Pagination/pagination'
-import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
 // import DataRow from './DataRow'
 
 class ClientsList extends React.Component {
 
   static propTypes = {
+    submitClient: PropTypes.func.isRequired
   };
 
   constructor () {
@@ -20,16 +20,11 @@ class ClientsList extends React.Component {
       'items': 25,
       'clients_list': [],
       'loading': 0,
-      'prev_search': '',
-      'addNewModal': false,
-      'newOrEdit': 'new',
-      'formData': {}
+      'prev_search': ''
     }
 
     this.onPaging = this.onPaging.bind(this)
     this.clientInfo = this.clientInfo.bind(this)
-    this.addNewClient = this.addNewClient.bind(this)
-    this.editClient = this.editClient.bind(this)
     this.getClientsList = this.getClientsList.bind(this)
 
   }
@@ -79,35 +74,16 @@ class ClientsList extends React.Component {
 
   }
 
-  addNewClient(e) {
+  clientInfo(e, id){
     e.preventDefault()
-    this.setState({
-      addNewModal: true,
-      newOrEdit: 'new'
-    })
-
-  }
-
-  editClient(data) {
-    this.setState({
-      addNewModal: true,
-      newOrEdit: 'edit',
-      formData: data
-    })
-  }
-
-  clientInfo(id){
-    const clientList = this.state.clients_list
-    const currentClient = clientList.find(function(client){
-      return client.id == id
-    })
+    this.props.submitClient(id)
   }
 
   render () {
 
     const count = this.state.last_page ? this.state.last_page : 1,
       list = this.state.clients_list.map((item, index) => (
-        <a href='#' key={index} className='list-group-item'>{item.name}</a>
+        <a href='' onClick={e => this.clientInfo(e, item.id)} key={index} className='list-group-item'>{item.name}</a>
       )),
       pagination = this.state.total_items > this.state.items ? <div className='pagination-container'>
         <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
@@ -125,9 +101,8 @@ class ClientsList extends React.Component {
             </div>
           </div>
           { loading }
+          { pagination }
         </div>
-        { pagination }
-        <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} />
       </div>
     )
   }

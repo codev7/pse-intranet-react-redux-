@@ -16,6 +16,7 @@ router.post('/oauth/revoke_token', auth.sendRevokeTokenRequest)
 
 //Clients Endpoints
 router.post('/clients_list', clients.getClientsList)
+router.post('/client_info', clients.getClientInfo)
 router.post('/clients_create', clients.createClient)
 
 // User Endpoints

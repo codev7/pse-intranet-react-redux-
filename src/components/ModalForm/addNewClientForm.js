@@ -22,11 +22,13 @@ class AddNewClientForm extends React.Component {
   static propTypes = {
     show: PropTypes.bool.isRequired,
     newOrEdit: PropTypes.string,
-    formData: PropTypes.object
+    formData: PropTypes.object,
+    closeFunc: PropTypes.func.isRequired
   };
 
   close() {
     this.setState({ show: false })
+    this.props.closeFunc()
   }
 
   createClient(data, callback) {
@@ -50,10 +52,10 @@ class AddNewClientForm extends React.Component {
 
     const userName = document.getElementById('user_name').value
     const that = this
-    this.createClient(userName, function (data) {
-      console.log(data)
-      that.setState({ show: false })
-    })
+    // this.createClient(userName, function (data) {
+    //   console.log(data)
+    //   that.setState({ show: false })
+    // })
 
   }
 
@@ -71,6 +73,38 @@ class AddNewClientForm extends React.Component {
 
   render () {
 
+    const formData = this.state.newOrEdit == 'new' ? <form className='form-horizontal'>
+      <fieldset>
+        <div className='form-group'>
+          <label className='col-md-4 control-label' htmlFor='user_name'>Name*</label>
+          <div className='col-md-4'>
+            <input id='user_name' name='user_name' type='text' placeholder='username' className='form-control input-md' required='' />
+          </div>
+        </div>
+      </fieldset>
+    </form> : <form className='form-horizontal'>
+      <fieldset>
+        <div className='form-group'>
+          <label className='col-md-4 control-label' htmlFor='first_name'>First Name</label>
+          <div className='col-md-4'>
+            <input id='first_name' name='first_name' type='text' placeholder='first name' className='form-control input-md' />
+          </div>
+        </div>
+        <div className='form-group'>
+          <label className='col-md-4 control-label' htmlFor='last_name'>Last Name</label>
+          <div className='col-md-4'>
+            <input id='last_name' name='last_name' type='text' placeholder='last name' className='form-control input-md' />
+          </div>
+        </div>
+        <div className='form-group'>
+          <label className='col-md-4 control-label' htmlFor='user_name'>User Name*</label>
+          <div className='col-md-4'>
+            <input id='user_name' name='user_name' type='text' placeholder='username' className='form-control input-md' required='' defaultValue={this.state.formData.name ? this.state.formData.name : ''} />
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
     return (
       <div className='modal-container'>
         <Modal
@@ -83,31 +117,10 @@ class AddNewClientForm extends React.Component {
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form className='form-horizontal'>
-              <fieldset>
-                <div className='form-group'>
-                  <label className='col-md-4 control-label' htmlFor='first_name'>First Name</label>
-                  <div className='col-md-4'>
-                    <input id='first_name' name='first_name' type='text' placeholder='first name' className='form-control input-md' />
-                  </div>
-                </div>
-                <div className='form-group'>
-                  <label className='col-md-4 control-label' htmlFor='last_name'>Last Name</label>
-                  <div className='col-md-4'>
-                    <input id='last_name' name='last_name' type='text' placeholder='last name' className='form-control input-md' />
-                  </div>
-                </div>
-                <div className='form-group'>
-                  <label className='col-md-4 control-label' htmlFor='user_name'>User Name*</label>
-                  <div className='col-md-4'>
-                    <input id='user_name' name='user_name' type='text' placeholder='username' className='form-control input-md' required='' defaultValue={this.state.formData.name ? this.state.formData.name : ''} />
-                  </div>
-                </div>
-              </fieldset>
-            </form>
+            { formData }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.submit}>{this.state.newOrEdit == 'new' ? 'Submit' : 'Save'}</Button>
+            <Button onClick={this.submit}>{this.state.newOrEdit == 'new' ? 'Create' : 'Save'}</Button>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>

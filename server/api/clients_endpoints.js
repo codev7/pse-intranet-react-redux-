@@ -19,6 +19,27 @@ const clients = {
     }
 
   },
+
+  getClientInfo: function (req, res) {
+    if (req.body.access_token) {
+      const token = req.body.access_token, id = req.body.id
+
+      console.log(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}/${id}?access_token=${token}&include[]=all`)
+
+      request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}/${id}?access_token=${token}&include[]=all`)
+        .then(function (response) {
+          console.log(JSON.parse(response.text))
+          res.send(JSON.parse(response.text))
+        }, function (err) {
+          res.send(JSON.parse(err.res.text))
+        })
+
+    } else {
+      res.status(403).send('Need access token parameter')
+    }
+
+  },
+
   createClient: function (req, res) {
     const formData = {
       'access_token': req.body.access_token,
