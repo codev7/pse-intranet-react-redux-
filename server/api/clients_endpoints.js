@@ -7,6 +7,8 @@ const clients = {
     if (req.body.access_token) {
       const params = queryString.stringify(req.body)
 
+      console.log(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?${params}`)
+
       request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?${params}`)
         .then(function (response) {
           res.send(JSON.parse(response.text))

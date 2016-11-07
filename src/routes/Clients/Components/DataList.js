@@ -29,11 +29,16 @@ class ClientsList extends React.Component {
 
   }
 
-  getClientsList(parameters) {
+  getClientsList(param) {
     const accessToken = localStorage.accessToken, that = this
+    let parameters = {}
 
     that.setState({
       'loading': 1
+    })
+
+    param.map(function(p){
+      parameters[p.key] = p.value
     })
 
     if (!parameters.page){
