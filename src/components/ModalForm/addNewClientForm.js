@@ -88,7 +88,7 @@ class AddNewClientForm extends React.Component {
           onHide={this.close}
           container={this}
           aria-labelledby='contained-modal-title'
-          animation='true'
+          animation
         >
           <Modal.Header closeButton>
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>

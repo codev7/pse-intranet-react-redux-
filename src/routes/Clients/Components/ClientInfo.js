@@ -92,7 +92,10 @@ class ClientInfo extends React.Component {
   }
 
   addNewClient(e) {
-    e.preventDefault()
+    if (e){
+      e.preventDefault()
+    }
+
     this.setState({
       showModal: true,
       newOrEdit: 'new'
@@ -106,7 +109,7 @@ class ClientInfo extends React.Component {
         <div className='client-name col-sm-6'>
           <h3 className='name'>{this.state.client_info.name}</h3>
         </div>
-        <div className='add-new-client-btn col-sm-6'>
+        <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
           <a href='' onClick={e => this.addNewClient(e)}>
             <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
           </a>
