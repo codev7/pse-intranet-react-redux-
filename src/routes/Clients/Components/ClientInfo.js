@@ -104,18 +104,57 @@ class ClientInfo extends React.Component {
 
   render () {
     const loading = this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
+    const phoneNumbers = this.state.client_info.phones ? this.state.client_info.phones.map((one, index) => (
+      <div key={index}>{one.number} - {one.type.type}</div>
+    )) : null
+    const emailAddresses = this.state.client_info.emails ? this.state.client_info.emails.map((one, index) => (
+      <div key={index}>{one.email} - {one.type.type}</div>
+    )) : null
+
+    const addresses = this.state.client_info.addresses ? this.state.client_info.addresses.map((one, index) => (
+      <div key={index}>{one.address_line0} - {one.type.type}</div>
+    )) : null
+
+    const notes = this.state.client_info.notes ? this.state.client_info.notes.map((one, index) => (
+      <div key={index}>{one.note} - {one.type.type}</div>
+    )) : null
+
     return (
-      <div className='top-right-section row'>
-        <div className='client-name col-sm-6'>
-          <h3 className='name'>{this.state.client_info.name}</h3>
+      <div>
+        <div className='top-right-section row'>
+          <div className='client-name col-sm-6'>
+            <h3 className='name'>{this.state.client_info.name}</h3>
+          </div>
+          <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
+            <a href='' onClick={e => this.addNewClient(e)}>
+              <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
+            </a>
+          </div>
+          { loading }
+          <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
-        <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
-          <a href='' onClick={e => this.addNewClient(e)}>
-            <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
-          </a>
+        <div className='right-middle-section'>
+          { Object.keys(this.state.client_info).length > 0 &&
+            <div>
+              <div className='phone-number-container info-container'>
+                <h4>Client Phone Numbers</h4>
+                { phoneNumbers }
+              </div>
+              <div className='addresses-container info-container'>
+                <h4>Client Addresses</h4>
+                {addresses}
+              </div>
+              <div className='email-addresses-container info-container'>
+                <h4>Client Email Addresses</h4>
+                {emailAddresses}
+              </div>
+              <div className='email-addresses-container info-container'>
+                <h4>Client Notes</h4>
+                {notes}
+              </div>
+            </div>
+          }
         </div>
-        { loading }
-        <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
       </div>
     )
   }

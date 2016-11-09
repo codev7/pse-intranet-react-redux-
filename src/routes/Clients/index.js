@@ -39,10 +39,8 @@ class ClientsTab extends React.Component {
               </div>
 
               <div className='col-md-3 left-column'>
-
                 <SearchForm searchSubmitFunc={this.submitSearch} />
                 <ClientsList ref='clients_list' submitClient={this.submitClient} />
-
               </div>
 
               <div className='col-md-9 right-column'>

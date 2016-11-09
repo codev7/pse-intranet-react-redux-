@@ -45,7 +45,7 @@ class ClientsList extends React.Component {
       parameters['page'] = 1
     }
 
-    console.log(Object.assign({}, parameters, {'access_token': accessToken}))
+    // console.log(Object.assign({}, parameters, {'access_token': accessToken}))
 
     request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
       .send(JSON.stringify(Object.assign({}, parameters, {'access_token': accessToken, 'minimal': 1})))
@@ -53,7 +53,7 @@ class ClientsList extends React.Component {
       .then(function (response) {
 
         const data = JSON.parse(response.text)
-        console.log(data)
+
         that.setState({
           'clients_list': data.data,
           'loading': 0,
