@@ -8,30 +8,42 @@ class ClientInfo extends React.Component {
   constructor() {
     super()
     this.state = {
-      client_info: {},
-      'addNewModal': false,
+      'client_info': {},
+      'showModal': false,
       'newOrEdit': 'new',
       'formData': {}
     }
 
     this.getClientInfo = this.getClientInfo.bind(this)
     this.addNewClient = this.addNewClient.bind(this)
-    this.editClient = this.editClient.bind(this)
+    // this.editClient = this.editClient.bind(this)
     this.closeModalHandler = this.closeModalHandler.bind(this)
+    this.submitModal = this.submitModal.bind(this)
   }
-
-  editClient(data) {
-    this.setState({
-      addNewModal: true,
-      newOrEdit: 'edit',
-      formData: data
-    })
-  }
+  //
+  // editClient(data) {
+  //   this.setState({
+  //     showModal: true,
+  //     newOrEdit: 'edit',
+  //     formData: data
+  //   })
+  // }
 
   closeModalHandler(){
     this.setState({
-      addNewModal: false,
+      showModal: false,
       formData: {}
+    })
+  }
+
+  submitModal(name) {
+
+    this.createClient(name)
+
+    this.setState({
+      showModal: false,
+      formData: {},
+      loading: 1
     })
   }
 
@@ -59,13 +71,32 @@ class ClientInfo extends React.Component {
       })
   }
 
+  createClient(data) {
+    const accessToken = localStorage.accessToken, that = this
+
+    request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
+      .send(JSON.stringify({ 'access_token': accessToken, 'name': data }))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+
+        const data = JSON.parse(response.text)
+
+        that.setState({
+          client_info: data.data,
+          loading: 0
+        })
+
+      }, function (err) {
+        console.log(err)
+      })
+  }
+
   addNewClient(e) {
     e.preventDefault()
     this.setState({
-      addNewModal: true,
+      showModal: true,
       newOrEdit: 'new'
     })
-
   }
 
   render () {
@@ -81,7 +112,7 @@ class ClientInfo extends React.Component {
           </a>
         </div>
         { loading }
-        <AddNewClientForm show={this.state.addNewModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} closeFunc={this.closeModalHandler} />
+        <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
       </div>
     )
   }

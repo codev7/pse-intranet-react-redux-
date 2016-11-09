@@ -1,61 +1,40 @@
 import React, { PropTypes } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { APIConstants } from '../Api/APIConstants'
-import request from 'superagent-bluebird-promise'
 
 class AddNewClientForm extends React.Component {
-
-  constructor(props) {
-    super(props)
-
-    this.close = this.close.bind(this)
-    this.submit = this.submit.bind(this)
-
-    console.log(props)
-    this.state = {
-      'show': props.show,
-      'formData': props.formData,
-      'newOrEdit': props.newOrEdit
-    }
-  }
 
   static propTypes = {
     show: PropTypes.bool.isRequired,
     newOrEdit: PropTypes.string,
     formData: PropTypes.object,
-    closeFunc: PropTypes.func.isRequired
+    closeFunc: PropTypes.func.isRequired,
+    submitFunc: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      'show': props.show
+    }
+
+    this.close = this.close.bind(this)
+    this.submitModal = this.submitModal.bind(this)
+
+  }
+
   close() {
-    this.setState({ show: false })
     this.props.closeFunc()
   }
 
-  createClient(data, callback) {
-    const accessToken = localStorage.accessToken
+  submitModal() {
+    if (this.props.newOrEdit == 'new'){
+      const userName = document.getElementById('user_name').value
 
-    request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
-      .send(JSON.stringify({ 'access_token': accessToken, 'name': data }))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
+      this.props.submitFunc(userName)
+    } else if (this.props.newOrEdit == 'edit'){
 
-        const data = JSON.parse(response.text)
-
-        callback(data)
-
-      }, function (err) {
-        console.log(err)
-      })
-  }
-
-  submit() {
-
-    const userName = document.getElementById('user_name').value
-    const that = this
-    // this.createClient(userName, function (data) {
-    //   console.log(data)
-    //   that.setState({ show: false })
-    // })
+    }
 
   }
 
@@ -63,17 +42,14 @@ class AddNewClientForm extends React.Component {
     // You don't have to do this check first, but it can help prevent an unneeded render
     if (nextProps.show !== this.state.show) {
       this.setState({
-        show: nextProps.show,
-        newOrEdit: nextProps.newOrEdit,
-        formData: nextProps.formData
+        show: nextProps.show
       })
-      console.log(nextProps.formData)
     }
   }
 
   render () {
 
-    const formData = this.state.newOrEdit == 'new' ? <form className='form-horizontal'>
+    const formDataHTML = this.props.newOrEdit == 'new' ? <form className='form-horizontal'>
       <fieldset>
         <div className='form-group'>
           <label className='col-md-4 control-label' htmlFor='user_name'>Name*</label>
@@ -99,7 +75,7 @@ class AddNewClientForm extends React.Component {
         <div className='form-group'>
           <label className='col-md-4 control-label' htmlFor='user_name'>User Name*</label>
           <div className='col-md-4'>
-            <input id='user_name' name='user_name' type='text' placeholder='username' className='form-control input-md' required='' defaultValue={this.state.formData.name ? this.state.formData.name : ''} />
+            <input id='user_name' name='user_name' type='text' placeholder='username' className='form-control input-md' required='' defaultValue={this.props.formData.name ? this.props.formData.name : ''} />
           </div>
         </div>
       </fieldset>
@@ -117,10 +93,10 @@ class AddNewClientForm extends React.Component {
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { formData }
+            { formDataHTML }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.submit}>{this.state.newOrEdit == 'new' ? 'Create' : 'Save'}</Button>
+            <Button onClick={() => this.submitModal()}>{this.props.newOrEdit == 'new' ? 'Create' : 'Save'}</Button>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>
