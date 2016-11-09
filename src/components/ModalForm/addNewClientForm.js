@@ -49,7 +49,7 @@ class AddNewClientForm extends React.Component {
 
   render () {
 
-    const formDataHTML = this.props.newOrEdit == 'new' ? <form className='form-horizontal'>
+    const formDataHTML = this.props.newOrEdit == 'new' ? <div className='form-horizontal'>
       <fieldset>
         <div className='form-group'>
           <label className='col-md-4 control-label' htmlFor='user_name'>Name*</label>
@@ -58,7 +58,7 @@ class AddNewClientForm extends React.Component {
           </div>
         </div>
       </fieldset>
-    </form> : <form className='form-horizontal'>
+    </div> : <form className='form-horizontal'>
       <fieldset>
         <div className='form-group'>
           <label className='col-md-4 control-label' htmlFor='first_name'>First Name</label>
@@ -88,6 +88,7 @@ class AddNewClientForm extends React.Component {
           onHide={this.close}
           container={this}
           aria-labelledby='contained-modal-title'
+          animation='true'
         >
           <Modal.Header closeButton>
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>
