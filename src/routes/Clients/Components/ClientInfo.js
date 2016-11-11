@@ -128,7 +128,7 @@ class ClientInfo extends React.Component {
   }
 
   render () {
-    const loading = this.state.loading == 1 ? <div className='contacts-loading' >
+    const loading = this.state.loading == 1 ? <div className='contacts-loading loading-container' >
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
     let phoneNumbers, emailAddresses, addresses, notes
 
@@ -153,10 +153,11 @@ class ClientInfo extends React.Component {
 
     return (
       <div id='client_info_section'>
-      { this.state.client_info.name &&
         <div className='top-right-section row'>
           <div className='client-name col-sm-6'>
+            { this.state.client_info.name &&
             <h3 className='name'>{this.state.client_info.name}</h3>
+            }
           </div>
           <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
             <a href='' onClick={e => this.addNewClient(e)}>
@@ -166,30 +167,30 @@ class ClientInfo extends React.Component {
           <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData}
                             submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
-        }
+
         { loading }
+        { Object.keys(this.state.client_info).length > 0 &&
         <div className='right-middle-section'>
-          { Object.keys(this.state.client_info).length > 0 &&
-            <div>
-              <div className='phone-number-container info-container'>
-                <h4>Client Phone Numbers</h4>
-                { phoneNumbers }
-              </div>
-              <div className='addresses-container info-container'>
-                <h4>Client Addresses</h4>
-                {addresses}
-              </div>
-              <div className='email-addresses-container info-container'>
-                <h4>Client Email Addresses</h4>
-                {emailAddresses}
-              </div>
-              <div className='email-addresses-container info-container'>
-                <h4>Client Notes</h4>
-                {notes}
-              </div>
+          <div>
+            <div className='phone-number-container info-container'>
+              <h4>Client Phone Numbers</h4>
+              { phoneNumbers }
             </div>
-          }
+            <div className='addresses-container info-container'>
+              <h4>Client Addresses</h4>
+              {addresses}
+            </div>
+            <div className='email-addresses-container info-container'>
+              <h4>Client Email Addresses</h4>
+              {emailAddresses}
+            </div>
+            <div className='email-addresses-container info-container'>
+              <h4>Client Notes</h4>
+              {notes}
+            </div>
+          </div>
         </div>
+        }
       </div>
     )
   }

@@ -13,7 +13,13 @@ class ClientsTab extends React.Component {
     this.addNewClient = this.addNewClient.bind(this)
   }
 
-  submitSearch(parameters){
+  submitSearch(param){
+    let parameters = {}
+    param.map(function(p){
+      if(p.value != '') {
+        parameters[p.key] = p.value
+      }
+    })
     this.refs.clients_list.getClientsList(parameters)
   }
 

@@ -5,7 +5,7 @@ export default function DataPagination({ count, active, pagingFunc }) {
 
   return (
     <Pagination prev next first last
-                ellipsis boundaryLinks maxButtons={3}
+                ellipsis boundaryLinks maxButtons={5}
                 items={count} activePage={active}
                 onSelect={pagingFunc} />
   )

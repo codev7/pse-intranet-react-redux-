@@ -23,10 +23,6 @@
   }
 
 
-  #page-data{
-    position: relative;
-  }
-
   .add-new-client-btn{
     &>a>h3{
       float: right;
@@ -78,7 +74,6 @@
     position: relative;
     input, select{
       text-rendering: auto;
-      color: initial;
       letter-spacing: normal;
       word-spacing: normal;
       text-transform: none;
@@ -94,6 +89,10 @@
       margin: 3px;
       width: 100%;
       height: 27px;
+      color: #555555;
+      &:focus{
+        outline: none;
+      }
     }
     button{
       font: 11px BlinkMacSystemFont;
@@ -117,8 +116,10 @@
       height: auto;
       input, select{
         background-color: transparent;
-        font-size: 16px;
         height:35px;
+      }
+      button{
+        font-size: 16px !important;
       }
       .search.rounded{
         background: url(../static/img/search.png) no-repeat 8px 9px;
@@ -160,38 +161,35 @@
     }
   }
   .clients-list-container{
-    padding: 15px 5px 0 5px;
+    padding: 15px 5px;
     overflow: hidden;
     position: relative;
-    @media only screen and (min-width: 768px) {
-      height: calc(100% - 200px);
-      #page-data{
-        height: calc(100% - 45px);
-        margin: 0;
+    .clients-list-body{
+      position: relative;
+      margin: 0;
+      .client-name-list{
+        padding: 0;
+        height: calc(100% - 78px);
+        &>.list-group{
+          margin: 0;
+          overflow-y: auto;
+          max-height: 100%;
+          @media only screen and (max-width: 768px) {
+            max-height: 500px;
+          }
+        }
       }
     }
-    @media only screen and (max-width: 768px) {
-      height: 500px;
-    }
+
     &>h3{
       margin-top: 5px;
     }
 
-
-    .client-name-list{
-      padding: 0;
-      height: calc(100% - 78px);
-      overflow-y: auto;
-      &>.list-group{
-        margin: 0;
-      }
-    }
     .pagination-container{
       text-align: center;
       margin: 0;
       height: 36px;
       padding: 4px 0;
-      border-top: 1px solid #DDDDDD;
       &>.pagination{
         margin: 0;
         padding: 0;
@@ -201,6 +199,16 @@
       }
 
     }
+
+    @media only screen and (min-width: 768px) {
+      height: calc(100% - 200px);
+      padding-bottom: 0;
+      .clients-list-body{
+        height: calc(100% - 45px);
+        border: none;
+      }
+    }
+
   }
 }
 
