@@ -11,7 +11,8 @@ class ClientInfo extends React.Component {
       'client_info': {},
       'showModal': false,
       'newOrEdit': 'new',
-      'formData': {}
+      'formData': {},
+      'errorMessage': ''
     }
 
     this.getClientInfo = this.getClientInfo.bind(this)
@@ -40,11 +41,6 @@ class ClientInfo extends React.Component {
 
     this.createClient(name)
 
-    this.setState({
-      showModal: false,
-      formData: {},
-      loading: 1
-    })
   }
 
   getClientInfo(id){
@@ -74,6 +70,10 @@ class ClientInfo extends React.Component {
   createClient(data) {
     const accessToken = localStorage.accessToken, that = this
 
+    that.setState({
+      formData: { loading: 1 }
+    })
+
     request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
       .send(JSON.stringify({ 'access_token': accessToken, 'name': data }))
       .set('Content-Type', 'application/json')
@@ -81,10 +81,20 @@ class ClientInfo extends React.Component {
 
         const data = JSON.parse(response.text)
 
-        that.setState({
-          client_info: data.data,
-          loading: 0
-        })
+        console.log(data)
+
+        if (data.status_code == 201){
+          that.setState({
+            client_info: data.data,
+            formData: {loading: 0},
+            showModal: false
+          })
+        } else if (data.status_code == 422){
+          that.setState({
+            formData: { errorMessage: data.error[0].message, loading: 0 },
+            client_info: {}
+          })
+        }
 
       }, function (err) {
         console.log(err)
@@ -104,20 +114,26 @@ class ClientInfo extends React.Component {
 
   render () {
     const loading = this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
-    const phoneNumbers = this.state.client_info.phones ? this.state.client_info.phones.map((one, index) => (
-      <div key={index}>{one.number} - {one.type.type}</div>
-    )) : null
-    const emailAddresses = this.state.client_info.emails ? this.state.client_info.emails.map((one, index) => (
-      <div key={index}>{one.email} - {one.type.type}</div>
-    )) : null
+    let phoneNumbers, emailAddresses, addresses, notes
 
-    const addresses = this.state.client_info.addresses ? this.state.client_info.addresses.map((one, index) => (
-      <div key={index}>{one.address_line0} - {one.type.type}</div>
-    )) : null
+    if (Object.keys(this.state.client_info).length > 0){
 
-    const notes = this.state.client_info.notes ? this.state.client_info.notes.map((one, index) => (
-      <div key={index}>{one.note} - {one.type.type}</div>
-    )) : null
+      phoneNumbers = this.state.client_info.phones ? this.state.client_info.phones.map((one, index) => (
+        <div key={index}>{one.number} - {one.type.type}</div>
+      )) : null
+      emailAddresses = this.state.client_info.emails ? this.state.client_info.emails.map((one, index) => (
+        <div key={index}>{one.email} - {one.type.type}</div>
+      )) : null
+
+      addresses = this.state.client_info.addresses ? this.state.client_info.addresses.map((one, index) => (
+        <div key={index}>{one.address_line0} - {one.type.type}</div>
+      )) : null
+
+      notes = this.state.client_info.notes ? this.state.client_info.notes.map((one, index) => (
+        <div key={index}>{one.note} - {one.type.type}</div>
+      )) : null
+
+    }
 
     return (
       <div>

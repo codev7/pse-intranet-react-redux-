@@ -81,6 +81,8 @@ class AddNewClientForm extends React.Component {
       </fieldset>
     </form>
 
+    const loading = this.props.formData.loading == 1 ? <div className='button-loading' ><i className='fa fa-spinner fa-pulse fa-3x fa-fw' /></div> : null
+
     return (
       <div className='modal-container'>
         <Modal
@@ -94,10 +96,15 @@ class AddNewClientForm extends React.Component {
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            { this.props.formData.errorMessage &&
+              <div className='alert alert-info text-center'>
+                { this.props.formData.errorMessage }
+              </div>
+            }
             { formDataHTML }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.submitModal()}>{this.props.newOrEdit == 'new' ? 'Create' : 'Save'}</Button>
+            <Button onClick={() => this.submitModal()}>{this.props.newOrEdit == 'new' ? 'Create' : 'Save'}{loading}</Button>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>

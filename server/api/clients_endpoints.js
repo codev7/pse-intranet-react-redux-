@@ -7,8 +7,6 @@ const clients = {
     if (req.body.access_token) {
       const params = queryString.stringify(req.body)
 
-      console.log(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?${params}`)
-
       request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}?${params}`)
         .then(function (response) {
           res.send(JSON.parse(response.text))
@@ -26,11 +24,8 @@ const clients = {
     if (req.body.access_token) {
       const token = req.body.access_token, id = req.body.id
 
-      console.log(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}/${id}?access_token=${token}&include[]=all`)
-
       request.get(`${CONFIG.API_SERVER_NAME}${CONFIG.GET_LIST_CLIENTS}/${id}?access_token=${token}&include[]=all`)
         .then(function (response) {
-          console.log(JSON.parse(response.text))
           res.send(JSON.parse(response.text))
         }, function (err) {
           res.send(JSON.parse(err.res.text))
