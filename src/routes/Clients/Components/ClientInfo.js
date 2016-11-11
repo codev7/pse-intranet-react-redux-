@@ -89,9 +89,13 @@ class ClientInfo extends React.Component {
             formData: {loading: 0},
             showModal: false
           })
-        } else if (data.status_code == 422){
+        } else {
+          let message = ''
+          if (data.error){
+            message = data.error[0].message
+          }
           that.setState({
-            formData: { errorMessage: data.error[0].message, loading: 0 },
+            formData: { errorMessage: message, loading: 0 },
             client_info: {}
           })
         }

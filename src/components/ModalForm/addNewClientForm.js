@@ -96,7 +96,7 @@ class AddNewClientForm extends React.Component {
             <Modal.Title id='contained-modal-title'> New Client</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { this.props.formData.errorMessage &&
+            { this.props.formData.errorMessage && this.props.formData.errorMessage != '' &&
               <div className='alert alert-info text-center'>
                 { this.props.formData.errorMessage }
               </div>
