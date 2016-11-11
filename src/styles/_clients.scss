@@ -2,7 +2,9 @@
   background: #f1f4f5;
   padding-top: 15px;
   position: relative;
-  @media only screen and (min-width: 900px) {
+  height: auto;
+  min-height: 100%;
+  @media only screen and (min-width: 992px) {
     height: 100%;
   }
   &>.container-fluid {
@@ -33,7 +35,7 @@
     .add-new-client-text{
       font-size: 21px;
     }
-    @media only screen and (max-width: 990px) {
+    @media only screen and (max-width: 992px) {
       position: relative;
       width: 100%;
       height: 50px;
@@ -103,7 +105,7 @@
     .top-search-form{
       padding: 30px 15px 15px 15px;
       border-bottom: 1px solid #DDDDDD;
-      @media only screen and (max-width: 990px) {
+      @media only screen and (max-width: 992px) {
         padding-top: 0;
       }
     }
@@ -111,7 +113,8 @@
       margin-top: 25px;
     }
 
-    @media only screen and (max-width: 990px) {
+    @media only screen and (max-width: 992px) {
+      height: auto;
       input, select{
         background-color: transparent;
         font-size: 16px;
@@ -123,6 +126,10 @@
     }
   }
   .right-column{
+
+    @media only screen and (max-width: 992px) {
+      height: auto;
+    }
     padding: 0;
     margin: 0;
     height: 100%;
@@ -133,6 +140,9 @@
     border-bottom: 1px solid #DDDDDD;
     padding: 15px;
     margin: 0;
+    @media only screen and (max-width: 992px) {
+      margin-top: 30px;
+    }
   }
   .right-middle-section{
     width: 100%;
@@ -143,6 +153,10 @@
       h4{
         margin-bottom: 30px;
       }
+    }
+
+    @media only screen and (max-width: 992px) {
+      padding-bottom: 30px;
     }
   }
   .clients-list-container{

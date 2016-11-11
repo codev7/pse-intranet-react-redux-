@@ -78,7 +78,7 @@ export class HomePageView extends React.Component {
             </ul>
           </nav>
 
-          <div className='content-wrapper'>
+          <div className='content-wrapper' id='scroll-content'>
             {this.props.children}
           </div>
         </main>

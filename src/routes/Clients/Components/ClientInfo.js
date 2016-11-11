@@ -56,11 +56,22 @@ class ClientInfo extends React.Component {
       .then(function (response) {
 
         const data = JSON.parse(response.text)
-        console.log(data.data)
-        that.setState({
-          'client_info': data.data,
-          'loading': 0
-        })
+        console.log(data)
+
+        if(data.hasOwnProperty('data')) {
+          that.setState({
+            'client_info': data.data,
+            'loading': 0
+          })
+        }
+
+        const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+        if(width < 992){
+          setTimeout(function() {
+            const scrollContent = document.getElementById('scroll-content')
+            scrollContent.scrollTop = parseInt(document.getElementById('client_info_section').getBoundingClientRect().top)
+          }, 10)
+        }
 
       }, function (err) {
         console.log(err)
@@ -83,7 +94,7 @@ class ClientInfo extends React.Component {
 
         console.log(data)
 
-        if (data.status_code == 201){
+        if ((data.status_code == 201) || (data.status_code == 200)){
           that.setState({
             client_info: data.data,
             formData: {loading: 0},
@@ -117,7 +128,8 @@ class ClientInfo extends React.Component {
   }
 
   render () {
-    const loading = this.state.loading == 1 ? <div className='contacts-loading' > <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
+    const loading = this.state.loading == 1 ? <div className='contacts-loading' >
+      <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
     let phoneNumbers, emailAddresses, addresses, notes
 
     if (Object.keys(this.state.client_info).length > 0){
@@ -140,7 +152,8 @@ class ClientInfo extends React.Component {
     }
 
     return (
-      <div>
+      <div id='client_info_section'>
+      { this.state.client_info.name &&
         <div className='top-right-section row'>
           <div className='client-name col-sm-6'>
             <h3 className='name'>{this.state.client_info.name}</h3>
@@ -150,9 +163,11 @@ class ClientInfo extends React.Component {
               <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
             </a>
           </div>
-          { loading }
-          <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData} submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
+          <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData}
+                            submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
+        }
+        { loading }
         <div className='right-middle-section'>
           { Object.keys(this.state.client_info).length > 0 &&
             <div>
