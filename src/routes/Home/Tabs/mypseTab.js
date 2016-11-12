@@ -14,11 +14,11 @@ class PSETab extends React.Component {
     } else {
       var jsonData = JSON.parse(localStorage.getItem('me'))
 
-      var profile_pic = "http://placehold.it/380x500"
+      var profilePic = 'http://placehold.it/380x500'
       if(jsonData.photos.length > 0) {
         for(var i = 0; i < jsonData.photos.length; i++) {
           if(jsonData.photos[i].is_profile === true) {
-            profile_pic = jsonData.photos[i].url
+            profilePic = jsonData.photos[i].url
           }
         }
       }
@@ -31,7 +31,7 @@ class PSETab extends React.Component {
                 <div className='well well-lg'>
                   <div className='row'>
                     <div className='col-sm-6 col-md-2'>
-                      <img src={profile_pic} alt='' className='img-rounded img-responsive' />
+                      <img src={profilePic} alt='' className='img-rounded img-responsive' />
                     </div>
                     <div className='col-sm-6 col-md-10 profile-content'>
                       <h2>{jsonData.name_first} {jsonData.name_middle} {jsonData.name_last} ({jsonData.acronym})</h2>
