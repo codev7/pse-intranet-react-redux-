@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link, IndexLink } from 'react-router'
 
-import { logoutAndRedirect } from '../SignIn/Auth/auth'
+import { logoutAndRedirect } from '../SignIn/Auth/Auth'
 import HomeHeader from '../../components/Header/headerComponent'
 
 import $ from 'jquery'

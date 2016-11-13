@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import locationReducer from './location'
-import authReducer from '../routes/SignIn/Auth/auth'
+import authReducer from '../routes/SignIn/Auth/Auth'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({

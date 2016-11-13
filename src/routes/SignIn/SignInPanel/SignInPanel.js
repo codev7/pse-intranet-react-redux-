@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loginUser } from '../Auth/auth'
+import { loginUser } from '../Auth/Auth'
 
 class SignInPanel extends React.Component {
 
