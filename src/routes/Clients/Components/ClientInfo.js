@@ -134,20 +134,32 @@ class ClientInfo extends React.Component {
 
     if (Object.keys(this.state.client_info).length > 0){
 
-      phoneNumbers = this.state.client_info.phones ? this.state.client_info.phones.map((one, index) => (
-        <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
-      )) : null
-      emailAddresses = this.state.client_info.emails ? this.state.client_info.emails.map((one, index) => (
-        <div key={index} id={one.id}>{one.email} - {one.type.type}</div>
-      )) : null
+      phoneNumbers = this.state.client_info.phones ? (<div className='phone-number-container info-container'>
+        <h4>Client Phone Numbers</h4>
+        {this.state.client_info.phones.map((one, index) => (
+          <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
+        ))}
+      </div>) : null
+      emailAddresses = this.state.client_info.emails ? (<div className='email-addresses-container info-container'>
+        <h4>Client Email Addresses</h4>
+        {this.state.client_info.emails.map((one, index) => (
+          <div key={index} id={one.id}>{one.email} - {one.type.type}</div>
+        ))}
+      </div>) : null
 
-      addresses = this.state.client_info.addresses ? this.state.client_info.addresses.map((one, index) => (
-        <div key={index} id={one.id}>{one.address_line0} {one.address_line1} {one.city}, {one.state} {one.zip_code} - {one.type.type}</div>
-      )) : null
+      addresses = this.state.client_info.addresses ? (<div className='addresses-container info-container'>
+        <h4>Client Addresses</h4>
+        {this.state.client_info.addresses.map((one, index) => (
+          <div key={index} id={one.id}>{one.address_line0} {one.address_line1} {one.city}, {one.state} {one.zip_code} - {one.type.type}</div>
+        ))}
+      </div>) : null
 
-      notes = this.state.client_info.notes ? this.state.client_info.notes.map((one, index) => (
-        <div key={index} id={one.id}>{one.note} - {one.type.type}</div>
-      )) : null
+      notes = this.state.client_info.notes ? (<div className='notes-container info-container'>
+        <h4>Client Notes</h4>
+        {this.state.client_info.notes.map((one, index) => (
+          <div key={index} id={one.id}>{one.note} - {one.type.type}</div>
+        ))}
+      </div>) : null
 
     }
 
@@ -172,22 +184,15 @@ class ClientInfo extends React.Component {
         { Object.keys(this.state.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
-            <div className='phone-number-container info-container'>
-              <h4>Client Phone Numbers</h4>
-              { phoneNumbers }
-            </div>
-            <div className='addresses-container info-container'>
-              <h4>Client Addresses</h4>
-              {addresses}
-            </div>
-            <div className='email-addresses-container info-container'>
-              <h4>Client Email Addresses</h4>
-              {emailAddresses}
-            </div>
-            <div className='notes-container info-container'>
-              <h4>Client Notes</h4>
-              {notes}
-            </div>
+
+            { phoneNumbers }
+
+            {addresses}
+
+            {emailAddresses}
+
+            {notes}
+
           </div>
         </div>
         }
