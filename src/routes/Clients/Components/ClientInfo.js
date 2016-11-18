@@ -45,6 +45,7 @@ class ClientInfo extends React.Component {
     this.submitModal = this.submitModal.bind(this)
     this.editModeHandler = this.editModeHandler.bind(this)
     this.addNote = this.addNote.bind(this)
+    this.updateNote = this.updateNote.bind(this)
 
     if (props.client_id && ((Object.keys(props.client_info).length === 0) || (props.before_client_id != props.client_id)) && !isNaN(props.client_id)){
       this.props.getClientInfo(props.client_id)
@@ -68,6 +69,18 @@ class ClientInfo extends React.Component {
   addNote(e){
     if (e){
       e.preventDefault()
+    }
+  }
+  updateNote(e, name){
+    if (e){
+      e.preventDefault()
+    }
+
+    switch(name){
+      case 'delete':
+        break
+      case 'update':
+        break
     }
   }
 
@@ -161,8 +174,8 @@ class ClientInfo extends React.Component {
               <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
             </div>
             { !this.state.readOnly && <div className='pull-left third-container'>
-              <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
-              <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-ok-sign' /></a>
+              <a href='' onClick={e => this.updateNote(e, 'remove')}><i className='glyphicon glyphicon-minus-sign' /></a>
+              <a href='' onClick={e => this.updateNote(e, 'update')}><i className='glyphicon glyphicon-ok-sign' /></a>
             </div> }
           </div>
         ))}
