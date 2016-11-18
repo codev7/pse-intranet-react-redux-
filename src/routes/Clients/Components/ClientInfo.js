@@ -87,40 +87,83 @@ class ClientInfo extends React.Component {
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div>
     let phoneNumbers, emailAddresses, addresses, notes
 
-    if (Object.keys(this.props.client_info).length > 0){
-      phoneNumbers = this.props.client_info.phones && (<div className='phone-number-container info-container'>
-        <h4>Client Phone Numbers</h4>
-        {this.props.client_info.phones.map((one, index) => (
-          <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
-        ))}
-      </div>)
-      emailAddresses = this.props.client_info.emails && (<div className='email-addresses-container info-container'>
-        <h4>Client Email Addresses</h4>
-        {this.props.client_info.emails.map((one, index) => (
-          <div key={index} id={one.id}>{one.email} - {one.type.type}</div>
-        ))}
-      </div>)
-      addresses = this.props.client_info.addresses && (<div className='addresses-container info-container'>
-        <h4>Client Addresses</h4>
-        {this.props.client_info.addresses.map((one, index) => (
-          <div key={index} id={one.id}>{one.address_line0} {one.address_line1} {one.city}, {one.state} {one.zip_code} - {one.type.type}</div>
-        ))}
-      </div>)
-      notes = this.props.client_info.notes && (<div className='notes-container info-container'>
-        <h4>Client Notes</h4> {!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
-        {this.props.client_info.notes.map((one, index) => (
-          <div key={index} id={one.id}>
-            <div className='row'>
-              <div className=''>
-                <textarea type='text' className='' placeholder='Note' defaultValue={one.note} readOnly={this.state.readOnly} />
+    if (Object.keys(this.state.client_info).length > 0){
+      phoneNumbers = this.state.client_info.phones && (<div className='phone-number-container info-container'>
+          <div className='title-container'>
+            <h4>Client Phone Numbers</h4>{!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
+          </div>
+          {this.state.client_info.phones.map((one, index) => (
+            <div key={index} className='info-row'>
+              <div className='pull-left first-container'>
+                <input type='text' className='' placeholder='Phone number' defaultValue={one.number} readOnly={this.state.readOnly} />
               </div>
-              <div className=''>
+              <div className='pull-left second-container'>
                 <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
               </div>
-              { !this.state.readOnly && <div>
+              { !this.state.readOnly && <div className='pull-left third-container'>
                 <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
               </div> }
             </div>
+          ))}
+        </div>)
+
+      emailAddresses = this.state.client_info.emails && (<div className='email-addresses-container info-container'>
+          <div className='title-container'>
+            <h4>Client Email Addresses</h4>{!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
+          </div>
+          {this.state.client_info.emails.map((one, index) => (
+            <div key={index} className='info-row'>
+              <div className='pull-left first-container'>
+                <input type='text' className='' placeholder='Email' defaultValue={one.email} readOnly={this.state.readOnly} />
+              </div>
+              <div className='pull-left second-container'>
+                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
+              </div>
+              { !this.state.readOnly && <div className='pull-left third-container'>
+                <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
+              </div> }
+            </div>
+          ))}
+        </div>)
+
+      addresses = this.state.client_info.addresses && (<div className='address-container info-container'>
+          <div className='title-container'>
+            <h4>Client Addresses</h4>{!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
+          </div>
+          {this.state.client_info.addresses.map((one, index) => (
+            <div key={index} className='info-row'>
+              <div className='pull-left first-container'>
+                <input type='text' className='' defaultValue={one.address_line0} readOnly={this.state.readOnly} />
+                <input type='text' className='' defaultValue={one.address_line1} readOnly={this.state.readOnly} />
+                <input type='text' className='' defaultValue={one.city} readOnly={this.state.readOnly} />
+              </div>
+              <div className='pull-left second-container'>
+                <input type='text' className='' defaultValue={one.state} readOnly={this.state.readOnly} />
+                <input type='text' className='' defaultValue={one.zip_code} readOnly={this.state.readOnly} />
+              </div>
+              { !this.state.readOnly && <div className='pull-left third-container'>
+                <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
+              </div> }
+            </div>
+          ))}
+        </div>)
+
+      notes = this.state.client_info.notes && (<div className='notes-container info-container'>
+        <div className='title-container'>
+          <h4>Client Notes</h4>{!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
+        </div>
+        {this.state.client_info.notes.map((one, index) => (
+          <div key={index} className='info-row'>
+            <div className='pull-left first-container'>
+              <textarea type='text' className='' placeholder='Note' defaultValue={one.note} readOnly={this.state.readOnly} />
+            </div>
+            <div className='pull-left second-container'>
+              <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
+            </div>
+            { !this.state.readOnly && <div className='pull-left third-container'>
+              <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
+              <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-ok-sign' /></a>
+            </div> }
           </div>
         ))}
       </div>)
@@ -131,9 +174,9 @@ class ClientInfo extends React.Component {
         <div className='top-right-section'>
           <div className='top-name-container'>
             <div className='client-name'>
-              { this.props.client_info.name &&
+              { this.state.client_info.name &&
               <h3 className='name'>
-                {this.props.client_info.name}
+                {this.state.client_info.name}
                 <a href='' className='edit_check_icon' onClick={e => this.editModeHandler(e)}>
                   { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
                 </a>
@@ -149,7 +192,7 @@ class ClientInfo extends React.Component {
         <AddNewClientForm show={this.props.showModalFlag} formData={this.props.formData}
                           submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         { loading }
-        { Object.keys(this.props.client_info).length > 0 &&
+        { Object.keys(this.state.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
             { notes }

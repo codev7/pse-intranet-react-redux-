@@ -173,7 +173,7 @@
       .right-middle-section{
         width: 100%;
         margin: 0;
-        padding: 35px 20px 0 30px;
+        padding: 25px 20px 0 20px;
         max-height: calc( 100% - 120px );
         overflow: auto;
         .info-container{
@@ -185,6 +185,64 @@
         @media only screen and (max-width: 992px) {
           padding-bottom: 30px;
           max-height: none;
+        }
+        .title-container{
+          width: 100%;
+          display: inline-block;
+          &> h4{
+            float: left;
+          }
+          &>a{
+            float: left;
+            margin: 12px 0 0 10px;
+          }
+        }
+        .info-row{
+          max-width: 100%;
+          display: inline-block;
+          padding-left: 10px;
+          position: relative;
+          margin-top: 10px;
+          @media only screen and (max-width: 768px) {
+            overflow: visible;
+            max-height: none;
+            height: auto;
+          }
+          .first-container{
+            textarea{
+              height: 70px;
+              width: 270px;
+            }
+            input{
+              width: 270px;
+            }
+          }
+
+          .second-container{
+            margin: 0 20px;
+          }
+          .third-container{
+            margin-left: 10px;
+          }
+
+        }
+        .notes-container{
+          .info-row{
+            height: 70px;
+            max-height: 100px;
+            overflow: hidden;
+            .second-container{
+              input{
+                margin: 20px 0;
+              }
+            }
+            .third-container{
+              margin: 25px 0;
+              a{
+                margin: 0 10px;
+              }
+            }
+          }
         }
       }
     }
