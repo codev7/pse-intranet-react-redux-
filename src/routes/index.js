@@ -18,8 +18,8 @@ export default (store) => (
     <Route path='/' component={HomePageView} onEnter={requireAuth} onChange={requireAuthOnChange}>
       <IndexRoute component={DashboardTab} />
       <Route path='dashboard' component={DashboardTab} />
-      <Route path='clients' component={ClientsTab} />
-      <Route path='clients/:id' component={ClientsTab} />
+      <Route path='clients' getComponent={ClientsTab(store)} />
+      <Route path='clients/(:ClientId)' component={ClientsTab(store)} />
       <Route path='projects' component={ProjectsTab} />
       <Route path='geotechs' component={GeotechsTab} />
       <Route path='mypse' component={MyPSETab} />

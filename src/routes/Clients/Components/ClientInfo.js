@@ -1,119 +1,33 @@
 import React, { PropTypes } from 'react'
-import request from 'superagent-bluebird-promise'
-import { APIConstants } from '../../../components/Api/APIConstants'
+import { connect } from 'react-redux'
+
 import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
+import { createClient, closeModalFunc, showModalFunc } from '../Modules/module'
 
 class ClientInfo extends React.Component {
 
+  static propTypes = {
+    'client_info': PropTypes.object,
+    'loading_client': PropTypes.number,
+    'showModalFlag': PropTypes.bool,
+    'newOrEdit': PropTypes.string,
+    'formData': PropTypes.object,
+    'errorMessage': PropTypes.string,
+    'showModalFunc': PropTypes.func.isRequired,
+    'createClient': PropTypes.func.isRequired,
+    'closeModalFunc': PropTypes.func.isRequired
+  };
+
   constructor() {
     super()
-    this.state = {
-      'client_info': {},
-      'showModal': false,
-      'newOrEdit': 'new',
-      'formData': {},
-      'errorMessage': ''
-    }
 
-    this.getClientInfo = this.getClientInfo.bind(this)
     this.addNewClient = this.addNewClient.bind(this)
-    // this.editClient = this.editClient.bind(this)
     this.closeModalHandler = this.closeModalHandler.bind(this)
     this.submitModal = this.submitModal.bind(this)
   }
-  //
-  // editClient(data) {
-  //   this.setState({
-  //     showModal: true,
-  //     newOrEdit: 'edit',
-  //     formData: data
-  //   })
-  // }
 
   closeModalHandler(){
-    this.setState({
-      showModal: false,
-      formData: {}
-    })
-  }
-
-  submitModal(name) {
-
-    this.createClient(name)
-
-  }
-
-  getClientInfo(id){
-    const accessToken = localStorage.accessToken, that = this
-
-    that.setState({
-      'loading': 1
-    })
-
-    request.post(`${APIConstants.API_SERVER_NAME}client_info`)
-      .send(JSON.stringify({'access_token': accessToken, 'id': id}))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
-
-        const data = JSON.parse(response.text)
-        console.log(data)
-
-        if(data.hasOwnProperty('data')) {
-          that.setState({
-            'client_info': data.data,
-            'loading': 0
-          })
-        }
-
-        const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-        if(width < 992){
-          setTimeout(function() {
-            const scrollContent = document.getElementById('scroll-content')
-            scrollContent.scrollTop = parseInt(document.getElementById('client_info_section').getBoundingClientRect().top)
-          }, 10)
-        }
-
-      }, function (err) {
-        console.log(err)
-      })
-  }
-
-  createClient(data) {
-    const accessToken = localStorage.accessToken, that = this
-
-    that.setState({
-      formData: { loading: 1 }
-    })
-
-    request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
-      .send(JSON.stringify({ 'access_token': accessToken, 'name': data }))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
-
-        const data = JSON.parse(response.text)
-
-        console.log(data)
-
-        if ((data.status_code == 201) || (data.status_code == 200)){
-          that.setState({
-            client_info: data.data,
-            formData: {loading: 0},
-            showModal: false
-          })
-        } else {
-          let message = ''
-          if (data.error){
-            message = data.error[0].message
-          }
-          that.setState({
-            formData: { errorMessage: message, loading: 0 },
-            client_info: {}
-          })
-        }
-
-      }, function (err) {
-        console.log(err)
-      })
+    this.props.closeModalFunc()
   }
 
   addNewClient(e) {
@@ -121,43 +35,57 @@ class ClientInfo extends React.Component {
       e.preventDefault()
     }
 
-    this.setState({
-      showModal: true,
-      newOrEdit: 'new'
-    })
+    this.props.showModalFunc('new')
+  }
+
+  submitModal(name) {
+
+    this.props.createClient(name)
+
   }
 
   render () {
-    const loading = this.state.loading == 1 ? <div className='contacts-loading loading-container' >
+    const loading = this.props.loading_client == 1 ? <div className='contacts-loading loading-container' >
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
     let phoneNumbers, emailAddresses, addresses, notes
 
-    if (Object.keys(this.state.client_info).length > 0){
+    if (Object.keys(this.props.client_info).length > 0){
 
-      phoneNumbers = this.state.client_info.phones ? (<div className='phone-number-container info-container'>
+      phoneNumbers = this.props.client_info.phones ? (<div className='phone-number-container info-container'>
         <h4>Client Phone Numbers</h4>
-        {this.state.client_info.phones.map((one, index) => (
+        {this.props.client_info.phones.map((one, index) => (
           <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
         ))}
       </div>) : null
-      emailAddresses = this.state.client_info.emails ? (<div className='email-addresses-container info-container'>
+      emailAddresses = this.props.client_info.emails ? (<div className='email-addresses-container info-container'>
         <h4>Client Email Addresses</h4>
-        {this.state.client_info.emails.map((one, index) => (
+        {this.props.client_info.emails.map((one, index) => (
           <div key={index} id={one.id}>{one.email} - {one.type.type}</div>
         ))}
       </div>) : null
 
-      addresses = this.state.client_info.addresses ? (<div className='addresses-container info-container'>
+      addresses = this.props.client_info.addresses ? (<div className='addresses-container info-container'>
         <h4>Client Addresses</h4>
-        {this.state.client_info.addresses.map((one, index) => (
+        {this.props.client_info.addresses.map((one, index) => (
           <div key={index} id={one.id}>{one.address_line0} {one.address_line1} {one.city}, {one.state} {one.zip_code} - {one.type.type}</div>
         ))}
       </div>) : null
 
-      notes = this.state.client_info.notes ? (<div className='notes-container info-container'>
+      console.log(this.props.client_info.notes)
+
+      notes = this.props.client_info.notes ? (<div className='notes-container info-container'>
         <h4>Client Notes</h4>
-        {this.state.client_info.notes.map((one, index) => (
-          <div key={index} id={one.id}>{one.note} - {one.type.type}</div>
+        {this.props.client_info.notes.map((one, index) => (
+          <div key={index} id={one.id}>
+            <div className='row'>
+              <div className='col-sm-7 col-md-auto'>
+                <textarea type='text' className='' placeholder='Note' value={one.note} />
+              </div>
+              <div className='col-sm-5 col-md-auto'>
+                <input type='text' className='' placeholder='Type' value={one.type.type} />
+              </div>
+            </div>
+          </div>
         ))}
       </div>) : null
 
@@ -167,8 +95,8 @@ class ClientInfo extends React.Component {
       <div id='client_info_section'>
         <div className='top-right-section row'>
           <div className='client-name col-sm-6'>
-            { this.state.client_info.name &&
-            <h3 className='name'>{this.state.client_info.name}</h3>
+            { this.props.client_info.name &&
+            <h3 className='name'>{this.props.client_info.name}</h3>
             }
           </div>
           <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
@@ -176,22 +104,22 @@ class ClientInfo extends React.Component {
               <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
             </a>
           </div>
-          <AddNewClientForm show={this.state.showModal} newOrEdit={this.state.newOrEdit} formData={this.state.formData}
+          <AddNewClientForm show={this.props.showModalFlag} newOrEdit={this.props.newOrEdit} formData={this.props.formData}
                             submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
 
         { loading }
-        { Object.keys(this.state.client_info).length > 0 &&
+        { Object.keys(this.props.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
 
+            { notes }
+
             { phoneNumbers }
 
-            {addresses}
+            { emailAddresses }
 
-            {emailAddresses}
-
-            {notes}
+            { addresses }
 
           </div>
         </div>
@@ -201,4 +129,17 @@ class ClientInfo extends React.Component {
   }
 }
 
-export default ClientInfo
+const mapStateToProps = (state) => ({
+  'client_info': state.clients.client_info,
+  'showModalFlag': state.clients.showModalFlag,
+  'newOrEdit': state.clients.newOrEdit,
+  'formData': state.clients.formData,
+  'errorMessage': state.clients.errorMessage,
+  'loading_client': state.clients.loading_client
+})
+
+export default connect((mapStateToProps), {
+  showModalFunc,
+  createClient,
+  closeModalFunc
+})(ClientInfo)

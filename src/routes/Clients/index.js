@@ -1,65 +1,31 @@
-import React, { PropTypes } from 'react'
-import ClientsList from './Components/DataList'
-import SearchForm from './Components/SearchForm'
-import ClientInfo from './Components/ClientInfo'
+import { injectReducer } from '../../store/reducers'
 
-class ClientsTab extends React.Component {
+import { initialState, ACTION_HANDLERS } from './Modules/module'
 
-  constructor() {
-    super()
+export default (store) => {
+  return (nextState, cb) => {
+    /*  Webpack - use 'require.ensure' to create a split point
+     and embed an async module loader (jsonp) when bundling   */
+    require.ensure([], (require) => {
 
-    this.submitSearch = this.submitSearch.bind(this)
-    this.submitClient = this.submitClient.bind(this)
-    this.addNewClient = this.addNewClient.bind(this)
-  }
+      /*  Webpack - use require callback to define
+       dependencies for bundling   */
+      const ClientsTabContainer = require('./Clients').default
 
-  submitSearch(param){
-    let parameters = {}
-    param.map(function(p){
-      if(p.value != '') {
-        parameters[p.key] = p.value
+      const ClientsReducer = (state = initialState, action) => {
+
+        const handler = ACTION_HANDLERS[action.type]
+
+        return handler ? handler(state, action) : state
       }
-    })
-    this.refs.clients_list.getClientsList(parameters)
-  }
 
-  submitClient(id){
-    this.refs.client_info.getClientInfo(id)
-  }
+      /*  Add the reducer to the store on key 'clients'  */
+      injectReducer(store, {key: 'clients', reducer: ClientsReducer})
 
-  addNewClient(e){
-    this.refs.client_info.addNewClient(e)
-  }
+      /*  Return getComponent   */
+      cb(null, ClientsTabContainer)
 
-  render () {
-    return (
-      <div className='clients-page'>
-        <div className='container-fluid'>
-          <div className='panel panel-default'>
-            <div className='panel-body'>
-
-              <div className='add-new-client-btn visible-xs visible-sm'>
-                <a href='' onClick={e => this.addNewClient(e)} className='pull-right text-right'>
-                  <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
-                </a>
-              </div>
-
-              <div className='col-md-3 left-column'>
-                <SearchForm searchSubmitFunc={this.submitSearch} />
-                <ClientsList ref='clients_list' submitClient={this.submitClient} />
-              </div>
-
-              <div className='col-md-9 right-column'>
-                <ClientInfo ref='client_info' />
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    )
+      /* Webpack named bundle   */
+    }, 'clients')
   }
 }
-
-export default ClientsTab

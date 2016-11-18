@@ -1,81 +1,40 @@
 import React, { PropTypes } from 'react'
-import request from 'superagent-bluebird-promise'
+import { connect } from 'react-redux'
 
-import { APIConstants } from '../../../components/Api/APIConstants'
 import DataPagination from '../../../components/Pagination/pagination'
+import { getClientsList } from '../Modules/module'
 // import DataRow from './DataRow'
 
 class ClientsList extends React.Component {
 
   static propTypes = {
-    submitClient: PropTypes.func.isRequired
+    'page': PropTypes.number,
+    'last_page': PropTypes.number,
+    'total_items': PropTypes.number,
+    'clients_list': PropTypes.array,
+    'loading': PropTypes.number,
+    'itemsPerPage': PropTypes.number,
+    'prevSearch': PropTypes.object,
+    'submitClient': PropTypes.func.isRequired,
+    'getClientsList': PropTypes.func.isRequired
   };
-
-  itemsPerPage = 25
-  prevSearch = {}
 
   constructor () {
     super()
-    this.state = {
-      'page': 1,
-      'last_page': 1,
-      'total_items': 0,
-      'clients_list': [],
-      'loading': 0
-    }
 
     this.onPaging = this.onPaging.bind(this)
     this.clientInfo = this.clientInfo.bind(this)
-    this.getClientsList = this.getClientsList.bind(this)
 
-  }
-
-  getClientsList(param) {
-
-    const accessToken = localStorage.accessToken, that = this
-    let parameters = param
-
-    if(!parameters['page']){
-      parameters['page'] = 1
-    }
-    this.prevSearch = parameters
-
-    that.setState({
-      'loading': 1
-    })
-
-    console.log(parameters)
-
-    // console.log(Object.assign({}, parameters, {'access_token': accessToken}))
-
-    request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
-      .send(JSON.stringify(Object.assign({}, parameters, {'access_token': accessToken, 'minimal': 1, 'per_page': this.itemsPerPage})))
-      .set('Content-Type', 'application/json')
-      .then(function (response) {
-
-        const data = JSON.parse(response.text)
-
-        that.setState({
-          'clients_list': data.data,
-          'loading': 0,
-          'total_items': data.paginator.total_items,
-          'page': data.paginator.current_page,
-          'last_page': data.paginator.last_page
-        })
-
-      }, function (err) {
-        console.log(err)
-      })
   }
 
   onPaging(newPage) {
 
     const currentPage = newPage || 1
 
-    let prevParameters = this.prevSearch
+    let prevParameters = this.props.prevSearch
     prevParameters['page'] = currentPage
 
-    this.getClientsList(prevParameters)
+    this.props.getClientsList(prevParameters)
 
   }
 
@@ -86,19 +45,19 @@ class ClientsList extends React.Component {
 
   render () {
 
-    const count = this.state.last_page ? this.state.last_page : 1,
-      pagination = this.state.total_items > this.itemsPerPage ? <div className='pagination-container'>
-        <DataPagination count={count} active={this.state.page} pagingFunc={this.onPaging} />
+    const count = this.props.last_page ? this.props.last_page : 1,
+      pagination = this.props.total_items > this.props.itemsPerPage ? <div className='pagination-container'>
+        <DataPagination count={count} active={this.props.page} pagingFunc={this.onPaging} />
       </div> : null,
-      loading = this.state.loading == 1 ? <div className='contacts-loading loading-container'>
+      loading = this.props.loading == 1 ? <div className='contacts-loading loading-container'>
         <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span>
       </div> : null
 
     let list
 
-    if(Object.keys(this.state.clients_list).length > 0) {
+    if(Object.keys(this.props.clients_list).length > 0) {
 
-      list = this.state.clients_list.map((item, index) => (
+      list = this.props.clients_list.map((item, index) => (
         <a href='' onClick={e => this.clientInfo(e, item.id)} key={index} className='list-group-item'>{item.name}</a>
       ))
     }
@@ -106,7 +65,7 @@ class ClientsList extends React.Component {
       <div className='clients-list-container'>
         <h3 className='text-center'>Results</h3>
         { pagination }
-        {Object.keys(this.state.clients_list).length > 0 &&
+        {Object.keys(this.props.clients_list).length > 0 &&
         <div className='clients-list-body panel panel-default'>
           <div className='panel-heading'>Client Name</div>
           <div className='panel-body client-name-list'>
@@ -122,4 +81,16 @@ class ClientsList extends React.Component {
   }
 }
 
-export default ClientsList
+const mapStateToProps = (state) => ({
+  'page': state.clients.page,
+  'last_page': state.clients.last_page,
+  'total_items': state.clients.total_items,
+  'clients_list': state.clients.clients_list,
+  'loading': state.clients.loading,
+  'itemsPerPage': state.clients.per_page,
+  'prevSearch': state.clients.prevSearch
+})
+
+export default connect((mapStateToProps), {
+  getClientsList
+})(ClientsList)
