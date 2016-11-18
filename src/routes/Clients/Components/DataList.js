@@ -9,13 +9,10 @@ import { getClientsList } from '../Modules/module'
 class ClientsList extends React.Component {
 
   static propTypes = {
-    'page': PropTypes.number,
-    'last_page': PropTypes.number,
-    'total_items': PropTypes.number,
+    'pagination': PropTypes.object,
     'clients_list': PropTypes.array,
     'loading': PropTypes.bool,
-    'itemsPerPage': PropTypes.number,
-    'prevSearch': PropTypes.object,
+    'searchParameters': PropTypes.object,
     'getClientsList': PropTypes.func.isRequired
   };
 
@@ -30,17 +27,17 @@ class ClientsList extends React.Component {
 
     const currentPage = newPage || 1
 
-    let prevParameters = this.props.prevSearch
-    prevParameters['page'] = currentPage
+    let pagination = this.props.pagination
+    pagination['page'] = currentPage
 
-    this.props.getClientsList(prevParameters)
+    this.props.getClientsList(this.props.searchParameters, pagination)
   }
 
   render () {
-
-    const count = this.props.last_page ? this.props.last_page : 1,
-      pagination = this.props.total_items > this.props.itemsPerPage ? <div className='pagination-container'>
-        <DataPagination count={count} active={this.props.page} pagingFunc={this.onPaging} />
+    console.log(this.props.searchParameters)
+    const count = this.props.pagination.last_page ? this.props.pagination.last_page : 1,
+      pagination = this.props.pagination.total_items > this.props.pagination.per_page ? <div className='pagination-container'>
+        <DataPagination count={count} active={this.props.pagination.page} pagingFunc={this.onPaging} />
       </div> : null,
       loading = this.props.loading ? <div className='contacts-loading loading-container'>
         <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span>
@@ -76,13 +73,10 @@ class ClientsList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  'page': state.clients.page,
-  'last_page': state.clients.last_page,
-  'total_items': state.clients.total_items,
+  'pagination': state.clients.pagination,
   'clients_list': state.clients.clients_list,
   'loading': state.clients.loading,
-  'itemsPerPage': state.clients.per_page,
-  'prevSearch': state.clients.prevSearch
+  'searchParameters': state.clients.searchParameters
 })
 
 export default connect((mapStateToProps), {

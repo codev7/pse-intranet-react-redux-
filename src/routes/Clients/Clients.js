@@ -6,12 +6,11 @@ import ClientsList from './Components/DataList'
 import SearchForm from './Components/SearchForm'
 import ClientInfo from './Components/ClientInfo'
 
-import {getClientsList, showModalFunc} from './Modules/module'
+import {showModalFunc} from './Modules/module'
 
 class ClientsTab extends React.Component {
 
   static propTypes = {
-    getClientsList: PropTypes.func.isRequired,
     showModalFunc: PropTypes.func.isRequired,
     client_id: PropTypes.string,
     before_client_id: PropTypes.number
@@ -20,18 +19,7 @@ class ClientsTab extends React.Component {
   constructor(props) {
     super(props)
 
-    this.submitSearch = this.submitSearch.bind(this)
     this.addNewClient = this.addNewClient.bind(this)
-  }
-
-  submitSearch(param){
-    let parameters = {}
-    param.map(function(p){
-      if(p.value != '') {
-        parameters[p.key] = p.value
-      }
-    })
-    this.props.getClientsList(parameters)
   }
 
   addNewClient(e){
@@ -56,7 +44,7 @@ class ClientsTab extends React.Component {
               </div>
 
               <div className='col-md-3 left-column'>
-                <SearchForm searchSubmitFunc={this.submitSearch} />
+                <SearchForm />
                 <ClientsList />
               </div>
 
@@ -79,6 +67,5 @@ const mapStateToProps = (state, {params}) => ({
 })
 
 export default withRouter(connect((mapStateToProps), {
-  getClientsList,
   showModalFunc
 })(ClientsTab))

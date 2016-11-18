@@ -8,22 +8,23 @@ export const initialState = {
   client_id: null,
   clients_list: [],
   client_info: {},
-  total_items: 0,
-  page: 1,
-  last_page: 1,
-  per_page: 25,
-  prevSearch: {},
   formData: {newOrEdit: 'new'},
   showModalFlag: false,
-  readOnly: true
+  readOnly: true,
+  searchParameters: [{'key':'name', 'value':''}, {'key':'address', 'value':''}, {'key':'city', 'value':''}],
+  pagination: {
+    total_items: 0,
+    page: 1,
+    last_page: 1,
+    per_page: 25
+  }
 }
 
 export const ACTION_HANDLERS = {
   'LOADING_CLIENTS': (state, action) => {
     return ({
       ...state,
-      'loading': true,
-      'prevSearch': action.parameters
+      'loading': true
     })
   },
   'LOADING_CLIENT_INFO': (state, action) => {
@@ -45,9 +46,8 @@ export const ACTION_HANDLERS = {
       ...state,
       'clients_list': action.clients_list,
       'loading': false,
-      'total_items': action.total_items,
-      'page': action.page,
-      'last_page': action.last_page
+      'pagination': Object.assign({}, state.pagination, action.pagination),
+      'searchParameters': action.parameters
     })
   },
   'NEW_CLIENT_LOADING': (state, action) => {
@@ -87,23 +87,27 @@ export const ACTION_HANDLERS = {
   }
 }
 
-export const getClientsList = (param) => {
+export const getClientsList = (param, pagination = {}) => {
   return (dispatch) => {
+    console.log(param, pagination)
     const accessToken = localStorage.accessToken
-    let parameters = param
-
-    if (!parameters['page']) {
-      parameters['page'] = 1
-    }
-    if (!parameters['per_page']) {
-      parameters['per_page'] = 25
-    }
-    dispatch({
-      'type': 'LOADING_CLIENTS',
-      'parameters': parameters
+    let parameters = {}
+    param.map(function(p){
+      if(p.value != '') {
+        parameters[p.key] = p.value
+      }
     })
 
-    // console.log(Object.assign({}, parameters, {'access_token': accessToken}))
+    if (pagination.hasOwnProperty('page')) {
+      parameters['page'] = 1
+    }
+    if (pagination.hasOwnProperty('per_page')) {
+      parameters['per_page'] = 25
+    }
+
+    dispatch({
+      'type': 'LOADING_CLIENTS'
+    })
 
     request.post(`${APIConstants.API_SERVER_NAME}clients_list`)
       .send(JSON.stringify(Object.assign({}, parameters, {
@@ -115,12 +119,23 @@ export const getClientsList = (param) => {
 
         const data = JSON.parse(response.text)
 
-        dispatch({
-          'type': 'GET_CLIENTS_SUCCESS',
-          'clients_list': data.data,
+        const paginator = {
           'total_items': data.paginator.total_items,
           'page': data.paginator.current_page,
           'last_page': data.paginator.last_page
+        }
+
+        if(pagination.hasOwnProperty('page')){
+          if(pagination['page'] <= data.paginator.last_page){
+            paginator['page'] = pagination['page']
+          }
+        }
+
+        dispatch({
+          'type': 'GET_CLIENTS_SUCCESS',
+          'clients_list': data.data,
+          'pagination': paginator,
+          'parameters': param
         })
 
       }, function (err) {
@@ -199,8 +214,6 @@ export const createClient = (data) => {
       .then(function (response) {
 
         const data = JSON.parse(response.text)
-
-        console.log(data)
 
         if ((data.status_code == 201) || (data.status_code == 200)) {
 

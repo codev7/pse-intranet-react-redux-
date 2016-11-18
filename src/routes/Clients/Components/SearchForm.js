@@ -1,21 +1,33 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import {getClientsList} from '../Modules/module'
+
 class SearchForm extends React.Component {
 
   static propTypes = {
-    searchSubmitFunc: PropTypes.func.isRequired
+    getClientsList: PropTypes.func.isRequired,
+    searchParameters: PropTypes.array.isRequired
   };
 
   constructor (props) {
     super(props)
     this.state = {
-      'searchParameters': [{'key':'name', 'value':''}, {'key':'address', 'value':''}, {'key':'city', 'value':''}]
+      'searchParameters': this.props.searchParameters
     }
 
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.textInputChange = this.textInputChange.bind(this)
     this.submitSearchForm = this.submitSearchForm.bind(this)
+  }
+
+  componentWillReceiveProps(newProps){
+    console.log(newProps)
+    if(newProps.searchParameters != this.state.searchParameters){
+      this.setState({
+        searchParameters: newProps.searchParameters
+      })
+    }
   }
 
   handleSelectChange(e, id){
@@ -36,17 +48,16 @@ class SearchForm extends React.Component {
 
   submitSearchForm(e){
     e.preventDefault()
-    this.props.searchSubmitFunc(this.state.searchParameters)
+    this.props.getClientsList(this.state.searchParameters)
   }
 
   render () {
-
     return (
       <div className='top-search-form'>
         <form className='searchForm' onSubmit={(e) => this.submitSearchForm(e)}>
           <div className='row'>
             <div className='col-sm-7'>
-              <input type='text' className='search rounded' onChange={(e) => this.textInputChange(e, '0')} placeholder='Search...' />
+              <input type='text' className='search rounded' value={this.state.searchParameters[0].value} onChange={(e) => this.textInputChange(e, '0')} placeholder='Search...' />
             </div>
             <div className='col-sm-5'>
               <select className='form-control' value={this.state.searchParameters[0].key} onChange={(e) => this.handleSelectChange(e, '0')}>
@@ -62,7 +73,7 @@ class SearchForm extends React.Component {
 
           <div className='row'>
             <div className='col-sm-7'>
-              <input type='text' className='search rounded' onChange={(e) => this.textInputChange(e, '1')} placeholder='Search...' />
+              <input type='text' className='search rounded' value={this.state.searchParameters[1].value} onChange={(e) => this.textInputChange(e, '1')} placeholder='Search...' />
             </div>
             <div className='col-sm-5'>
               <select className='form-control' value={this.state.searchParameters[1].key} onChange={(e) => this.handleSelectChange(e, '1')}>
@@ -78,7 +89,7 @@ class SearchForm extends React.Component {
 
           <div className='row'>
             <div className='col-sm-7'>
-              <input type='text' className='search rounded' onChange={(e) => this.textInputChange(e, '2')} placeholder='Search...' />
+              <input type='text' className='search rounded' value={this.state.searchParameters[2].value} onChange={(e) => this.textInputChange(e, '2')} placeholder='Search...' />
             </div>
             <div className='col-sm-5'>
               <select className='form-control' value={this.state.searchParameters[2].key} onChange={(e) => this.handleSelectChange(e, '2')}>
@@ -102,7 +113,9 @@ class SearchForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  searchParameters: state.clients.searchParameters
 })
 
 export default connect((mapStateToProps), {
+  getClientsList
 })(SearchForm)
