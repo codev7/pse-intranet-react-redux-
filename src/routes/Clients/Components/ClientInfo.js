@@ -13,7 +13,6 @@ class ClientInfo extends React.Component {
     'loading_client': PropTypes.bool,
     'showModalFlag': PropTypes.bool,
     'formData': PropTypes.object,
-    'readOnly': PropTypes.bool,
     'showModalFunc': PropTypes.func.isRequired,
     'createClient': PropTypes.func.isRequired,
     'closeModalFunc': PropTypes.func.isRequired,
@@ -24,36 +23,60 @@ class ClientInfo extends React.Component {
     if (newProps.client_id && (newProps.client_id != newProps.before_client_id) && !isNaN(newProps.client_id)){
       newProps.getClientInfo(newProps.client_id)
     }
+
+    if(JSON.stringify(this.state.client_info) !== JSON.stringify(newProps.client_info)){
+      console.log(newProps.client_info)
+      this.setState({
+        client_info: newProps.client_info
+      })
+    }
   }
 
   constructor(props) {
     super(props)
 
+    this.state = {
+      'readOnly': true,
+      'client_info': this.props.client_info
+    }
+
     this.addNewClient = this.addNewClient.bind(this)
     this.closeModalHandler = this.closeModalHandler.bind(this)
     this.submitModal = this.submitModal.bind(this)
+    this.editModeHandler = this.editModeHandler.bind(this)
+    this.addNote = this.addNote.bind(this)
 
     if (props.client_id && ((Object.keys(props.client_info).length === 0) || (props.before_client_id != props.client_id)) && !isNaN(props.client_id)){
       this.props.getClientInfo(props.client_id)
     }
   }
 
-  closeModalHandler(){
-    this.props.closeModalFunc()
-  }
-
-  addNewClient(e) {
+  editModeHandler(e){
     if (e){
       e.preventDefault()
     }
 
+    this.setState({
+      readOnly: this.state.readOnly !== true
+    })
+  }
+  closeModalHandler(){
+    this.props.closeModalFunc()
+  }
+  addNote(e){
+    if (e){
+      e.preventDefault()
+    }
+  }
+  addNewClient(e) {
+    if (e){
+      e.preventDefault()
+    }
     this.props.showModalFunc('new')
   }
 
   submitModal(name) {
-
     this.props.createClient(name)
-
   }
 
   render () {
@@ -69,6 +92,7 @@ class ClientInfo extends React.Component {
           <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
         ))}
       </div>) : null
+
       emailAddresses = this.props.client_info.emails ? (<div className='email-addresses-container info-container'>
         <h4>Client Email Addresses</h4>
         {this.props.client_info.emails.map((one, index) => (
@@ -83,24 +107,24 @@ class ClientInfo extends React.Component {
         ))}
       </div>) : null
 
-      console.log(this.props.client_info.notes)
-
       notes = this.props.client_info.notes ? (<div className='notes-container info-container'>
-        <h4>Client Notes</h4>
+        <h4>Client Notes</h4> {this.state.readOnly ? <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a> : null}
         {this.props.client_info.notes.map((one, index) => (
           <div key={index} id={one.id}>
             <div className='row'>
-              <div className='col-sm-7 col-md-auto'>
-                <textarea type='text' className='' placeholder='Note' value={one.note} readOnly={this.props.readOnly} />
+              <div className=''>
+                <textarea type='text' className='' placeholder='Note' defaultValue={one.note} />
               </div>
-              <div className='col-sm-5 col-md-auto'>
-                <input type='text' className='' placeholder='Type' value={one.type.type} readOnly={this.props.readOnly} />
+              <div className=''>
+                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} />
+              </div>
+              <div>
+                <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
               </div>
             </div>
           </div>
         ))}
       </div>) : null
-
     }
 
     return (
@@ -108,7 +132,12 @@ class ClientInfo extends React.Component {
         <div className='top-right-section row'>
           <div className='client-name col-sm-6'>
             { this.props.client_info.name &&
-            <h3 className='name'>{this.props.client_info.name}</h3>
+            <h3 className='name'>
+              {this.props.client_info.name}
+              <a href='' className='edit_check_icon' onClick={e => this.editModeHandler(e)}>
+                { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
+              </a>
+            </h3>
             }
           </div>
           <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
@@ -146,8 +175,7 @@ const mapStateToProps = (state) => ({
   'showModalFlag': state.clients.showModalFlag,
   'formData': state.clients.formData,
   'loading_client': state.clients.loading_client,
-  'before_client_id': state.clients.client_id,
-  'readOnly': state.clients.readOnly
+  'before_client_id': state.clients.client_id
 })
 
 export default connect((mapStateToProps), {

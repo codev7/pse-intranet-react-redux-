@@ -12,7 +12,7 @@ class ClientsList extends React.Component {
     'pagination': PropTypes.object,
     'clients_list': PropTypes.array,
     'loading': PropTypes.bool,
-    'searchParameters': PropTypes.object,
+    'searchParameters': PropTypes.array,
     'getClientsList': PropTypes.func.isRequired
   };
 
@@ -34,7 +34,6 @@ class ClientsList extends React.Component {
   }
 
   render () {
-    console.log(this.props.searchParameters)
     const count = this.props.pagination.last_page ? this.props.pagination.last_page : 1,
       pagination = this.props.pagination.total_items > this.props.pagination.per_page ? <div className='pagination-container'>
         <DataPagination count={count} active={this.props.pagination.page} pagingFunc={this.onPaging} />

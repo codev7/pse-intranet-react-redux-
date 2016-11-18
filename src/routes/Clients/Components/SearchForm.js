@@ -23,7 +23,7 @@ class SearchForm extends React.Component {
 
   componentWillReceiveProps(newProps){
     console.log(newProps)
-    if(newProps.searchParameters != this.state.searchParameters){
+    if(JSON.stringify(newProps.searchParameters) !== JSON.stringify(this.state.searchParameters)){
       this.setState({
         searchParameters: newProps.searchParameters
       })

@@ -10,7 +10,6 @@ export const initialState = {
   client_info: {},
   formData: {newOrEdit: 'new'},
   showModalFlag: false,
-  readOnly: true,
   searchParameters: [{'key':'name', 'value':''}, {'key':'address', 'value':''}, {'key':'city', 'value':''}],
   pagination: {
     total_items: 0,
@@ -89,7 +88,6 @@ export const ACTION_HANDLERS = {
 
 export const getClientsList = (param, pagination = {}) => {
   return (dispatch) => {
-    console.log(param, pagination)
     const accessToken = localStorage.accessToken
     let parameters = {}
     param.map(function(p){

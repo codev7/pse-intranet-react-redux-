@@ -135,31 +135,47 @@
     margin: 0;
     height: 100%;
     position: relative;
-  }
-  .top-right-section{
-    width: 100%;
-    border-bottom: 1px solid #DDDDDD;
-    padding: 15px;
-    margin: 0;
-    @media only screen and (max-width: 992px) {
-      margin-top: 30px;
-    }
-  }
-  .right-middle-section{
-    width: 100%;
-    margin: 0;
-    padding: 35px 20px 0 30px;
-    .info-container{
-      padding: 15px 0;
-      h4{
-        margin-bottom: 30px;
+    overflow: hidden;
+    #client_info_section{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      .top-right-section{
+        width: 100%;
+        border-bottom: 1px solid #DDDDDD;
+        padding: 15px;
+        margin: 0;
+        height: 120px;
+        @media only screen and (max-width: 992px) {
+          margin-top: 30px;
+          height: auto;
+        }
+        .edit_check_icon{
+          margin-left: 20px;
+        }
+      }
+      .right-middle-section{
+        width: 100%;
+        margin: 0;
+        padding: 35px 20px 0 30px;
+        max-height: calc( 100% - 120px );
+        overflow: auto;
+        .info-container{
+          padding: 15px 0;
+          h4{
+            margin-bottom: 30px;
+          }
+        }
+
+        @media only screen and (max-width: 992px) {
+          padding-bottom: 30px;
+          max-height: none;
+        }
       }
     }
-
-    @media only screen and (max-width: 992px) {
-      padding-bottom: 30px;
-    }
   }
+
   .clients-list-container{
     padding: 15px 5px;
     overflow: hidden;
