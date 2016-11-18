@@ -6,21 +6,21 @@ import ClientsList from './Components/DataList'
 import SearchForm from './Components/SearchForm'
 import ClientInfo from './Components/ClientInfo'
 
-import {getClientsList, getClientInfo, showModalFunc} from './Modules/module'
+import {getClientsList, showModalFunc} from './Modules/module'
 
 class ClientsTab extends React.Component {
 
   static propTypes = {
     getClientsList: PropTypes.func.isRequired,
-    getClientInfo: PropTypes.func.isRequired,
-    showModalFunc: PropTypes.func.isRequired
+    showModalFunc: PropTypes.func.isRequired,
+    client_id: PropTypes.string,
+    before_client_id: PropTypes.number
   };
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.submitSearch = this.submitSearch.bind(this)
-    this.submitClient = this.submitClient.bind(this)
     this.addNewClient = this.addNewClient.bind(this)
   }
 
@@ -32,10 +32,6 @@ class ClientsTab extends React.Component {
       }
     })
     this.props.getClientsList(parameters)
-  }
-
-  submitClient(id){
-    this.props.getClientInfo(id)
   }
 
   addNewClient(e){
@@ -61,11 +57,11 @@ class ClientsTab extends React.Component {
 
               <div className='col-md-3 left-column'>
                 <SearchForm searchSubmitFunc={this.submitSearch} />
-                <ClientsList submitClient={this.submitClient} />
+                <ClientsList />
               </div>
 
               <div className='col-md-9 right-column'>
-                <ClientInfo />
+                { this.props.client_id ? <ClientInfo client_id={parseInt(this.props.client_id)} /> : null }
               </div>
 
             </div>
@@ -78,10 +74,11 @@ class ClientsTab extends React.Component {
 }
 
 const mapStateToProps = (state, {params}) => ({
+  client_id: params.ClientId ? params.ClientId : null,
+  before_client_id: state.clients.client_id
 })
 
 export default withRouter(connect((mapStateToProps), {
   getClientsList,
-  getClientInfo,
   showModalFunc
 })(ClientsTab))

@@ -5,7 +5,6 @@ class AddNewClientForm extends React.Component {
 
   static propTypes = {
     show: PropTypes.bool.isRequired,
-    newOrEdit: PropTypes.string,
     formData: PropTypes.object,
     closeFunc: PropTypes.func.isRequired,
     submitFunc: PropTypes.func.isRequired
@@ -28,11 +27,11 @@ class AddNewClientForm extends React.Component {
   }
 
   submitModal() {
-    if (this.props.newOrEdit == 'new'){
+    if (this.props.formData.newOrEdit == 'new'){
       const userName = document.getElementById('user_name').value
 
       this.props.submitFunc(userName)
-    } else if (this.props.newOrEdit == 'edit'){
+    } else if (this.props.formData.newOrEdit == 'edit'){
 
     }
 
@@ -49,7 +48,7 @@ class AddNewClientForm extends React.Component {
 
   render () {
 
-    const formDataHTML = this.props.newOrEdit == 'new' ? <div className='form-horizontal'>
+    const formDataHTML = this.props.formData.newOrEdit == 'new' ? <div className='form-horizontal'>
       <fieldset>
         <div className='form-group'>
           <label className='col-md-4 control-label' htmlFor='user_name'>Name*</label>
@@ -81,7 +80,7 @@ class AddNewClientForm extends React.Component {
       </fieldset>
     </form>
 
-    const loading = this.props.formData.loading == 1 ? <div className='button-loading' ><i className='fa fa-spinner fa-pulse fa-3x fa-fw' /></div> : null
+    const loading = this.props.formData.loading ? <div className='button-loading' ><i className='fa fa-spinner fa-pulse fa-3x fa-fw' /></div> : null
 
     return (
       <div className='modal-container'>
@@ -104,7 +103,7 @@ class AddNewClientForm extends React.Component {
             { formDataHTML }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.submitModal()}>{this.props.newOrEdit == 'new' ? 'Create' : 'Save'}{loading}</Button>
+            <Button onClick={() => this.submitModal()}>{this.props.formData.newOrEdit == 'new' ? 'Create' : 'Save'}{loading}</Button>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>

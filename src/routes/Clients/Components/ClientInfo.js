@@ -2,28 +2,40 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
-import { createClient, closeModalFunc, showModalFunc } from '../Modules/module'
+import { createClient, closeModalFunc, getClientInfo, showModalFunc } from '../Modules/module'
 
 class ClientInfo extends React.Component {
 
   static propTypes = {
+    'client_id': PropTypes.number,
+    'before_client_id': PropTypes.number,
     'client_info': PropTypes.object,
-    'loading_client': PropTypes.number,
+    'loading_client': PropTypes.bool,
     'showModalFlag': PropTypes.bool,
-    'newOrEdit': PropTypes.string,
     'formData': PropTypes.object,
-    'errorMessage': PropTypes.string,
+    'readOnly': PropTypes.bool,
     'showModalFunc': PropTypes.func.isRequired,
     'createClient': PropTypes.func.isRequired,
-    'closeModalFunc': PropTypes.func.isRequired
+    'closeModalFunc': PropTypes.func.isRequired,
+    'getClientInfo': PropTypes.func.isRequired
   };
 
-  constructor() {
-    super()
+  componentWillReceiveProps(newProps){
+    if (newProps.client_id && (newProps.client_id != newProps.before_client_id) && !isNaN(newProps.client_id)){
+      newProps.getClientInfo(newProps.client_id)
+    }
+  }
+
+  constructor(props) {
+    super(props)
 
     this.addNewClient = this.addNewClient.bind(this)
     this.closeModalHandler = this.closeModalHandler.bind(this)
     this.submitModal = this.submitModal.bind(this)
+
+    if (props.client_id && ((Object.keys(props.client_info).length === 0) || (props.before_client_id != props.client_id)) && !isNaN(props.client_id)){
+      this.props.getClientInfo(props.client_id)
+    }
   }
 
   closeModalHandler(){
@@ -45,7 +57,7 @@ class ClientInfo extends React.Component {
   }
 
   render () {
-    const loading = this.props.loading_client == 1 ? <div className='contacts-loading loading-container' >
+    const loading = this.props.loading_client ? <div className='contacts-loading loading-container' >
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
     let phoneNumbers, emailAddresses, addresses, notes
 
@@ -79,10 +91,10 @@ class ClientInfo extends React.Component {
           <div key={index} id={one.id}>
             <div className='row'>
               <div className='col-sm-7 col-md-auto'>
-                <textarea type='text' className='' placeholder='Note' value={one.note} />
+                <textarea type='text' className='' placeholder='Note' value={one.note} readOnly={this.props.readOnly} />
               </div>
               <div className='col-sm-5 col-md-auto'>
-                <input type='text' className='' placeholder='Type' value={one.type.type} />
+                <input type='text' className='' placeholder='Type' value={one.type.type} readOnly={this.props.readOnly} />
               </div>
             </div>
           </div>
@@ -104,7 +116,7 @@ class ClientInfo extends React.Component {
               <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
             </a>
           </div>
-          <AddNewClientForm show={this.props.showModalFlag} newOrEdit={this.props.newOrEdit} formData={this.props.formData}
+          <AddNewClientForm show={this.props.showModalFlag} formData={this.props.formData}
                             submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
 
@@ -132,14 +144,15 @@ class ClientInfo extends React.Component {
 const mapStateToProps = (state) => ({
   'client_info': state.clients.client_info,
   'showModalFlag': state.clients.showModalFlag,
-  'newOrEdit': state.clients.newOrEdit,
   'formData': state.clients.formData,
-  'errorMessage': state.clients.errorMessage,
-  'loading_client': state.clients.loading_client
+  'loading_client': state.clients.loading_client,
+  'before_client_id': state.clients.client_id,
+  'readOnly': state.clients.readOnly
 })
 
 export default connect((mapStateToProps), {
   showModalFunc,
   createClient,
-  closeModalFunc
+  closeModalFunc,
+  getClientInfo
 })(ClientInfo)

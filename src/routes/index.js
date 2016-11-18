@@ -7,7 +7,7 @@ import SignInPageView from './SignIn/SignInPageView'
 import HomePageView from './Home/HomePageView'
 
 import MyPSETab from './Home/Tabs/mypseTab'
-import ClientsTab from './Clients'
+import ClientsTab from './Clients/index'
 import DashboardTab from './Home/Tabs/dashboardTab'
 import ProjectsTab from './Home/Tabs/projectsTab'
 import GeotechsTab from './Home/Tabs/geotechsTab'
@@ -19,7 +19,7 @@ export default (store) => (
       <IndexRoute component={DashboardTab} />
       <Route path='dashboard' component={DashboardTab} />
       <Route path='clients' getComponent={ClientsTab(store)} />
-      <Route path='clients/(:ClientId)' component={ClientsTab(store)} />
+      <Route path='clients/:ClientId' getComponent={ClientsTab(store)} />
       <Route path='projects' component={ProjectsTab} />
       <Route path='geotechs' component={GeotechsTab} />
       <Route path='mypse' component={MyPSETab} />

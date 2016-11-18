@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { Link, IndexLink } from 'react-router'
 
 import DataPagination from '../../../components/Pagination/pagination'
 import { getClientsList } from '../Modules/module'
@@ -12,10 +13,9 @@ class ClientsList extends React.Component {
     'last_page': PropTypes.number,
     'total_items': PropTypes.number,
     'clients_list': PropTypes.array,
-    'loading': PropTypes.number,
+    'loading': PropTypes.bool,
     'itemsPerPage': PropTypes.number,
     'prevSearch': PropTypes.object,
-    'submitClient': PropTypes.func.isRequired,
     'getClientsList': PropTypes.func.isRequired
   };
 
@@ -23,7 +23,6 @@ class ClientsList extends React.Component {
     super()
 
     this.onPaging = this.onPaging.bind(this)
-    this.clientInfo = this.clientInfo.bind(this)
 
   }
 
@@ -35,12 +34,6 @@ class ClientsList extends React.Component {
     prevParameters['page'] = currentPage
 
     this.props.getClientsList(prevParameters)
-
-  }
-
-  clientInfo(e, id){
-    e.preventDefault()
-    this.props.submitClient(id)
   }
 
   render () {
@@ -49,7 +42,7 @@ class ClientsList extends React.Component {
       pagination = this.props.total_items > this.props.itemsPerPage ? <div className='pagination-container'>
         <DataPagination count={count} active={this.props.page} pagingFunc={this.onPaging} />
       </div> : null,
-      loading = this.props.loading == 1 ? <div className='contacts-loading loading-container'>
+      loading = this.props.loading ? <div className='contacts-loading loading-container'>
         <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span>
       </div> : null
 
@@ -58,9 +51,10 @@ class ClientsList extends React.Component {
     if(Object.keys(this.props.clients_list).length > 0) {
 
       list = this.props.clients_list.map((item, index) => (
-        <a href='' onClick={e => this.clientInfo(e, item.id)} key={index} className='list-group-item'>{item.name}</a>
+        <Link to={'/clients/' + item.id} key={index} className='list-group-item'>{item.name}</Link>
       ))
     }
+
     return (
       <div className='clients-list-container'>
         <h3 className='text-center'>Results</h3>

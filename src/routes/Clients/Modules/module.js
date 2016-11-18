@@ -1,9 +1,11 @@
 import { APIConstants } from '../../../components/Api/APIConstants'
+import { push } from 'react-router-redux'
 import request from 'superagent-bluebird-promise'
 
 export const initialState = {
-  loading: 0,
-  loading_client: 0,
+  loading: false,
+  loading_client: false,
+  client_id: null,
   clients_list: [],
   client_info: {},
   total_items: 0,
@@ -11,37 +13,38 @@ export const initialState = {
   last_page: 1,
   per_page: 25,
   prevSearch: {},
-  formData: {},
+  formData: {newOrEdit: 'new'},
   showModalFlag: false,
-  newOrEdit: 'new'
+  readOnly: true
 }
 
 export const ACTION_HANDLERS = {
   'LOADING_CLIENTS': (state, action) => {
     return ({
       ...state,
-      'loading': 1,
+      'loading': true,
       'prevSearch': action.parameters
     })
   },
   'LOADING_CLIENT_INFO': (state, action) => {
     return ({
       ...state,
-      'loading_client': 1
+      'loading_client': true,
+      'client_id' : action.id
     })
   },
   'GET_CLIENT_INFO_SUCCESS': (state, action) => {
     return ({
       ...state,
       'client_info': action.client_info,
-      'loading_client': 0
+      'loading_client': false
     })
   },
   'GET_CLIENTS_SUCCESS': (state, action) => {
     return ({
       ...state,
       'clients_list': action.clients_list,
-      'loading': 0,
+      'loading': false,
       'total_items': action.total_items,
       'page': action.page,
       'last_page': action.last_page
@@ -50,21 +53,21 @@ export const ACTION_HANDLERS = {
   'NEW_CLIENT_LOADING': (state, action) => {
     return ({
       ...state,
-      'formData': {'loading': 1}
+      'formData': {'loading': true}
     })
   },
   'NEW_CLIENT_SUCCESS': (state, action) => {
     return ({
       ...state,
       'client_info': action.client_info,
-      'formData': {'loading': 0},
+      'formData': {'loading': false},
       'showModalFlag': false
     })
   },
   'NEW_CLIENT_ERROR': (state, action) => {
     return ({
       ...state,
-      'formData': {'errorMessage': action.errorMessage, 'loading': 0},
+      'formData': {'errorMessage': action.errorMessage, 'loading': false},
       'client_info': {}
     })
   },
@@ -72,7 +75,7 @@ export const ACTION_HANDLERS = {
     return ({
       ...state,
       'showModalFlag': true,
-      'newOrEdit': action.newOrEdit
+      'formData': {'newOrEdit': action.newOrEdit}
     })
   },
   'CLOSE_MODAL': (state, action) => {
@@ -139,7 +142,8 @@ export const getClientInfo = (id) => {
     const accessToken = localStorage.accessToken
 
     dispatch({
-      type: 'LOADING_CLIENT_INFO'
+      type: 'LOADING_CLIENT_INFO',
+      id: id
     })
 
     request.post(`${APIConstants.API_SERVER_NAME}client_info`)
@@ -150,19 +154,29 @@ export const getClientInfo = (id) => {
         const data = JSON.parse(response.text)
         console.log(data)
 
-        if (data.hasOwnProperty('data')) {
-          dispatch({
-            'type': 'GET_CLIENT_INFO_SUCCESS',
-            'client_info': data.data
-          })
-        }
+        if(data.status_code < 400) {
+          if (data.hasOwnProperty('data')) {
 
-        const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-        if (width < 992) {
-          setTimeout(function () {
-            const scrollContent = document.getElementById('scroll-content')
-            scrollContent.scrollTop = parseInt(document.getElementById('client_info_section').getBoundingClientRect().top)
-          }, 10)
+            dispatch({
+              'type': 'GET_CLIENT_INFO_SUCCESS',
+              'client_info': data.data
+            })
+          }
+
+          const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+          if (width < 992) {
+            setTimeout(function () {
+              const scrollContent = document.getElementById('scroll-content')
+              scrollContent.scrollTop = parseInt(document.getElementById('client_info_section').getBoundingClientRect().top)
+            }, 10)
+          }
+        }else{
+          if(data.error[0].code == 'ExpiredAccessToken'){
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('me')
+            dispatch(push('/sign-in'))
+          }
         }
 
       }, function (err) {
