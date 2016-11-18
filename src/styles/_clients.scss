@@ -146,13 +146,28 @@
         border-bottom: 1px solid #DDDDDD;
         padding: 15px;
         margin: 0;
-        height: 120px;
+        height: 100px;
+        max-height: 120px;
+        overflow-y: auto;
         @media only screen and (max-width: 992px) {
           margin-top: 30px;
           height: auto;
         }
         .edit_check_icon{
           margin-left: 20px;
+        }
+        .top-name-container{
+          width: 100%;
+          position: relative;
+          float: left;
+          .client-name{
+            float: left;
+            width: calc( 100% - 100px );
+          }
+          .add-new-client-btn{
+            width: 100px;
+            float: right;
+          }
         }
       }
       .right-middle-section{
@@ -167,7 +182,6 @@
             margin-bottom: 30px;
           }
         }
-
         @media only screen and (max-width: 992px) {
           padding-bottom: 30px;
           max-height: none;

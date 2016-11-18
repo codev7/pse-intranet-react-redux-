@@ -60,14 +60,17 @@ class ClientInfo extends React.Component {
       readOnly: this.state.readOnly !== true
     })
   }
+
   closeModalHandler(){
     this.props.closeModalFunc()
   }
+
   addNote(e){
     if (e){
       e.preventDefault()
     }
   }
+
   addNewClient(e) {
     if (e){
       e.preventDefault()
@@ -80,88 +83,79 @@ class ClientInfo extends React.Component {
   }
 
   render () {
-    const loading = this.props.loading_client ? <div className='contacts-loading loading-container' >
-      <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div> : null
+    const loading = this.props.loading_client && <div className='contacts-loading loading-container' >
+      <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div>
     let phoneNumbers, emailAddresses, addresses, notes
 
     if (Object.keys(this.props.client_info).length > 0){
-
-      phoneNumbers = this.props.client_info.phones ? (<div className='phone-number-container info-container'>
+      phoneNumbers = this.props.client_info.phones && (<div className='phone-number-container info-container'>
         <h4>Client Phone Numbers</h4>
         {this.props.client_info.phones.map((one, index) => (
           <div key={index} id={one.id}>{one.number} - {one.type.type}</div>
         ))}
-      </div>) : null
-
-      emailAddresses = this.props.client_info.emails ? (<div className='email-addresses-container info-container'>
+      </div>)
+      emailAddresses = this.props.client_info.emails && (<div className='email-addresses-container info-container'>
         <h4>Client Email Addresses</h4>
         {this.props.client_info.emails.map((one, index) => (
           <div key={index} id={one.id}>{one.email} - {one.type.type}</div>
         ))}
-      </div>) : null
-
-      addresses = this.props.client_info.addresses ? (<div className='addresses-container info-container'>
+      </div>)
+      addresses = this.props.client_info.addresses && (<div className='addresses-container info-container'>
         <h4>Client Addresses</h4>
         {this.props.client_info.addresses.map((one, index) => (
           <div key={index} id={one.id}>{one.address_line0} {one.address_line1} {one.city}, {one.state} {one.zip_code} - {one.type.type}</div>
         ))}
-      </div>) : null
-
-      notes = this.props.client_info.notes ? (<div className='notes-container info-container'>
-        <h4>Client Notes</h4> {this.state.readOnly ? <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a> : null}
+      </div>)
+      notes = this.props.client_info.notes && (<div className='notes-container info-container'>
+        <h4>Client Notes</h4> {!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
         {this.props.client_info.notes.map((one, index) => (
           <div key={index} id={one.id}>
             <div className='row'>
               <div className=''>
-                <textarea type='text' className='' placeholder='Note' defaultValue={one.note} />
+                <textarea type='text' className='' placeholder='Note' defaultValue={one.note} readOnly={this.state.readOnly} />
               </div>
               <div className=''>
-                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} />
+                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
               </div>
-              <div>
+              { !this.state.readOnly && <div>
                 <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-minus-sign' /></a>
-              </div>
+              </div> }
             </div>
           </div>
         ))}
-      </div>) : null
+      </div>)
     }
 
     return (
       <div id='client_info_section'>
-        <div className='top-right-section row'>
-          <div className='client-name col-sm-6'>
-            { this.props.client_info.name &&
-            <h3 className='name'>
-              {this.props.client_info.name}
-              <a href='' className='edit_check_icon' onClick={e => this.editModeHandler(e)}>
-                { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
+        <div className='top-right-section'>
+          <div className='top-name-container'>
+            <div className='client-name'>
+              { this.props.client_info.name &&
+              <h3 className='name'>
+                {this.props.client_info.name}
+                <a href='' className='edit_check_icon' onClick={e => this.editModeHandler(e)}>
+                  { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
+                </a>
+              </h3> }
+            </div>
+            <div className='add-new-client-btn hidden-sm hidden-xs'>
+              <a href='' onClick={e => this.addNewClient(e)}>
+                <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
               </a>
-            </h3>
-            }
+            </div>
           </div>
-          <div className='add-new-client-btn col-sm-6 hidden-sm hidden-xs'>
-            <a href='' onClick={e => this.addNewClient(e)}>
-              <h3><span>+</span><span className='add-new-client-text'>Add New</span></h3>
-            </a>
-          </div>
-          <AddNewClientForm show={this.props.showModalFlag} formData={this.props.formData}
-                            submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         </div>
-
+        <AddNewClientForm show={this.props.showModalFlag} formData={this.props.formData}
+                          submitFunc={this.submitModal} closeFunc={this.closeModalHandler} />
         { loading }
         { Object.keys(this.props.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
-
             { notes }
-
             { phoneNumbers }
-
             { emailAddresses }
-
             { addresses }
-
           </div>
         </div>
         }
