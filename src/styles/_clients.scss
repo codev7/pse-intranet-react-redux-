@@ -164,6 +164,9 @@
           .client-name{
             float: left;
             width: calc( 100% - 100px );
+            h3>span{
+              font-size: 15px;
+            }
           }
           .add-new-client-btn{
             width: 100px;

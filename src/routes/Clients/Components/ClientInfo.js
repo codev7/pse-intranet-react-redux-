@@ -243,12 +243,14 @@ class ClientInfo extends React.Component {
           <div className='top-name-container'>
             <div className='client-name'>
               { this.state.client_info.name &&
-              <h3 className='name'>
-                {this.state.client_info.name}
-                <a href='' className='edit_check_icon' onClick={e => this.editModeHandler(e)}>
-                  { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
-                </a>
-              </h3> }
+              <div>
+                <h3 className='name'>
+                  {this.state.client_info.name} <span> ({this.state.readOnly ? 'ReadOnly Mode' : 'Edit Mode'}) </span>
+                  <a href='' className='edit_check_icon' title={this.state.readOnly ? 'Edit Mode' : 'ReadOnly Mode'} onClick={e => this.editModeHandler(e)}>
+                    { this.state.readOnly ? <i className='glyphicon glyphicon-edit' /> : <i className='glyphicon glyphicon-check' />}
+                  </a>
+                </h3>
+              </div> }
             </div>
             <div className='add-new-client-btn hidden-sm hidden-xs'>
               <a href='' onClick={e => this.addNewClient(e)}>
