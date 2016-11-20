@@ -26,7 +26,7 @@ class ClientInfo extends React.Component {
   componentWillReceiveProps(newProps){
     if (newProps.client_id && (newProps.client_id != newProps.before_client_id) && !isNaN(newProps.client_id)){
       newProps.getClientInfo(newProps.client_id)
-    }else if(JSON.stringify(this.state.client_info) !== JSON.stringify(newProps.client_info)){
+    }else {
       this.setState({
         client_info: newProps.client_info
       })
@@ -117,10 +117,10 @@ class ClientInfo extends React.Component {
         { Object.keys(this.state.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
-            <ClientNotes notes={this.state.client_info.notes} readOnly={this.state.readOnly} client_id={clientId} />
-            <ClientPhoneNumbers phones={this.state.client_info.phones} readOnly={this.state.readOnly} client_id={clientId} />
-            <ClientEmailAddresses emails={this.state.client_info.emails} readOnly={this.state.readOnly} client_id={clientId} />
-            <ClientAddresses addresses={this.state.client_info.addresses} readOnly={this.state.readOnly} client_id={clientId} />
+            { this.state.client_info.notes.length > 0 && <ClientNotes notes={this.state.client_info.notes} readOnly={this.state.readOnly} client_id={clientId} />}
+            { this.state.client_info.phones.length > 0 && <ClientPhoneNumbers phones={this.state.client_info.phones} readOnly={this.state.readOnly} client_id={clientId} />}
+            { this.state.client_info.emails.length > 0 && <ClientEmailAddresses emails={this.state.client_info.emails} readOnly={this.state.readOnly} client_id={clientId} />}
+            { this.state.client_info.addresses.length > 0 && <ClientAddresses addresses={this.state.client_info.addresses} readOnly={this.state.readOnly} client_id={clientId} />}
           </div>
         </div>
         }

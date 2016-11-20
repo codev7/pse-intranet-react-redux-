@@ -20,6 +20,14 @@ class Addresses extends React.Component {
     this.updateAddress = this.updateAddress.bind(this)
   }
 
+  componentWillReceiveProps(newProps){
+    if(JSON.stringify(this.state.addresses) !== JSON.stringify(newProps.addresses)){
+      this.setState({
+        addresses: newProps.addresses
+      })
+    }
+  }
+
   addAddress(e) {
     if (e) {
       e.preventDefault()

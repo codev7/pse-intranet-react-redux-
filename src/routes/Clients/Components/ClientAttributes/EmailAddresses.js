@@ -20,6 +20,14 @@ class EmailAddresses extends React.Component {
     this.updateEmail = this.updateEmail.bind(this)
   }
 
+  componentWillReceiveProps(newProps){
+    if(JSON.stringify(this.state.emails) !== JSON.stringify(newProps.emails)){
+      this.setState({
+        emails: newProps.emails
+      })
+    }
+  }
+
   addEmail(e){
     if (e){
       e.preventDefault()

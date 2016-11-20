@@ -142,13 +142,6 @@ export const getClientsList = (param, pagination = {}) => {
   }
 }
 
-export const addNoteToClient = (clientId) => {
-  return (dispatch) => {
-    const accessToken = localStorage.accessToken
-
-  }
-}
-
 export const getClientInfo = (id) => {
   return (dispatch) => {
     const accessToken = localStorage.accessToken
@@ -252,5 +245,50 @@ export const showModalFunc = (newOrEdit) => {
       type: 'SHOW_MODAL',
       newOrEdit: newOrEdit
     })
+  }
+}
+
+
+export const addNoteToClient = (clientId) => {
+  return (dispatch) => {
+    const accessToken = localStorage.accessToken
+
+  }
+}
+
+export const removeNote = (clientId, noteId) => {
+  return (dispatch) => {
+    const accessToken = localStorage.accessToken
+
+    request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
+      .send(JSON.stringify({'access_token': accessToken, 'name': name}))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+
+        const data = JSON.parse(response.text)
+
+        if ((data.status_code == 201) || (data.status_code == 200)) {
+
+          dispatch({
+            type: 'NEW_CLIENT_SUCCESS',
+            client_info: data.data
+          })
+
+        } else {
+          let message = ''
+          if (data.error) {
+            message = data.error[0].message
+          }
+
+          dispatch({
+            type: 'NEW_CLIENT_ERROR',
+            errorMessage: message
+          })
+
+        }
+
+      }, function (err) {
+        console.log(err)
+      })
   }
 }

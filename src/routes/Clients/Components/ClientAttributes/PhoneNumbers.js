@@ -20,6 +20,14 @@ class PhoneNumbers extends React.Component {
     this.updatePhoneNumber = this.updatePhoneNumber.bind(this)
   }
 
+  componentWillReceiveProps(newProps){
+    if(JSON.stringify(this.state.phones) !== JSON.stringify(newProps.phones)){
+      this.setState({
+        phones: newProps.phones
+      })
+    }
+  }
+
   addPhoneNumber(e){
     if (e){
       e.preventDefault()

@@ -1,12 +1,15 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import { removeNote } from '../../Modules/module'
+
 class ClientNotes extends React.Component {
 
   static propTypes = {
     notes: PropTypes.array,
     client_id: PropTypes.number,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    removeNote: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -18,6 +21,14 @@ class ClientNotes extends React.Component {
 
     this.addNote = this.addNote.bind(this)
     this.updateNote = this.updateNote.bind(this)
+  }
+
+  componentWillReceiveProps(newProps){
+    if(JSON.stringify(this.state.notes) !== JSON.stringify(newProps.notes)){
+      this.setState({
+        notes: newProps.notes
+      })
+    }
   }
 
   addNote(e){
@@ -39,7 +50,15 @@ class ClientNotes extends React.Component {
     }
 
     switch(command){
-      case 'delete':
+      case 'remove':
+        let notes = this.state.notes
+        notes.splice(index, 1)
+        this.setState({
+          notes: notes
+        })
+
+        this.props.removeNote(clientId, one.id)
+
         break
       case 'update':
         break
@@ -64,7 +83,7 @@ class ClientNotes extends React.Component {
 
   render () {
     return (
-      this.state.notes && (<div className='notes-container info-container'>
+      <div className='notes-container info-container'>
         <div className='title-container'>
           <h4>Client Notes</h4>{!this.props.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
         </div>
@@ -82,7 +101,7 @@ class ClientNotes extends React.Component {
             </div> }
           </div>
         ))}
-      </div>)
+      </div>
     )
   }
 
@@ -92,4 +111,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect((mapStateToProps), {
+  removeNote
 })(ClientNotes)
