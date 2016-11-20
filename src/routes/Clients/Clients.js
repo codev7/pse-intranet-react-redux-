@@ -49,7 +49,7 @@ class ClientsTab extends React.Component {
               </div>
 
               <div className='col-md-9 right-column'>
-                { this.props.client_id ? <ClientInfo client_id={parseInt(this.props.client_id)} /> : null }
+                { this.props.client_id ? <ClientInfo client_id={parseInt(this.props.client_id)} /> : <ClientInfo /> }
               </div>
 
             </div>

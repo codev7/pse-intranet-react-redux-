@@ -1,4 +1,3 @@
-
 export const APIConstants = {
   'AUTH_GET_ACCESS_TOKEN': 'oauth/access_token',
   'AUTH_GET_REFRESH_TOKEN': 'oauth/refresh_token',

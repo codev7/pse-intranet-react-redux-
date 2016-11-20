@@ -22,14 +22,15 @@ class ClientInfo extends React.Component {
   componentWillReceiveProps(newProps){
     if (newProps.client_id && (newProps.client_id != newProps.before_client_id) && !isNaN(newProps.client_id)){
       newProps.getClientInfo(newProps.client_id)
-    }
-
-    if(JSON.stringify(this.state.client_info) !== JSON.stringify(newProps.client_info)){
-      console.log(newProps.client_info)
+    }else if(JSON.stringify(this.state.client_info) !== JSON.stringify(newProps.client_info)){
       this.setState({
         client_info: newProps.client_info
       })
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !(nextProps.client_id && (nextProps.client_id != nextProps.before_client_id) && !isNaN(nextProps.client_id)) || nextProps.showModalFlag || nextProps.loading_client
   }
 
   constructor(props) {
@@ -37,7 +38,11 @@ class ClientInfo extends React.Component {
 
     this.state = {
       'readOnly': true,
-      'client_info': this.props.client_info
+      'client_info': {}
+    }
+
+    if (props.client_id && !isNaN(props.client_id)){
+      this.props.getClientInfo(props.client_id)
     }
 
     this.addNewClient = this.addNewClient.bind(this)
@@ -45,11 +50,10 @@ class ClientInfo extends React.Component {
     this.submitModal = this.submitModal.bind(this)
     this.editModeHandler = this.editModeHandler.bind(this)
     this.addNote = this.addNote.bind(this)
+    this.addEmail = this.addEmail.bind(this)
+    this.addPhoneNumber = this.addPhoneNumber.bind(this)
+    this.addAddress = this.addAddress.bind(this)
     this.updateNote = this.updateNote.bind(this)
-
-    if (props.client_id && ((Object.keys(props.client_info).length === 0) || (props.before_client_id != props.client_id)) && !isNaN(props.client_id)){
-      this.props.getClientInfo(props.client_id)
-    }
   }
 
   editModeHandler(e){
@@ -145,9 +149,10 @@ class ClientInfo extends React.Component {
   render () {
     const loading = this.props.loading_client && <div className='contacts-loading loading-container' >
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div>
-    let phoneNumbers, emailAddresses, addresses, notes
+    let phoneNumbers, emailAddresses, addresses, notes, clientId
 
     if (Object.keys(this.state.client_info).length > 0){
+      clientId = this.state.client_info.id
       phoneNumbers = this.state.client_info.phones && (<div className='phone-number-container info-container'>
           <div className='title-container'>
             <h4>Client Phone Numbers</h4>{!this.state.readOnly && <a href='' onClick={e => this.addPhoneNumber(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
@@ -224,8 +229,8 @@ class ClientInfo extends React.Component {
               <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
             </div>
             { !this.state.readOnly && <div className='pull-left third-container'>
-              <a href='' onClick={e => this.updateNote(e, 'remove')}><i className='glyphicon glyphicon-minus-sign' /></a>
-              <a href='' onClick={e => this.updateNote(e, 'update')}><i className='glyphicon glyphicon-ok-sign' /></a>
+              <a href='' onClick={e => this.updateNote(e, 'remove', one, clientId)}><i className='glyphicon glyphicon-minus-sign' /></a>
+              <a href='' onClick={e => this.updateNote(e, 'update', one, clientId)}><i className='glyphicon glyphicon-ok-sign' /></a>
             </div> }
           </div>
         ))}
@@ -267,6 +272,7 @@ class ClientInfo extends React.Component {
         }
       </div>
     )
+
   }
 }
 

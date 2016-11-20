@@ -30,6 +30,10 @@ class SearchForm extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    return !(nextProps.client_id && (nextProps.client_id != nextProps.before_client_id) && !isNaN(nextProps.client_id))
+  }
+
   handleSelectChange(e, id){
     let parameters = this.state.searchParameters
     parameters[id]['key'] = e.target.value

@@ -52,21 +52,21 @@ export const ACTION_HANDLERS = {
   'NEW_CLIENT_LOADING': (state, action) => {
     return ({
       ...state,
-      'formData': {'loading': true}
+      'formData': Object.assign({}, state.formData, {'loading': true})
     })
   },
   'NEW_CLIENT_SUCCESS': (state, action) => {
     return ({
       ...state,
       'client_info': action.client_info,
-      'formData': {'loading': false},
+      'formData': Object.assign({}, state.formData, {'loading': false}),
       'showModalFlag': false
     })
   },
   'NEW_CLIENT_ERROR': (state, action) => {
     return ({
       ...state,
-      'formData': {'errorMessage': action.errorMessage, 'loading': false},
+      'formData': Object.assign({}, state.formData, {'errorMessage': action.errorMessage, 'loading': false}),
       'client_info': {}
     })
   },
@@ -74,7 +74,7 @@ export const ACTION_HANDLERS = {
     return ({
       ...state,
       'showModalFlag': true,
-      'formData': {'newOrEdit': action.newOrEdit}
+      'formData': Object.assign({}, state.formData, {'newOrEdit': action.newOrEdit})
     })
   },
   'CLOSE_MODAL': (state, action) => {
@@ -197,7 +197,7 @@ export const getClientInfo = (id) => {
   }
 }
 
-export const createClient = (data) => {
+export const createClient = (name) => {
   return (dispatch) => {
     const accessToken = localStorage.accessToken
 
@@ -206,7 +206,7 @@ export const createClient = (data) => {
     })
 
     request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
-      .send(JSON.stringify({'access_token': accessToken, 'name': data}))
+      .send(JSON.stringify({'access_token': accessToken, 'name': name}))
       .set('Content-Type', 'application/json')
       .then(function (response) {
 
