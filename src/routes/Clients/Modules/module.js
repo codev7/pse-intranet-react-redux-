@@ -142,13 +142,12 @@ export const getClientsList = (param, pagination = {}) => {
   }
 }
 
-// editClient(data) {
-//   this.setState({
-//     showModal: true,
-//     newOrEdit: 'edit',
-//     formData: data
-//   })
-// }
+export const addNoteToClient = (clientId) => {
+  return (dispatch) => {
+    const accessToken = localStorage.accessToken
+
+  }
+}
 
 export const getClientInfo = (id) => {
   return (dispatch) => {
