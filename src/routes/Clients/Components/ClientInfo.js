@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 
 import AddNewClientForm from '../../../components/ModalForm/addNewClientForm'
 import { createClient, closeModalFunc, getClientInfo, showModalFunc } from '../Modules/module'
+import ClientNotes from './ClientAttributes/Notes'
+import ClientEmailAddresses from './ClientAttributes/EmailAddresses'
+import ClientAddresses from './ClientAttributes/Addresses'
+import ClientPhoneNumbers from './ClientAttributes/PhoneNumbers'
 
 class ClientInfo extends React.Component {
 
@@ -49,11 +53,6 @@ class ClientInfo extends React.Component {
     this.closeModalHandler = this.closeModalHandler.bind(this)
     this.submitModal = this.submitModal.bind(this)
     this.editModeHandler = this.editModeHandler.bind(this)
-    this.addNote = this.addNote.bind(this)
-    this.addEmail = this.addEmail.bind(this)
-    this.addPhoneNumber = this.addPhoneNumber.bind(this)
-    this.addAddress = this.addAddress.bind(this)
-    this.updateNote = this.updateNote.bind(this)
   }
 
   editModeHandler(e){
@@ -70,71 +69,6 @@ class ClientInfo extends React.Component {
     this.props.closeModalFunc()
   }
 
-  addNote(e){
-    if (e){
-      e.preventDefault()
-    }
-
-    const notes = this.state.client_info.notes
-    notes.push({note: '', type: {type: 'general'}})
-    console.log(notes)
-    this.setState({
-      client_info: Object.assign({}, this.state.client_info, {notes: notes})
-    })
-  }
-
-  addEmail(e){
-    if (e){
-      e.preventDefault()
-    }
-
-    const emails = this.state.client_info.emails
-    emails.push({emails: '', type: {type: ''}})
-    console.log(emails)
-    this.setState({
-      client_info: Object.assign({}, this.state.client_info, {emails: emails})
-    })
-  }
-
-  addPhoneNumber(e){
-    if (e){
-      e.preventDefault()
-    }
-
-    const phones = this.state.client_info.phones
-    phones.push({number: '', type: {type: ''}})
-    console.log(phones)
-    this.setState({
-      client_info: Object.assign({}, this.state.client_info, {phones: phones})
-    })
-  }
-
-  addAddress(e){
-    if (e){
-      e.preventDefault()
-    }
-
-    const addresses = this.state.client_info.addresses
-    addresses.push({address_line0: null, address_line1: null, city: null, state: null, zip_code: null})
-    console.log(addresses)
-    this.setState({
-      client_info: Object.assign({}, this.state.client_info, {addresses: addresses})
-    })
-  }
-
-  updateNote(e, command){
-    if (e){
-      e.preventDefault()
-    }
-
-    switch(command){
-      case 'delete':
-        break
-      case 'update':
-        break
-    }
-  }
-
   addNewClient(e) {
     if (e){
       e.preventDefault()
@@ -149,92 +83,10 @@ class ClientInfo extends React.Component {
   render () {
     const loading = this.props.loading_client && <div className='contacts-loading loading-container' >
       <i className='fa fa-spinner fa-pulse fa-3x fa-fw' /><span className='sr-only'>Loading...</span></div>
-    let phoneNumbers, emailAddresses, addresses, notes, clientId
+    let clientId = null
 
-    if (Object.keys(this.state.client_info).length > 0){
+    if (this.state.client_info.hasOwnProperty('id')){
       clientId = this.state.client_info.id
-      phoneNumbers = this.state.client_info.phones && (<div className='phone-number-container info-container'>
-          <div className='title-container'>
-            <h4>Client Phone Numbers</h4>{!this.state.readOnly && <a href='' onClick={e => this.addPhoneNumber(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
-          </div>
-          {this.state.client_info.phones.map((one, index) => (
-            <div key={index} className='info-row'>
-              <div className='pull-left first-container'>
-                <input type='text' className='' placeholder='Phone number' defaultValue={one.number} readOnly={this.state.readOnly} />
-              </div>
-              <div className='pull-left second-container'>
-                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
-              </div>
-              { !this.state.readOnly && <div className='pull-left third-container'>
-                <a href='' onClick={e => this.updateNote(e, 'remove')}><i className='glyphicon glyphicon-minus-sign' /></a>
-                <a href='' onClick={e => this.updateNote(e, 'update')}><i className='glyphicon glyphicon-ok-sign' /></a>
-              </div> }
-            </div>
-          ))}
-        </div>)
-
-      emailAddresses = this.state.client_info.emails && (<div className='email-addresses-container info-container'>
-          <div className='title-container'>
-            <h4>Client Email Addresses</h4>{!this.state.readOnly && <a href='' onClick={e => this.addEmail(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
-          </div>
-          {this.state.client_info.emails.map((one, index) => (
-            <div key={index} className='info-row'>
-              <div className='pull-left first-container'>
-                <input type='text' className='' placeholder='Email' defaultValue={one.email} readOnly={this.state.readOnly} />
-              </div>
-              <div className='pull-left second-container'>
-                <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
-              </div>
-              { !this.state.readOnly && <div className='pull-left third-container'>
-                <a href='' onClick={e => this.updateNote(e, 'remove')}><i className='glyphicon glyphicon-minus-sign' /></a>
-                <a href='' onClick={e => this.updateNote(e, 'update')}><i className='glyphicon glyphicon-ok-sign' /></a>
-              </div> }
-            </div>
-          ))}
-        </div>)
-
-      addresses = this.state.client_info.addresses && (<div className='address-container info-container'>
-          <div className='title-container'>
-            <h4>Client Addresses</h4>{!this.state.readOnly && <a href='' onClick={e => this.addAddress(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
-          </div>
-          {this.state.client_info.addresses.map((one, index) => (
-            <div key={index} className='info-row'>
-              <div className='pull-left first-container'>
-                <input type='text' className='' defaultValue={one.address_line0} readOnly={this.state.readOnly} />
-                <input type='text' className='' defaultValue={one.address_line1} readOnly={this.state.readOnly} />
-                <input type='text' className='' defaultValue={one.city} readOnly={this.state.readOnly} />
-              </div>
-              <div className='pull-left second-container'>
-                <input type='text' className='' defaultValue={one.state} readOnly={this.state.readOnly} />
-                <input type='text' className='' defaultValue={one.zip_code} readOnly={this.state.readOnly} />
-              </div>
-              { !this.state.readOnly && <div className='pull-left third-container'>
-                <a href='' onClick={e => this.updateNote(e, 'remove')}><i className='glyphicon glyphicon-minus-sign' /></a>
-                <a href='' onClick={e => this.updateNote(e, 'update')}><i className='glyphicon glyphicon-ok-sign' /></a>
-              </div> }
-            </div>
-          ))}
-        </div>)
-
-      notes = this.state.client_info.notes && (<div className='notes-container info-container'>
-        <div className='title-container'>
-          <h4>Client Notes</h4>{!this.state.readOnly && <a href='' onClick={e => this.addNote(e)}><i className='glyphicon glyphicon-plus-sign' /></a>}
-        </div>
-        {this.state.client_info.notes.map((one, index) => (
-          <div key={index} className='info-row'>
-            <div className='pull-left first-container'>
-              <textarea type='text' className='' placeholder='Note' defaultValue={one.note} readOnly={this.state.readOnly} />
-            </div>
-            <div className='pull-left second-container'>
-              <input type='text' className='' placeholder='Type' defaultValue={one.type.type} readOnly={this.state.readOnly} />
-            </div>
-            { !this.state.readOnly && <div className='pull-left third-container'>
-              <a href='' onClick={e => this.updateNote(e, 'remove', one, clientId)}><i className='glyphicon glyphicon-minus-sign' /></a>
-              <a href='' onClick={e => this.updateNote(e, 'update', one, clientId)}><i className='glyphicon glyphicon-ok-sign' /></a>
-            </div> }
-          </div>
-        ))}
-      </div>)
     }
 
     return (
@@ -265,10 +117,10 @@ class ClientInfo extends React.Component {
         { Object.keys(this.state.client_info).length > 0 &&
         <div className='right-middle-section'>
           <div>
-            { notes }
-            { phoneNumbers }
-            { emailAddresses }
-            { addresses }
+            <ClientNotes notes={this.state.client_info.notes} readOnly={this.state.readOnly} client_id={clientId} />
+            <ClientPhoneNumbers phones={this.state.client_info.phones} readOnly={this.state.readOnly} client_id={clientId} />
+            <ClientEmailAddresses emails={this.state.client_info.emails} readOnly={this.state.readOnly} client_id={clientId} />
+            <ClientAddresses addresses={this.state.client_info.addresses} readOnly={this.state.readOnly} client_id={clientId} />
           </div>
         </div>
         }
