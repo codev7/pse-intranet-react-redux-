@@ -54,11 +54,18 @@ const clients = {
 
   DeleteClientNote: function (req, res) {
     const clientId = req.body.client_id, noteId = req.body.note_id, accessToken = req.body.access_token
-
-    request.del(`${CONFIG.API_SERVER_NAME}clients/${clientId}/notes/${noteId}/?access_token=${accessToken}`)
+    console.log(`${CONFIG.API_SERVER_NAME}clients/${clientId}/notes/${noteId}`, accessToken)
+    request.del(`${CONFIG.API_SERVER_NAME}clients/${clientId}/notes/${noteId}`)
       .send(JSON.stringify({'access_token': accessToken}))
+      .set('Content-Type', 'application/json')
       .then(function (response) {
-        res.send(JSON.parse(response.text))
+        console.log(response)
+        if(response.status_code == 204){
+          res.status(204).send({'result': 'success'})
+        }else{
+          res.send(response)
+        }
+
       }, function (err) {
         res.send(JSON.parse(err.res.text))
       })
