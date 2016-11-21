@@ -96,11 +96,15 @@ export const getClientsList = (param, pagination = {}) => {
       }
     })
 
-    if (pagination.hasOwnProperty('page')) {
+    if (!pagination.hasOwnProperty('page')) {
       parameters['page'] = 1
+    }else{
+      parameters['page'] = pagination['page']
     }
-    if (pagination.hasOwnProperty('per_page')) {
+    if (!pagination.hasOwnProperty('per_page')) {
       parameters['per_page'] = 25
+    }else{
+      parameters['per_page'] = pagination['per_page']
     }
 
     dispatch({
