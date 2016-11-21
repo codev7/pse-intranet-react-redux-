@@ -248,7 +248,6 @@ export const showModalFunc = (newOrEdit) => {
   }
 }
 
-
 export const addNoteToClient = (clientId) => {
   return (dispatch) => {
     const accessToken = localStorage.accessToken
@@ -256,36 +255,35 @@ export const addNoteToClient = (clientId) => {
   }
 }
 
-export const removeNote = (clientId, noteId) => {
+export const deleteNote = (clientId, noteId) => {
   return (dispatch) => {
     const accessToken = localStorage.accessToken
 
-    request.post(`${APIConstants.API_SERVER_NAME}clients_create`)
-      .send(JSON.stringify({'access_token': accessToken, 'name': name}))
+    request.post(`${APIConstants.API_SERVER_NAME}client_note_delete`)
+      .send(JSON.stringify({'access_token': accessToken, 'client_id': clientId, 'note_id': noteId}))
       .set('Content-Type', 'application/json')
       .then(function (response) {
 
         const data = JSON.parse(response.text)
+        console.log(data)
 
-        if ((data.status_code == 201) || (data.status_code == 200)) {
+      }, function (err) {
+        console.log(err)
+      })
+  }
+}
 
-          dispatch({
-            type: 'NEW_CLIENT_SUCCESS',
-            client_info: data.data
-          })
+export const createNote = (clientId, note) => {
+  return (dispatch) => {
+    const accessToken = localStorage.accessToken
+    console.log(note)
+    request.post(`${APIConstants.API_SERVER_NAME}client_note_add`)
+      .send(JSON.stringify({'access_token': accessToken, 'client_id': clientId, 'note': note.note, 'type': {'id': 0, 'type': note.type.type}}))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
 
-        } else {
-          let message = ''
-          if (data.error) {
-            message = data.error[0].message
-          }
-
-          dispatch({
-            type: 'NEW_CLIENT_ERROR',
-            errorMessage: message
-          })
-
-        }
+        const data = JSON.parse(response.text)
+        console.log(data)
 
       }, function (err) {
         console.log(err)

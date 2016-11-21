@@ -19,6 +19,10 @@ router.post('/clients_list', clients.getClientsList)
 router.post('/client_info', clients.getClientInfo)
 router.post('/clients_create', clients.createClient)
 
+router.post('/client_note_add', clients.AddClientNote)
+router.post('/client_note_delete', clients.DeleteClientNote)
+router.post('/client_note_update', clients.UpdateClientNote)
+
 // User Endpoints
 router.post('/me', users.me)
 

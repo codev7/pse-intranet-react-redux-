@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { removeNote } from '../../Modules/module'
+import { deleteNote, createNote } from '../../Modules/module'
 
 class ClientNotes extends React.Component {
 
@@ -9,7 +9,8 @@ class ClientNotes extends React.Component {
     notes: PropTypes.array,
     client_id: PropTypes.number,
     readOnly: PropTypes.bool,
-    removeNote: PropTypes.func.isRequired
+    deleteNote: PropTypes.func.isRequired,
+    createNote: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -57,10 +58,14 @@ class ClientNotes extends React.Component {
           notes: notes
         })
 
-        this.props.removeNote(clientId, one.id)
+        this.props.deleteNote(clientId, one.id)
 
         break
       case 'update':
+        console.log(one)
+        if(one.id == null || one.id == ''){
+          this.props.createNote(clientId, one)
+        }
         break
     }
   }
@@ -111,5 +116,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect((mapStateToProps), {
-  removeNote
+  deleteNote,
+  createNote
 })(ClientNotes)

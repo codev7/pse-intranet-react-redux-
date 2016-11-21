@@ -50,7 +50,54 @@ const clients = {
       }, function (err) {
         res.send(JSON.parse(err.res.text))
       })
+  },
+
+  DeleteClientNote: function (req, res) {
+    const clientId = req.body.client_id, noteId = req.body.note_id, accessToken = req.body.access_token
+
+    request.del(`${CONFIG.API_SERVER_NAME}clients/${clientId}/notes/${noteId}/?access_token=${accessToken}`)
+      .send(JSON.stringify({'access_token': accessToken}))
+      .then(function (response) {
+        res.send(JSON.parse(response.text))
+      }, function (err) {
+        res.send(JSON.parse(err.res.text))
+      })
+  },
+
+  AddClientNote: function (req, res) {
+    const clientId = req.body.client_id,
+      formData = {
+        'access_token': req.body.access_token,
+        'note': req.body.note,
+        'type_id': req.body.type['id']
+      }
+    console.log(formData)
+
+    request.post(`${CONFIG.API_SERVER_NAME}clients/${clientId}/notes`)
+      .send(JSON.stringify(formData))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+        res.send(JSON.parse(response.text))
+      }, function (err) {
+        res.send(JSON.parse(err.res.text))
+      })
+  },
+
+  UpdateClientNote: function (req, res) {
+    const formData = {
+      'access_token': req.body.access_token,
+      'name': req.body.name
+    }
+    request.post(`${CONFIG.API_SERVER_NAME}${CONFIG.CREATE_CLIENT}`)
+      .send(JSON.stringify(formData))
+      .set('Content-Type', 'application/json')
+      .then(function (response) {
+        res.send(JSON.parse(response.text))
+      }, function (err) {
+        res.send(JSON.parse(err.res.text))
+      })
   }
+
 }
 
 module.exports = clients
