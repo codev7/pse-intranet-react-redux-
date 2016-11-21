@@ -19,7 +19,13 @@ export function requireAuth (nextState, replace) {
               localStorage.setItem('accessToken', responseRefreshToken.data.access_token)
               localStorage.setItem('refreshToken', responseRefreshToken.data.refresh_token)
             }
-          ).catch((err) => console.log(err))
+          ).catch((err) => {
+            console.log(err)
+            replace({
+              pathname: '/sign-in',
+              state: { nextPathname: nextState.location.pathname }
+            })
+          })
         } else if (response.status_code === 200) {
           localStorage.setItem('me', JSON.stringify(response.data))
         }
@@ -32,10 +38,26 @@ export function requireAuthOnChange (prevState, nextState, replace) {
   const loggedIn = !!localStorage.accessToken
 
   if (!loggedIn) {
-    replace({
-      pathname: '/sign-in',
-      state: { nextPathname: nextState.location.pathname }
-    })
+    const refreshToken = localStorage.refreshToken
+    if(!!refreshToken){
+      getRefreshToken(refreshToken).then(
+        (responseRefreshToken) => {
+          localStorage.setItem('accessToken', responseRefreshToken.data.access_token)
+          localStorage.setItem('refreshToken', responseRefreshToken.data.refresh_token)
+        }
+      ).catch((err) => {
+        console.log(err)
+        replace({
+          pathname: '/sign-in',
+          state: { nextPathname: nextState.location.pathname }
+        })
+      })
+    }else{
+      replace({
+        pathname: '/sign-in',
+        state: { nextPathname: nextState.location.pathname }
+      })
+    }
   }
 }
 

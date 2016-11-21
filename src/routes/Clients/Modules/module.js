@@ -120,25 +120,33 @@ export const getClientsList = (param, pagination = {}) => {
       .then(function (response) {
 
         const data = JSON.parse(response.text)
+        if(data.status_code < 400) {
+          const paginator = {
+            'total_items': data.paginator.total_items,
+            'page': data.paginator.current_page,
+            'last_page': data.paginator.last_page
+          }
 
-        const paginator = {
-          'total_items': data.paginator.total_items,
-          'page': data.paginator.current_page,
-          'last_page': data.paginator.last_page
-        }
+          if(pagination.hasOwnProperty('page')){
+            if(pagination['page'] <= data.paginator.last_page){
+              paginator['page'] = pagination['page']
+            }
+          }
 
-        if(pagination.hasOwnProperty('page')){
-          if(pagination['page'] <= data.paginator.last_page){
-            paginator['page'] = pagination['page']
+          dispatch({
+            'type': 'GET_CLIENTS_SUCCESS',
+            'clients_list': data.data,
+            'pagination': paginator,
+            'parameters': param
+          })
+
+        }else {
+          console.log(data.error)
+          if (data.error[0].code == 'ExpiredAccessToken') {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
           }
         }
-
-        dispatch({
-          'type': 'GET_CLIENTS_SUCCESS',
-          'clients_list': data.data,
-          'pagination': paginator,
-          'parameters': param
-        })
 
       }, function (err) {
         console.log(err)
@@ -183,8 +191,6 @@ export const getClientInfo = (id) => {
           if(data.error[0].code == 'ExpiredAccessToken'){
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
-            localStorage.removeItem('me')
-            dispatch(push('/sign-in'))
           }
         }
 
@@ -216,7 +222,12 @@ export const createClient = (name) => {
             client_info: data.data
           })
 
-        } else {
+        } else{
+          if(data.error[0].code == 'ExpiredAccessToken'){
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+          }
+
           let message = ''
           if (data.error) {
             message = data.error[0].message
@@ -226,7 +237,6 @@ export const createClient = (name) => {
             type: 'NEW_CLIENT_ERROR',
             errorMessage: message
           })
-
         }
 
       }, function (err) {
@@ -271,6 +281,13 @@ export const deleteNote = (clientId, noteId) => {
         const data = JSON.parse(response.text)
         console.log(data)
 
+        if(data.status_code > 400) {
+          if (data.error[0].code == 'ExpiredAccessToken') {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+          }
+        }
+
       }, function (err) {
         console.log(err)
       })
@@ -282,12 +299,19 @@ export const createNote = (clientId, note) => {
     const accessToken = localStorage.accessToken
     console.log(note)
     request.post(`${APIConstants.API_SERVER_NAME}client_note_add`)
-      .send(JSON.stringify({'access_token': accessToken, 'client_id': clientId, 'note': note.note, 'type': {'id': 0, 'type': note.type.type}}))
+      .send(JSON.stringify({'access_token': accessToken, 'client_id': clientId, 'note': note.note, 'type': {'id': 1, 'type': note.type.type}}))
       .set('Content-Type', 'application/json')
       .then(function (response) {
 
         const data = JSON.parse(response.text)
         console.log(data)
+
+        if(data.status_code > 400) {
+          if (data.error[0].code == 'ExpiredAccessToken') {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+          }
+        }
 
       }, function (err) {
         console.log(err)
